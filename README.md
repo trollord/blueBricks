@@ -1,36 +1,143 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HiranandaniHomes
 
-## Getting Started
+A luxury real estate advisory platform exclusively for **Hiranandani Estate, Thane**.
+Zero broker commission — seekers register interest for free and pay a flat advisory fee only after a deal is signed.
 
-First, run the development server:
+---
+
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm (comes with Node.js)
+
+---
+
+## First-Time Setup
+
+Run these steps once before starting the project for the first time.
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set up environment variables
+
+Create a `.env` file in the project root with at minimum:
+
+```env
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET="any-random-string-at-least-32-chars"
+NEXTAUTH_URL="http://localhost:3000"
+```
+
+Generate a secure secret with:
+
+```bash
+openssl rand -base64 32
+```
+
+### 3. Create the database
+
+```bash
+npx prisma db push
+```
+
+### 4. Seed sample data (optional but recommended)
+
+Creates 6 sample listings and two test accounts:
+
+```bash
+npx tsx prisma/seed.ts
+```
+
+Test credentials after seeding:
+
+| Role  | Email                       | Password |
+|-------|-----------------------------|----------|
+| Admin | admin@hiranandanihomes.in   | admin123 |
+| Owner | owner@example.com           | owner123 |
+
+---
+
+## Starting the Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open **http://localhost:3000** in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The server is ready when you see `✓ Ready` in the terminal.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Stopping the Server
 
-To learn more about Next.js, take a look at the following resources:
+Press **Ctrl + C** in the terminal where the server is running.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+If the server is running in the background:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pkill -f "next dev"
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Building for Production
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+npm start
+```
+
+---
+
+## Key Pages
+
+| URL | Description |
+|-----|-------------|
+| http://localhost:3000 | Homepage |
+| http://localhost:3000/listings | Browse all properties |
+| http://localhost:3000/dashboard | Owner dashboard (login required) |
+| http://localhost:3000/admin | Admin panel (Admin / Manager only) |
+| http://localhost:3000/login | Sign in |
+| http://localhost:3000/register | Create account |
+
+---
+
+## Database Management
+
+Open a visual database browser:
+
+```bash
+npx prisma studio
+```
+
+Reset the database and re-seed:
+
+```bash
+npx prisma db push --force-reset
+npx tsx prisma/seed.ts
+```
+
+---
+
+## Environment Variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `DATABASE_URL` | Yes | `file:./dev.db` for local SQLite |
+| `NEXTAUTH_SECRET` | Yes | Random secret for session encryption |
+| `NEXTAUTH_URL` | Yes | Base URL — `http://localhost:3000` locally |
+| `GOOGLE_CLIENT_ID` | Optional | Google OAuth login |
+| `GOOGLE_CLIENT_SECRET` | Optional | Google OAuth login |
+| `AWS_REGION` | Optional | S3 region for image uploads |
+| `AWS_ACCESS_KEY_ID` | Optional | AWS credentials |
+| `AWS_SECRET_ACCESS_KEY` | Optional | AWS credentials |
+| `AWS_S3_BUCKET_NAME` | Optional | S3 bucket for property images |
+| `RAZORPAY_KEY_ID` | Optional | Razorpay for advisory fee payments |
+| `RAZORPAY_KEY_SECRET` | Optional | Razorpay secret |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | Optional | Google Maps on listing pages |
+| `RESEND_API_KEY` | Optional | Email notifications on listing approval |
