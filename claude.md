@@ -50,3 +50,11 @@
 •⁠  ⁠*Simplicity First*: Make every change as simple as possible. Impact minimal code.
 •⁠  ⁠*No Laziness*: Find root causes. No temporary fixes. Senior developer standards.
 •⁠  ⁠*Minimat Impact*: Changes should only touch what's necessary. Avoid introducing bugs.
+
+
+# Project Design & Implementation Guidelines 
+## Goal Recreate UI screens **exactly matching my website’s design system** using the provided: - Screenshot (visual reference) - HTML/CSS (existing structure or base) The output must feel like part of the same product — not a generic template. 
+
+ ## Core Rules (VERY IMPORTANT) - Match the design **accurately** to the screenshot - Do NOT redesign or change layout unless explicitly told - Do NOT introduce new colors, styles, or components - Maintain consistency with existing UI patterns - Keep everything clean, minimal, and premium .
+ 
+ Every time a new screenshot and HTML/CSS code is provided, automatically apply all rules in this document without needing them to be repeated.
