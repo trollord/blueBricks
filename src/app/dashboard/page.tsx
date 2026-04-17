@@ -10,6 +10,11 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
+  // Plain users have no listings — send them to their interests page
+  if (!["OWNER", "MANAGER", "ADMIN"].includes(session.user.role)) {
+    redirect("/dashboard/interests");
+  }
+
   const properties = await prisma.property.findMany({
     where: { ownerId: session.user.id },
     orderBy: { createdAt: "desc" },

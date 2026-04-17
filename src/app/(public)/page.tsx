@@ -2,25 +2,28 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import SearchBar from "@/components/search/SearchBar";
 import PropertyCard from "@/components/property/PropertyCard";
-import { Button } from "@/components/ui/button";
 import {
   ShieldCheck,
-  BadgeIndianRupee,
-  Clock,
-  ArrowRight,
-  TrendingUp,
   UserCheck,
+  Ban,
+  PiggyBank,
+  ListChecks,
+  Zap,
+  ScanEye,
+  Search,
+  Heart,
+  KeyRound,
+  ArrowRight,
+  Building2,
 } from "lucide-react";
-import { SITE_NAME } from "@/lib/constants";
 
 async function getHomeData() {
   const [featured, stats] = await Promise.all([
     prisma.property.findMany({
       where: { status: "ACTIVE" },
       orderBy: { createdAt: "desc" },
-      take: 6,
+      take: 3,
       select: {
         id: true,
         title: true,
@@ -55,262 +58,337 @@ export default async function HomePage() {
   const [activeListings, completedDeals, owners] = stats;
 
   return (
-    <div>
-      {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center bg-gradient-to-br from-[#0F2244] via-[#0F2244] to-[#1a3a6e] text-white overflow-hidden">
-        {/* Subtle pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C9A96E' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0L80 12v2L54 40h-2zm4 0L80 16v2L58 40h-2zm4 0L80 20v2L62 40h-2zm4 0L80 24v2L66 40h-2zm4 0L80 28v2L70 40h-2zm4 0L80 32v2L74 40h-2zm4 0L80 36v2L78 40h-2zm4 0L80 40h-2' /%3E%3C/g%3E%3C/svg%3E\")",
-          }}
-        />
+    <div className="bg-[#f9f9f9] text-[#2d3435]">
 
-        <div className="container mx-auto px-4 py-24 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Gold badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A96E]/40 bg-[#C9A96E]/10 text-[#C9A96E] text-sm font-medium mb-8">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#C9A96E]" />
-              Exclusively Hiranandani Estate, Thane
+      {/* ══════════════════════════════════════════════════════════════════
+          HERO
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex items-center px-8 overflow-hidden">
+
+        {/* Full-bleed background image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=1920&auto=format&fit=crop&q=80"
+            alt="Hiranandani Estate architecture"
+            className="w-full h-full object-cover object-center"
+          />
+          {/* Dark overlay — full bleed */}
+          <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.80)" }} />
+          {/* Top + bottom vignette */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+            }}
+          />
+        </div>
+
+        {/* Hero content */}
+        <div className="relative z-10 max-w-[1440px] mx-auto w-full pt-28">
+          <div className="max-w-3xl">
+
+            {/* Glass pill badge */}
+            <div
+              className="mb-6 inline-flex items-center gap-2 py-1.5 px-4 rounded-full"
+              style={{
+                background: "rgba(221,228,229,0.4)",
+                backdropFilter: "blur(20px)",
+              }}
+            >
+              <ShieldCheck
+                className="text-white"
+                style={{ width: 18, height: 18 }}
+                strokeWidth={1.5}
+              />
+              <span className="text-xs font-bold uppercase tracking-widest text-white">
+                Trusted Real Estate Advisors · Zero Brokerage
+              </span>
             </div>
 
-            <h1 className="font-[family-name:var(--font-playfair)] text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-white">
-              Discover Exceptional
-              <span className="block text-[#C9A96E] mt-1">
-                Living in Hiranandani Estate
-              </span>
+            {/* Headline */}
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-white leading-[1.1] mb-8">
+              Discover Exceptional Living in Hiranandani Estate
             </h1>
 
-            {/* Gold divider */}
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="h-px w-16 bg-[#C9A96E]/40" />
-              <div className="h-1.5 w-1.5 rounded-full bg-[#C9A96E]" />
-              <div className="h-px w-16 bg-[#C9A96E]/40" />
-            </div>
-
-            <p className="text-white/80 text-lg sm:text-xl mb-4 max-w-2xl mx-auto leading-relaxed">
-              Browse verified listings, register interest for free, and connect directly with owners.
-              No broker fees. No commissions. Completely free.
-            </p>
-            <p className="text-white/50 text-sm mb-12">
-              Trusted Real Estate Advisors · Fully Verified Listings · Zero Brokerage
+            {/* Sub-copy */}
+            <p className="text-lg md:text-xl text-white/70 max-w-xl leading-relaxed mb-10">
+              Browse verified listings, register interest for free, and connect
+              directly with owners. No broker fees. No commissions. Completely free.
             </p>
 
-            {/* Search bar */}
-            <SearchBar />
-          </div>
-        </div>
-      </section>
-
-      {/* ── TRUST BAR ── */}
-      <section className="bg-white border-b border-[#0F2244]/8 py-3">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs font-medium text-[#0F2244]/70">
-            {[
-              { icon: ShieldCheck, text: "Every listing manually verified" },
-              { icon: UserCheck, text: "Only property owners can list" },
-              { icon: BadgeIndianRupee, text: "No brokers. No agents. Ever." },
-            ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-1.5">
-                <Icon className="h-3.5 w-3.5 text-[#C9A96E]" />
-                <span>{text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATS BAR ── */}
-      <section className="bg-[#0F2244] py-10">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-12 sm:gap-20 text-center">
-            {[
-              { value: `${activeListings}+`, label: "Active Listings" },
-              { value: `${completedDeals}+`, label: "Deals Closed" },
-              { value: `${owners}+`, label: "Verified Owners" },
-              { value: "Free", label: "Always Free" },
-            ].map(({ value, label }) => (
-              <div key={label}>
-                <p className="text-3xl sm:text-4xl font-bold text-[#C9A96E] font-[family-name:var(--font-playfair)]">
-                  {value}
-                </p>
-                <p className="text-white/60 text-sm mt-1">{label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── WHY US ── */}
-      <section className="py-24 bg-[#FAF8F5]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="text-[#C9A96E] text-sm font-medium uppercase tracking-widest mb-3">
-              Our Difference
-            </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl font-bold text-[#0F2244] mb-4">
-              Why Choose {SITE_NAME}?
-            </h2>
-            <p className="text-gray-500 max-w-xl mx-auto">
-              We&apos;re not brokers — we&apos;re Real Estate Advisors. Transparent, fair, and always on your side.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: BadgeIndianRupee,
-                title: "Completely Free",
-                desc: "Browse listings, register interest, and get owner contact details — all completely free. No charges, ever.",
-              },
-              {
-                icon: ShieldCheck,
-                title: "Verified Listings",
-                desc: "Every listing is reviewed by our team before going live. Only verified property owners can list — no brokers, no agents, no middlemen.",
-              },
-              {
-                icon: Clock,
-                title: "Instant Access",
-                desc: "Get the owner's direct contact the moment you register interest — no delays, no middlemen.",
-              },
-              {
-                icon: TrendingUp,
-                title: "Price Transparency",
-                desc: "View historical price trends for every property so you always know the fair market value.",
-              },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 border border-[#0F2244]/5 group"
+            {/* CTA */}
+            <div className="flex items-start">
+              <Link
+                href="/listings"
+                className="bg-white text-[#0B0B0C] py-4 px-10 rounded-xl text-base font-bold hover:opacity-90 active:scale-95 transition-all duration-200"
               >
-                <div className="inline-flex p-3 rounded-xl bg-[#0F2244]/5 mb-5 group-hover:bg-[#C9A96E]/10 transition-colors duration-300">
-                  <Icon className="h-6 w-6 text-[#C9A96E]" />
-                </div>
-                <h3 className="font-semibold text-[#0F2244] mb-2 text-lg">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FEATURED LISTINGS ── */}
-      {featured.length > 0 && (
-        <section className="py-24">
-          <div className="container mx-auto px-4">
-            <div className="flex items-end justify-between mb-10">
-              <div>
-                <p className="text-[#C9A96E] text-sm font-medium uppercase tracking-widest mb-2">
-                  Fresh Properties
-                </p>
-                <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl font-bold text-[#0F2244]">
-                  Latest Listings
-                </h2>
-              </div>
-              <Link href="/listings">
-                <Button
-                  variant="outline"
-                  className="gap-2 hidden sm:flex border-[#0F2244] text-[#0F2244] hover:bg-[#0F2244] hover:text-white transition-all duration-300"
-                >
-                  View All
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
+                Browse Listings
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          FEATURE HIGHLIGHTS  (bento grid) — dark bg
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="bg-[#111111] py-24 px-8">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              icon: ShieldCheck,
+              title: "Manually Verified",
+              desc: "Every listing is scrutinized by our curation team to ensure accuracy and authenticity.",
+            },
+            {
+              icon: UserCheck,
+              title: "Owner Only",
+              desc: "We maintain a direct ecosystem where only property owners are permitted to list.",
+            },
+            {
+              icon: Ban,
+              title: "No Brokers. Ever.",
+              desc: "We strictly prohibit agents, ensuring you never pay a rupee in brokerage or commissions.",
+            },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="bg-[#1c1c1c] p-10 rounded-xl">
+              <Icon
+                className="text-white/50 mb-6"
+                style={{ width: 32, height: 32 }}
+                strokeWidth={1.4}
+              />
+              <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+              <p className="text-white/45 leading-relaxed">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          STATS BAR
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="py-16 bg-[#f9f9f9] px-8">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            { value: `${activeListings}+`, label: "Active Listings" },
+            { value: `${completedDeals}+`, label: "Deals Closed" },
+            { value: `${owners}+`,         label: "Verified Owners" },
+            { value: "Always",             label: "Free" },
+          ].map(({ value, label }) => (
+            <div key={label} className="text-center md:text-left">
+              <div className="text-4xl font-black text-[#0B0B0C] tracking-tighter mb-1">
+                {value}
+              </div>
+              <div className="text-xs font-bold uppercase tracking-widest text-[#5a6061]">
+                {label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          ADVANTAGE  (2-col: features left, dark card right)
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="py-32 px-8 max-w-[1440px] mx-auto overflow-visible">
+        <div className="flex flex-col lg:flex-row gap-20 items-center">
+
+          {/* ── Left: feature list ── */}
+          <div className="w-full lg:w-1/2">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-[#0B0B0C] mb-8 leading-tight">
+              Experience the Hiranandani Advantage
+            </h2>
+            <div className="space-y-8">
+              {[
+                { icon: PiggyBank,   title: "Completely Free",     desc: "Zero subscription fees or platform costs for tenants and buyers." },
+                { icon: ListChecks,  title: "Verified Listings",   desc: "Say goodbye to bait-and-switch. Every photo and detail is real." },
+                { icon: Zap,         title: "Instant Access",       desc: "Direct contact lines with owners for immediate viewings." },
+                { icon: ScanEye,     title: "Price Transparency",   desc: "View the true market rates without agent markups." },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex gap-6">
+                  <div
+                    className="w-12 h-12 shrink-0 flex items-center justify-center rounded-lg"
+                    style={{ background: "#e4e9ea" }}
+                  >
+                    <Icon className="h-5 w-5 text-[#5a6061]" strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg text-[#0B0B0C] mb-1">{title}</h4>
+                    <p className="text-[#5a6061]">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Right: dark card + floating image ── */}
+          <div className="w-full lg:w-1/2 relative h-[500px] lg:mr-16">
+            {/* Dark card — fills the column */}
+            <div className="absolute inset-0 bg-[#0B0B0C] rounded-xl overflow-hidden p-12 flex flex-col justify-end">
+              {/* Faint decoration */}
+              <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none">
+                <Building2 className="h-32 w-32 text-white" strokeWidth={0.5} />
+              </div>
+              <div className="relative z-10">
+                <span className="text-[#d6d4d3] text-xs font-bold uppercase tracking-widest mb-4 block">
+                  Our Advantage
+                </span>
+                <h3 className="text-white text-4xl font-bold tracking-tighter mb-6 leading-tight">
+                  Zero Brokerage.<br />Full Transparency.
+                </h3>
+                <div className="h-1 w-20 bg-[#d6d4d3] mb-8" />
+                <p className="text-[#adb3b4] leading-relaxed max-w-sm">
+                  We&apos;ve redefined real estate in Hiranandani Estate by removing
+                  the middleman, creating a direct bridge between you and your future home.
+                </p>
+              </div>
+            </div>
+
+            {/* Floating peek image — desktop only */}
+            <div className="hidden md:block absolute -right-12 -top-12 w-64 h-80 rounded-xl overflow-hidden shadow-2xl border-4 border-[#f9f9f9]">
+              <img
+                src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&auto=format&fit=crop&q=80"
+                alt="Luxury terrace at dusk"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          LATEST LISTINGS  — dark bg, white heading
+      ══════════════════════════════════════════════════════════════════ */}
+      {featured.length > 0 && (
+        <section className="py-24 bg-[#111111] px-8">
+          <div className="max-w-[1440px] mx-auto">
+
+            {/* Section header */}
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <h2 className="text-4xl font-bold tracking-tighter text-white">
+                  Latest Listings
+                </h2>
+                <p className="text-white/45 mt-2">
+                  New properties hand-picked for you this week.
+                </p>
+              </div>
+              <Link
+                href="/listings"
+                className="text-white font-bold flex items-center gap-2 group"
+              >
+                View All
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
+              </Link>
+            </div>
+
+            {/* Property cards grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
               {featured.map((p) => (
                 <PropertyCard key={p.id} property={p} />
               ))}
             </div>
-            <div className="mt-10 text-center sm:hidden">
-              <Link href="/listings">
-                <Button variant="outline" className="gap-2 border-[#0F2244] text-[#0F2244]">
-                  View All Listings <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
+
           </div>
         </section>
       )}
 
-      {/* ── HOW IT WORKS ── */}
-      <section className="py-24 bg-[#FAF8F5]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="text-[#C9A96E] text-sm font-medium uppercase tracking-widest mb-3">
-              Simple Process
-            </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl font-bold text-[#0F2244] mb-3">
-              How It Works
-            </h2>
-            <p className="text-gray-500">Transparent, fast, and completely fair.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 max-w-3xl mx-auto">
-            {[
-              {
-                step: "1",
-                title: "Browse & Find",
-                desc: "Search verified listings by locality, BHK, budget, and type.",
-              },
-              {
-                step: "2",
-                title: "Register Interest — Free",
-                desc: "Register your interest for free. Owner contact details are revealed instantly.",
-              },
-              {
-                step: "3",
-                title: "Visit & Move In",
-                desc: "Meet the owner directly, visit the property, agree on terms, and move in. No fees, no middlemen.",
-              },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#C9A96E] text-[#0F2244] font-bold text-xl mx-auto mb-5 shadow-lg">
-                  {step}
-                </div>
-                <h3 className="font-semibold text-[#0F2244] mb-2 text-lg">{title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+      {/* ══════════════════════════════════════════════════════════════════
+          SIMPLE PROCESS
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="py-32 px-8 max-w-[1440px] mx-auto">
+        <h2 className="text-center text-4xl font-bold tracking-tighter text-[#0B0B0C] mb-20">
+          Simple Process
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+          {/* Horizontal connector line — desktop only */}
+          <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-[#dde4e5] z-0" />
+
+          {[
+            {
+              icon: Search,
+              title: "Browse & Find",
+              desc: "Explore verified properties with high-resolution imagery and accurate descriptions.",
+            },
+            {
+              icon: Heart,
+              title: "Register Interest — Free",
+              desc: "Save your favorites and notify owners without paying a single rupee upfront.",
+            },
+            {
+              icon: KeyRound,
+              title: "Visit & Move In",
+              desc: "Schedule a viewing directly with the owner and finalise your dream home.",
+            },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="relative z-10 flex flex-col items-center text-center"
+            >
+              <div className="w-20 h-20 rounded-full bg-white border-4 border-[#f9f9f9] flex items-center justify-center mb-8 shadow-sm">
+                <Icon className="h-7 w-7 text-[#0B0B0C]" strokeWidth={1.5} />
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <Link href="/how-it-works">
-              <Button
-                variant="outline"
-                className="gap-2 border-[#0F2244] text-[#0F2244] hover:bg-[#0F2244] hover:text-white transition-all duration-300"
-              >
-                Learn More <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+              <h3 className="text-xl font-bold text-[#0B0B0C] mb-4">{title}</h3>
+              <p className="text-[#5a6061] max-w-xs leading-relaxed">{desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ── LIST YOUR PROPERTY CTA ── */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <div className="rounded-2xl bg-[#0F2244] text-white p-12 sm:p-16 flex flex-col sm:flex-row items-center justify-between gap-8 relative overflow-hidden">
-            {/* Gold accent top-right */}
-            <div className="absolute top-0 right-0 h-32 w-32 bg-[#C9A96E]/10 rounded-full translate-x-1/3 -translate-y-1/3" />
-            <div className="absolute bottom-0 left-0 h-24 w-24 bg-[#C9A96E]/5 rounded-full -translate-x-1/3 translate-y-1/3" />
-            <div className="relative z-10">
-              <p className="text-[#C9A96E] text-sm font-medium uppercase tracking-widest mb-3">
-                For Property Owners
-              </p>
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl font-bold mb-3">
-                Own a Property in Hiranandani?
-              </h2>
-              <p className="text-white/70 max-w-md leading-relaxed">
-                List it for free. We handle verification and connect you with serious buyers or tenants — no commission taken from you.
-              </p>
-            </div>
-            <Link href="/register" className="relative z-10 shrink-0">
-              <Button className="bg-[#C9A96E] hover:bg-[#C9A96E]/90 text-[#0F2244] font-semibold px-8 py-5 text-base transition-all duration-300">
-                List for Free
-              </Button>
+      {/* ══════════════════════════════════════════════════════════════════
+          OWNER CTA  (dark split card)
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 px-8 max-w-[1440px] mx-auto">
+        <div className="bg-[#0B0B0C] rounded-xl overflow-hidden flex flex-col md:flex-row items-center">
+
+          {/* Text side */}
+          <div className="w-full md:w-1/2 p-12 lg:p-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tighter mb-6 leading-tight">
+              Own a Property in Hiranandani?
+            </h2>
+            <p className="text-[#adb3b4] text-lg mb-10 leading-relaxed max-w-md">
+              List it for free and reach thousands of verified seekers directly.
+              We help you find the best tenants or buyers without commissions.
+            </p>
+            <Link
+              href="/become-owner"
+              className="inline-block bg-white text-[#0B0B0C] py-4 px-10 rounded-xl font-bold text-base hover:opacity-90 transition-opacity"
+            >
+              List Your Property
             </Link>
           </div>
+
+          {/* Image side */}
+          <div className="w-full md:w-1/2 h-64 md:h-auto self-stretch">
+            <img
+              src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&auto=format&fit=crop&q=80"
+              alt="Hiranandani high-rise at dusk"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════════════════════════════
+          FINAL CTA
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="py-32 text-center px-8">
+        <h2 className="text-5xl md:text-6xl font-bold tracking-tighter text-[#0B0B0C] mb-10">
+          Ready to find your home?
+        </h2>
+        <Link
+          href="/listings"
+          className="inline-block bg-[#0c0f0f] text-[#f9f9f9] py-5 px-16 rounded-full text-lg font-bold shadow-2xl shadow-[#0c0f0f]/10 hover:scale-105 active:scale-95 transition-transform duration-200"
+        >
+          Explore Listings
+        </Link>
+      </section>
+
     </div>
   );
 }

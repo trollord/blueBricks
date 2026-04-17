@@ -1,22 +1,10 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { useState } from "react";
 import {
   HIRANANDANI_LOCALITIES,
   PROPERTY_TYPE_LABELS,
-  FURNISHED_LABELS,
   BHK_OPTIONS,
   PRICE_RANGES_RENT,
   PRICE_RANGES_SALE,
@@ -26,168 +14,231 @@ export default function FilterPanel() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const get = (key: string): string => searchParams.get(key) ?? "";
-
-  const update = useCallback(
-    (key: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-      params.delete("page"); // reset to page 1 on filter change
-      router.push(`/listings?${params.toString()}`);
-    },
-    [router, searchParams]
+  const [listingType, setListingType] = useState(
+    searchParams.get("listingType") || "SALE"
   );
+  const [type, setType] = useState(searchParams.get("type") || "");
+  const [locality, setLocality] = useState(searchParams.get("locality") || "");
+  const [bedrooms, setBedrooms] = useState(searchParams.get("bedrooms") || "");
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
 
-  const clearAll = () => router.push("/listings");
+  const priceRanges =
+    listingType === "SALE" ? PRICE_RANGES_SALE : PRICE_RANGES_RENT;
 
-  const listingType = get("listingType") || "RENT";
-  const priceRanges = listingType === "SALE" ? PRICE_RANGES_SALE : PRICE_RANGES_RENT;
-  const activeFilters = ["type", "locality", "bedrooms", "furnished", "minPrice"].filter(
-    (k) => searchParams.has(k)
-  ).length;
+  function applySearch() {
+    const params = new URLSearchParams();
+    if (listingType) params.set("listingType", listingType);
+    if (type) params.set("type", type);
+    if (locality) params.set("locality", locality);
+    if (bedrooms) params.set("bedrooms", bedrooms);
+    if (minPrice) params.set("minPrice", minPrice);
+    if (maxPrice) params.set("maxPrice", maxPrice);
+    router.push(`/listings?${params.toString()}`);
+  }
 
   return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-gray-900">Filters</h3>
-        {activeFilters > 0 && (
-          <button
-            onClick={clearAll}
-            className="flex items-center gap-1 text-xs text-blue-600 hover:underline"
-          >
-            <X className="h-3 w-3" />
-            Clear all ({activeFilters})
-          </button>
-        )}
-      </div>
+    <div>
+      {/* Header */}
+      <h2 className="text-[10px] uppercase tracking-widest font-bold text-zinc-900 mb-8">
+        Filter Properties
+      </h2>
 
-      {/* Listing type */}
-      <div className="space-y-2">
-        <Label className="text-xs text-gray-500 uppercase tracking-wide">Looking to</Label>
-        <div className="flex gap-2">
-          {["RENT", "SALE"].map((t) => (
-            <Button
+      {/* Looking To */}
+      <div className="mb-8">
+        <label className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-3">
+          Looking To
+        </label>
+        <div className="flex bg-[#f2f4f4] p-1 rounded-xl">
+          {(["SALE", "RENT"] as const).map((t) => (
+            <button
               key={t}
-              variant={listingType === t ? "default" : "outline"}
-              size="sm"
-              className={listingType === t ? "bg-blue-600 hover:bg-blue-700" : ""}
-              onClick={() => update("listingType", t)}
+              onClick={() => {
+                setListingType(t);
+                setMinPrice("");
+                setMaxPrice("");
+              }}
+              className={`flex-1 py-2 text-xs rounded-lg transition-all ${
+                listingType === t
+                  ? "bg-zinc-900 text-white font-bold"
+                  : "text-zinc-500 font-medium hover:text-zinc-700"
+              }`}
             >
-              {t === "RENT" ? "Rent" : "Buy"}
-            </Button>
+              {t === "SALE" ? "Buy" : "Rent"}
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Property type */}
-      <div className="space-y-2">
-        <Label className="text-xs text-gray-500 uppercase tracking-wide">Property Type</Label>
-        <Select value={get("type")} onValueChange={(v) => update("type", v === "all" || !v ? "" : v)}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="All types" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All types</SelectItem>
+      {/* Property Type */}
+      <div className="mb-8">
+        <label className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-2">
+          Property Type
+        </label>
+        <div className="relative">
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="w-full appearance-none bg-[#f2f4f4] border-none rounded-lg px-4 py-3 text-sm text-zinc-900 font-medium cursor-pointer focus:outline-none focus:ring-0"
+          >
+            <option value="">All Types</option>
             {Object.entries(PROPERTY_TYPE_LABELS).map(([value, label]) => (
-              <SelectItem key={value} value={value}>{label}</SelectItem>
+              <option key={value} value={value}>
+                {label}
+              </option>
             ))}
-          </SelectContent>
-        </Select>
+          </select>
+          <svg
+            className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none w-4 h-4 text-zinc-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
       </div>
 
       {/* Locality */}
-      <div className="space-y-2">
-        <Label className="text-xs text-gray-500 uppercase tracking-wide">Locality</Label>
-        <Select value={get("locality")} onValueChange={(v) => update("locality", v === "all" || !v ? "" : v)}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="All localities" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All localities</SelectItem>
+      <div className="mb-8">
+        <label className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-2">
+          Locality
+        </label>
+        <div className="relative">
+          <select
+            value={locality}
+            onChange={(e) => setLocality(e.target.value)}
+            className="w-full appearance-none bg-[#f2f4f4] border-none rounded-lg px-4 py-3 pr-10 text-sm text-zinc-900 font-medium cursor-pointer focus:outline-none focus:ring-0"
+          >
+            <option value="">All Localities</option>
             {HIRANANDANI_LOCALITIES.map((loc) => (
-              <SelectItem key={loc} value={loc}>{loc}</SelectItem>
+              <option key={loc} value={loc}>
+                {loc}
+              </option>
             ))}
-          </SelectContent>
-        </Select>
+          </select>
+          <svg
+            className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none w-4 h-4 text-zinc-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </div>
       </div>
 
-      {/* BHK */}
-      <div className="space-y-2">
-        <Label className="text-xs text-gray-500 uppercase tracking-wide">Bedrooms</Label>
+      {/* Bedrooms */}
+      <div className="mb-8">
+        <label className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-3">
+          Bedrooms
+        </label>
         <div className="flex flex-wrap gap-2">
           {BHK_OPTIONS.map((n) => (
-            <Badge
+            <button
               key={n}
-              variant={get("bedrooms") === String(n) ? "default" : "outline"}
-              className={`cursor-pointer px-3 py-1 text-sm ${
-                get("bedrooms") === String(n)
-                  ? "bg-blue-600 hover:bg-blue-700 text-white"
-                  : "hover:bg-gray-50"
+              onClick={() =>
+                setBedrooms(bedrooms === String(n) ? "" : String(n))
+              }
+              className={`px-4 py-2 rounded-full text-xs transition-all ${
+                bedrooms === String(n)
+                  ? "bg-zinc-900 text-white font-bold"
+                  : "bg-[#f2f4f4] text-zinc-900 font-medium hover:bg-[#e4e9ea]"
               }`}
-              onClick={() => update("bedrooms", get("bedrooms") === String(n) ? "" : String(n))}
             >
-              {n} BHK
-            </Badge>
+              {n}BHK
+            </button>
           ))}
         </div>
       </div>
 
-      {/* Price range */}
-      <div className="space-y-2">
-        <Label className="text-xs text-gray-500 uppercase tracking-wide">Budget</Label>
-        <div className="space-y-1.5">
+      {/* Budget Range */}
+      <div className="mb-8">
+        <label className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-3">
+          Budget Range
+        </label>
+        <ul className="space-y-3">
           {priceRanges.map((range) => {
             const active =
-              get("minPrice") === String(range.min) &&
-              (range.max === Infinity || get("maxPrice") === String(range.max));
+              String(range.min) === minPrice &&
+              (range.max === Infinity || String(range.max) === maxPrice);
             return (
-              <button
+              <li
                 key={range.label}
+                className="flex items-center gap-3 cursor-pointer group"
                 onClick={() => {
-                  const params = new URLSearchParams(searchParams.toString());
                   if (active) {
-                    params.delete("minPrice");
-                    params.delete("maxPrice");
+                    setMinPrice("");
+                    setMaxPrice("");
                   } else {
-                    params.set("minPrice", String(range.min));
-                    if (range.max !== Infinity) params.set("maxPrice", String(range.max));
-                    else params.delete("maxPrice");
+                    setMinPrice(String(range.min));
+                    setMaxPrice(
+                      range.max === Infinity ? "" : String(range.max)
+                    );
                   }
-                  params.delete("page");
-                  router.push(`/listings?${params.toString()}`);
                 }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
-                  active
-                    ? "bg-blue-50 text-blue-700 font-medium"
-                    : "hover:bg-gray-50 text-gray-600"
-                }`}
               >
-                {range.label}
-              </button>
+                <div
+                  className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
+                    active
+                      ? "border-zinc-900 bg-zinc-900"
+                      : "border-zinc-300 group-hover:border-zinc-900"
+                  }`}
+                >
+                  {active && (
+                    <svg
+                      className="w-2.5 h-2.5 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <span
+                  className={`text-sm transition-colors ${
+                    active
+                      ? "font-bold text-zinc-900"
+                      : "font-medium text-zinc-500 group-hover:text-zinc-900"
+                  }`}
+                >
+                  {range.label}
+                </span>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
 
-      {/* Furnished */}
-      <div className="space-y-2">
-        <Label className="text-xs text-gray-500 uppercase tracking-wide">Furnishing</Label>
-        <Select value={get("furnished")} onValueChange={(v) => update("furnished", v === "all" || !v ? "" : v)}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Any" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Any</SelectItem>
-            {Object.entries(FURNISHED_LABELS).map(([value, label]) => (
-              <SelectItem key={value} value={value}>{label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      {/* Apply Search */}
+      <button
+        onClick={applySearch}
+        className="w-full py-4 bg-zinc-900 text-white rounded-xl font-bold tracking-tight hover:opacity-90 transition-all"
+      >
+        Apply Search
+      </button>
     </div>
   );
 }

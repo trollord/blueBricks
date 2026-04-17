@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -955,7 +956,14 @@ function Step4({
 
 export default function NewListingPage() {
   const router = useRouter();
+  const { data: session } = useSession();
   const [step, setStep] = useState(0);
+
+  // Guard: only OWNER, MANAGER, ADMIN may list properties
+  if (session && !["OWNER", "MANAGER", "ADMIN"].includes(session.user?.role ?? "")) {
+    router.replace("/become-owner");
+    return null;
+  }
   const [submitting, setSubmitting] = useState(false);
 
   const [data, setData] = useState<WizardData>({

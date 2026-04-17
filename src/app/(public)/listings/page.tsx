@@ -3,12 +3,11 @@ import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/property/PropertyCard";
 import FilterPanel from "@/components/search/FilterPanel";
 import MapView from "@/components/map/MapView";
-import { Button } from "@/components/ui/button";
-import { LayoutGrid, List, Map, SlidersHorizontal } from "lucide-react";
+import { Map, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import type { PropertyFilters } from "@/types/property";
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 6;
 
 async function getListings(filters: PropertyFilters) {
   const page = Math.max(1, parseInt(filters.page ?? "1"));
@@ -70,56 +69,72 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
   const view = filters.view ?? "grid";
   const { properties, total, page, totalPages } = await getListings(filters);
 
-  const activeFilterCount = [
-    "type", "listingType", "locality", "bedrooms", "furnished", "minPrice",
-  ].filter((k) => filters[k as keyof PropertyFilters]).length;
+  const headingLocation = filters.locality ?? "All Localities";
+  const listingWord = total === 1 ? "property" : "properties";
+  const listingTypeLabel =
+    filters.listingType === "RENT" ? "available for rent" : "available for sale";
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <p className="text-[#C9A96E] text-sm font-medium uppercase tracking-widest mb-1">
-          Hiranandani Estate, Thane
-        </p>
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#0F2244]">
-          Available Properties
-        </h1>
-      </div>
-      <div className="flex flex-col lg:flex-row gap-8">
+    <div className="pt-24 pb-20 px-8 max-w-7xl mx-auto">
+      <div className="flex flex-col lg:flex-row gap-12">
+
         {/* ── FILTER SIDEBAR ── */}
-        <aside className="lg:w-64 shrink-0">
-          <div className="sticky top-24 bg-white rounded-2xl shadow-sm border border-[#0F2244]/5 p-5">
-            <Suspense fallback={<div className="h-96 animate-pulse bg-gray-100 rounded-lg" />}>
+        <aside className="w-full lg:w-64 shrink-0">
+          <div
+            className="bg-white rounded-xl p-8 sticky top-28"
+            style={{ boxShadow: "0 10px 40px rgba(0,0,0,0.03)" }}
+          >
+            <Suspense
+              fallback={
+                <div className="h-96 animate-pulse bg-[#f2f4f4] rounded-lg" />
+              }
+            >
               <FilterPanel />
             </Suspense>
           </div>
         </aside>
 
         {/* ── MAIN CONTENT ── */}
-        <main className="flex-1 min-w-0">
+        <section className="flex-1 min-w-0">
           {/* Header row */}
-          <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+          <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
             <div>
-              <p className="text-base font-semibold text-[#0F2244]">
+              <h1 className="text-3xl font-extrabold tracking-tighter text-zinc-900">
+                Properties in {headingLocation}
+              </h1>
+              <p className="text-zinc-500 mt-2 text-sm">
                 {total > 0
-                  ? `${total} propert${total === 1 ? "y" : "ies"} found`
-                  : "No properties found"}
+                  ? `${total} ${listingWord} ${listingTypeLabel}`
+                  : "No properties match your filters"}
               </p>
-              {activeFilterCount > 0 && (
-                <p className="text-sm text-gray-400 mt-0.5">
-                  {activeFilterCount} filter{activeFilterCount > 1 ? "s" : ""} applied
-                </p>
-              )}
             </div>
 
             {/* View toggle */}
-            <div className="flex items-center gap-1 bg-gray-100 rounded-xl p-1">
+            <div className="flex gap-3">
               {(
                 [
-                  { key: "grid", icon: LayoutGrid },
-                  { key: "list", icon: List },
-                  { key: "map", icon: Map },
+                  {
+                    key: "grid",
+                    icon: (
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    key: "list",
+                    icon: (
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                      </svg>
+                    ),
+                  },
+                  {
+                    key: "map",
+                    icon: <Map className="w-5 h-5" />,
+                  },
                 ] as const
-              ).map(({ key, icon: Icon }) => {
+              ).map(({ key, icon }) => {
                 const params = new URLSearchParams(
                   Object.entries(filters).filter(([, v]) => v) as [string, string][]
                 );
@@ -127,13 +142,13 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
                 return (
                   <Link key={key} href={`/listings?${params.toString()}`}>
                     <button
-                      className={`p-2 rounded-lg transition-colors ${
+                      className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
                         view === key
-                          ? "bg-white shadow-sm text-[#0F2244]"
-                          : "text-gray-400 hover:text-gray-600"
+                          ? "bg-zinc-900 text-white shadow-lg"
+                          : "bg-white text-zinc-500 border border-[#e4e9ea] hover:bg-[#f2f4f4]"
                       }`}
                     >
-                      <Icon className="h-4 w-4" />
+                      {icon}
                     </button>
                   </Link>
                 );
@@ -143,11 +158,16 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
 
           {/* Content */}
           {properties.length === 0 ? (
-            <div className="text-center py-20 text-gray-400">
+            <div className="text-center py-20 text-zinc-400">
               <SlidersHorizontal className="h-10 w-10 mx-auto mb-4 opacity-40" />
-              <p className="font-medium text-[#0F2244]">No properties match your filters.</p>
-              <Link href="/listings">
-                <Button variant="link" className="text-[#C9A96E] mt-2">Clear all filters</Button>
+              <p className="font-medium text-zinc-900">
+                No properties match your filters.
+              </p>
+              <Link
+                href="/listings"
+                className="text-zinc-500 hover:text-zinc-900 text-sm mt-2 inline-block underline underline-offset-2"
+              >
+                Clear all filters
               </Link>
             </div>
           ) : view === "map" ? (
@@ -157,8 +177,8 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
               <div
                 className={
                   view === "list"
-                    ? "flex flex-col gap-4"
-                    : "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
+                    ? "flex flex-col gap-6"
+                    : "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 items-stretch"
                 }
               >
                 {properties.map((p) => (
@@ -166,44 +186,32 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
                 ))}
               </div>
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center gap-2 mt-10">
-                  {page > 1 && (
-                    <PaginationLink
-                      filters={filters}
-                      targetPage={page - 1}
-                      label="← Previous"
-                    />
-                  )}
-                  <span className="text-sm text-gray-500">
-                    Page {page} of {totalPages}
-                  </span>
-                  {page < totalPages && (
-                    <PaginationLink
-                      filters={filters}
-                      targetPage={page + 1}
-                      label="Next →"
-                    />
-                  )}
-                </div>
-              )}
+              {/* Load More */}
+              <div className="mt-20 flex justify-center">
+                {page < totalPages ? (
+                  <LoadMoreLink filters={filters} targetPage={page + 1} />
+                ) : (
+                  total > PAGE_SIZE && (
+                    <p className="text-sm text-zinc-400">
+                      All {total} properties shown
+                    </p>
+                  )
+                )}
+              </div>
             </>
           )}
-        </main>
+        </section>
       </div>
     </div>
   );
 }
 
-function PaginationLink({
+function LoadMoreLink({
   filters,
   targetPage,
-  label,
 }: {
   filters: PropertyFilters;
   targetPage: number;
-  label: string;
 }) {
   const params = new URLSearchParams(
     Object.entries(filters).filter(([, v]) => v) as [string, string][]
@@ -211,8 +219,22 @@ function PaginationLink({
   params.set("page", String(targetPage));
   return (
     <Link href={`/listings?${params.toString()}`}>
-      <Button variant="outline" size="sm">{label}</Button>
+      <button className="flex items-center gap-2 px-8 py-4 bg-white border border-[#e4e9ea] rounded-xl text-zinc-900 font-bold hover:bg-[#f2f4f4] transition-all">
+        Load More Properties
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
     </Link>
   );
 }
-

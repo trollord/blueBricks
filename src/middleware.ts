@@ -17,12 +17,8 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // Dashboard: OWNER, MANAGER, or ADMIN only
-  if (pathname.startsWith("/dashboard")) {
-    if (!role || !["OWNER", "MANAGER", "ADMIN"].includes(role)) {
-      return NextResponse.redirect(new URL("/become-owner", req.url));
-    }
-  }
+  // Dashboard: any logged-in user (USER sees interests, OWNER+ sees listings)
+  // No role gate here — role-based content is handled inside the dashboard itself
 
   // Admin: MANAGER or ADMIN only
   if (pathname.startsWith("/admin")) {

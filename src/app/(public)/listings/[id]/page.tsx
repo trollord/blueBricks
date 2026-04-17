@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import PriceHistoryChart from "@/components/property/PriceHistoryChart";
-import SinglePropertyMap from "@/components/map/SinglePropertyMap";
+import PropertyMapSection from "@/components/map/PropertyMapSection";
 import InquiryButton from "@/components/payment/InquiryButton";
 import {
   MapPin,
@@ -25,6 +25,7 @@ import {
   formatDate,
   parseAmenities,
 } from "@/lib/utils/formatters";
+import { getPlaceholderImage } from "@/lib/utils/placeholder";
 import {
   PROPERTY_TYPE_LABELS,
   LISTING_TYPE_LABELS,
@@ -107,6 +108,9 @@ export default async function PropertyDetailPage({
   const isRent = property.listingType === "RENT";
   const primaryImage =
     property.images.find((i) => i.isPrimary) ?? property.images[0];
+  const primaryImageUrl = primaryImage?.url ?? getPlaceholderImage(property.id);
+  const secondImageUrl = property.images[1]?.url ?? getPlaceholderImage(property.id + "_2");
+  const thirdImageUrl = property.images[2]?.url ?? getPlaceholderImage(property.id + "_3");
 
   // Check if current user has already registered interest for this property
   let hasRegistered = false;
@@ -125,7 +129,7 @@ export default async function PropertyDetailPage({
 
   return (
     <div className="min-h-screen bg-[#FAF8F5]">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="container mx-auto px-4 pt-24 pb-8 max-w-6xl">
         {/* Back */}
         <Link
           href="/listings"
@@ -140,50 +144,34 @@ export default async function PropertyDetailPage({
           <div className="lg:col-span-2 space-y-6">
             {/* Photo Gallery */}
             <div className="grid grid-cols-4 grid-rows-2 gap-2 h-72 sm:h-[420px] rounded-2xl overflow-hidden shadow-lg">
-              {primaryImage ? (
-                <>
-                  <div className="col-span-3 row-span-2 relative">
-                    <Image
-                      src={primaryImage.url}
-                      alt={property.title}
-                      fill
-                      className="object-cover"
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 66vw"
-                    />
-                  </div>
-                  <div className="col-span-1 row-span-1 relative">
-                    {property.images[1] ? (
-                      <Image
-                        src={property.images[1].url}
-                        alt={`${property.title} 2`}
-                        fill
-                        className="object-cover"
-                        sizes="25vw"
-                      />
-                    ) : (
-                      <div className="h-full bg-[#0F2244]/10" />
-                    )}
-                  </div>
-                  <div className="col-span-1 row-span-1 relative">
-                    {property.images[2] ? (
-                      <Image
-                        src={property.images[2].url}
-                        alt={`${property.title} 3`}
-                        fill
-                        className="object-cover"
-                        sizes="25vw"
-                      />
-                    ) : (
-                      <div className="h-full bg-[#0F2244]/5" />
-                    )}
-                  </div>
-                </>
-              ) : (
-                <div className="col-span-4 row-span-2 flex items-center justify-center bg-[#0F2244]/5 rounded-2xl">
-                  <Building2 className="h-16 w-16 text-[#0F2244]/20" />
-                </div>
-              )}
+              <div className="col-span-3 row-span-2 relative">
+                <Image
+                  src={primaryImageUrl}
+                  alt={property.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 66vw"
+                />
+              </div>
+              <div className="col-span-1 row-span-1 relative">
+                <Image
+                  src={secondImageUrl}
+                  alt={`${property.title} 2`}
+                  fill
+                  className="object-cover"
+                  sizes="25vw"
+                />
+              </div>
+              <div className="col-span-1 row-span-1 relative">
+                <Image
+                  src={thirdImageUrl}
+                  alt={`${property.title} 3`}
+                  fill
+                  className="object-cover"
+                  sizes="25vw"
+                />
+              </div>
             </div>
 
             {/* Title & badges */}
@@ -304,14 +292,11 @@ export default async function PropertyDetailPage({
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <SinglePropertyMap
+                  <PropertyMapSection
                     lat={property.latitude}
                     lng={property.longitude}
-                    title={property.title}
+                    propertyId={property.id}
                   />
-                  <p className="text-xs text-gray-400 mt-2">
-                    Exact address revealed after registering interest.
-                  </p>
                 </CardContent>
               </Card>
             )}

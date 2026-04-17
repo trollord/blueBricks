@@ -81,6 +81,12 @@ export default function BecomeOwnerPage() {
             <p className="text-xs text-gray-400 mt-4">
               No charges. You can still browse listings as a seeker anytime.
             </p>
+
+            <a href="/listings" className="block mt-3">
+              <button className="w-full border border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 text-sm font-medium py-2.5 rounded-xl transition-colors duration-200">
+                Continue as User
+              </button>
+            </a>
           </div>
         </div>
       </div>

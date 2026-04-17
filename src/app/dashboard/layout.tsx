@@ -1,13 +1,31 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, PlusCircle, MessageSquare } from "lucide-react";
+import {
+  LayoutDashboard,
+  PlusCircle,
+  MessageSquare,
+  Heart,
+} from "lucide-react";
+import DashboardNavbar from "@/components/layout/DashboardNavbar";
+import ListPropertyButton from "@/components/dashboard/ListPropertyButton";
 
-const navItems = [
-  { href: "/dashboard", label: "My Listings", icon: LayoutDashboard },
-  { href: "/dashboard/new", label: "Add Listing", icon: PlusCircle },
-  { href: "/dashboard/inquiries", label: "Inquiries", icon: MessageSquare },
+const ownerNavItems = [
+  { href: "/dashboard",            label: "My Listings",  icon: LayoutDashboard },
+  { href: "/dashboard/new",        label: "Add Listing",  icon: PlusCircle },
+  { href: "/dashboard/inquiries",  label: "Inquiries",    icon: MessageSquare },
 ];
+
+const userNavItems = [
+  { href: "/dashboard/interests",  label: "My Interests", icon: Heart },
+];
+
+const ROLE_BADGE: Record<string, string> = {
+  USER:    "bg-gray-100 text-gray-600",
+  OWNER:   "bg-blue-100 text-blue-700",
+  MANAGER: "bg-purple-100 text-purple-700",
+  ADMIN:   "bg-purple-100 text-purple-700",
+};
 
 export default async function DashboardLayout({
   children,
@@ -17,15 +35,21 @@ export default async function DashboardLayout({
   const session = await auth();
   if (!session) redirect("/login");
 
+  const isOwnerPlus = ["OWNER", "MANAGER", "ADMIN"].includes(session.user.role);
+  const navItems = isOwnerPlus ? ownerNavItems : userNavItems;
+  const badgeClass = ROLE_BADGE[session.user.role] ?? ROLE_BADGE.USER;
+
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
+      <DashboardNavbar />
+      <div className="flex pt-[60px]">
       {/* Sidebar */}
-      <aside className="w-64 shrink-0 bg-white border-r border-gray-200 flex flex-col">
+      <aside className="w-64 shrink-0 bg-white border-r border-gray-200 flex flex-col min-h-[calc(100vh-60px)]">
         <div className="p-6 border-b border-gray-100">
           <p className="text-sm font-semibold text-gray-900 truncate">
             {session.user.name ?? session.user.email}
           </p>
-          <span className="mt-1 inline-block text-xs bg-blue-100 text-blue-700 font-medium px-2 py-0.5 rounded-full">
+          <span className={`mt-1 inline-block text-xs font-medium px-2 py-0.5 rounded-full ${badgeClass}`}>
             {session.user.role}
           </span>
         </div>
@@ -41,6 +65,9 @@ export default async function DashboardLayout({
               {label}
             </Link>
           ))}
+
+          {/* Upgrade nudge for plain users */}
+          {!isOwnerPlus && <ListPropertyButton />}
         </nav>
 
         <div className="p-4 border-t border-gray-100">
@@ -57,6 +84,7 @@ export default async function DashboardLayout({
       <main className="flex-1 overflow-auto">
         <div className="max-w-5xl mx-auto px-6 py-8">{children}</div>
       </main>
+      </div>
     </div>
   );
 }
