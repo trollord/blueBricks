@@ -89,7 +89,6 @@ export function NavBody({ children }: { children: React.ReactNode }) {
 
 export function NavbarLogo() {
   const { scrolled, mobileOpen } = useNavbar();
-  const dark = !scrolled; // transparent or menu-open both use dark text
 
   return (
     <Link href="/" className="flex items-center gap-1.5 group shrink-0">
@@ -98,11 +97,11 @@ export function NavbarLogo() {
         style={{ color: scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : "#ffffff" }}
       >
         Hiranandani
-        <span style={{ color: "#C9A96E" }}>Homes</span>
+        <span style={{ color: scrolled ? "#ffffff" : mobileOpen ? "#555555" : "#ffffff" }}>Homes</span>
       </span>
       <span
         className="h-1.5 w-1.5 rounded-full mt-1 group-hover:scale-125 transition-transform duration-300"
-        style={{ background: "#C9A96E" }}
+        style={{ background: scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : "#ffffff" }}
       />
     </Link>
   );
@@ -129,7 +128,7 @@ export function NavItems({ items }: { items: NavItem[] }) {
           {item.name}
           <span
             className="absolute -bottom-0.5 left-0 h-px w-0 group-hover:w-full transition-all duration-300"
-            style={{ background: scrolled ? "#C9A96E" : mobileOpen ? "#1A1A1A" : "#C9A96E" }}
+            style={{ background: scrolled ? "#1A1A1A" : mobileOpen ? "#1A1A1A" : "#1A1A1A" }}
           />
         </Link>
       ))}
@@ -265,11 +264,10 @@ export function MobileNavToggle({
 
 export function MobileNavMenu({
   isOpen,
-  onClose,
   children,
 }: {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   children: React.ReactNode;
 }) {
   const { scrolled } = useNavbar();

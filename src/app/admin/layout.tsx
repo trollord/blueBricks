@@ -22,14 +22,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <aside className="w-56 shrink-0 bg-[#0F2244] text-white flex flex-col">
+      <aside className="w-56 shrink-0 bg-[#1A1A1A] text-white flex flex-col">
         <div className="p-5 border-b border-white/10">
           <div className="flex items-center gap-2 mb-1">
-            <Building2 className="h-5 w-5 text-[#C9A96E]" />
+            <Building2 className="h-5 w-5 text-white/80" />
             <span className="font-bold text-sm">Admin Panel</span>
           </div>
           <p className="text-xs text-white/50 truncate">{session.user.name ?? session.user.email}</p>
-          <Badge className="mt-1 text-xs bg-[#C9A96E]/20 text-[#C9A96E] border-[#C9A96E]/20">
+          <Badge className="mt-1 text-xs bg-white/10 text-white/80 border-white/20">
             {session.user.role}
           </Badge>
         </div>

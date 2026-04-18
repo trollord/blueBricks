@@ -150,7 +150,7 @@ export default function HowItWorksPage() {
             </h2>
             <p className="text-white/55 text-lg leading-relaxed">
               Found your dream home? Simply register your interest with a single
-              click. No hidden registration fees or "platform charges." We keep
+              click. No hidden registration fees or &ldquo;platform charges.&rdquo; We keep
               it simple because buying a home is hard enough.
             </p>
             <ul className="space-y-4">
@@ -176,7 +176,7 @@ export default function HowItWorksPage() {
               Connect Directly with the Owner
             </h2>
             <p className="text-[#1A1A1A]/55 text-lg leading-relaxed">
-              We provide you with the owner's direct contact details. No
+              We provide you with the owner&apos;s direct contact details. No
               middlemen, no scripted conversations, and absolutely no commission
               pressure. Negotiate at your own pace.
             </p>

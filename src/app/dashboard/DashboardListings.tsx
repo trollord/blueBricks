@@ -144,16 +144,16 @@ export default function DashboardListings({
 
   if (properties.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-[#0F2244]/20 text-center">
-        <div className="inline-flex p-5 rounded-full bg-[#0F2244]/5 mb-6">
-          <Building2 className="h-10 w-10 text-[#C9A96E]" />
+      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-[#1A1A1A]/20 text-center">
+        <div className="inline-flex p-5 rounded-full bg-[#1A1A1A]/5 mb-6">
+          <Building2 className="h-10 w-10 text-[#1A1A1A]" />
         </div>
-        <h2 className="text-xl font-bold text-[#0F2244] mb-2">No properties listed yet</h2>
+        <h2 className="text-xl font-bold text-[#1A1A1A] mb-2">No properties listed yet</h2>
         <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
           You haven&apos;t listed any properties yet. Start listing now and connect with serious buyers and tenants in Hiranandani Estate — completely free.
         </p>
         <Link href="/dashboard/new">
-          <Button className="bg-[#0F2244] hover:bg-[#0F2244]/90 text-white gap-2 px-6 py-5 text-base">
+          <Button className="bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2 px-6 py-5 text-base">
             <PlusCircle className="h-5 w-5" />
             Start Listing Now
           </Button>

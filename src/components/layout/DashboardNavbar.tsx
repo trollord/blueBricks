@@ -22,22 +22,22 @@ export default function DashboardNavbar() {
       {/* Logo */}
       <Link href="/" className="flex items-center gap-1.5 group shrink-0">
         <span className="font-bold text-xl tracking-tight text-[#1A1A1A]">
-          Hiranandani<span className="text-[#C9A96E]">Homes</span>
+          Hiranandani<span className="text-[#1A1A1A]">Homes</span>
         </span>
-        <span className="h-1.5 w-1.5 rounded-full mt-1 bg-[#C9A96E] group-hover:scale-125 transition-transform duration-300" />
+        <span className="h-1.5 w-1.5 rounded-full mt-1 bg-[#1A1A1A] group-hover:scale-125 transition-transform duration-300" />
       </Link>
 
       {/* Nav links */}
       <nav className="hidden md:flex items-center gap-6">
         <Link
           href="/listings"
-          className="text-sm font-medium text-gray-500 hover:text-[#0F2244] transition-colors"
+          className="text-sm font-medium text-gray-500 hover:text-[#1A1A1A] transition-colors"
         >
           Listings
         </Link>
         <Link
           href="/how-it-works"
-          className="text-sm font-medium text-gray-500 hover:text-[#0F2244] transition-colors"
+          className="text-sm font-medium text-gray-500 hover:text-[#1A1A1A] transition-colors"
         >
           How It Works
         </Link>
@@ -48,7 +48,7 @@ export default function DashboardNavbar() {
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#C9A96E]/50">
+              <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#1A1A1A]/50">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={session.user?.image ?? undefined} />
                   <AvatarFallback className="text-xs font-semibold bg-gray-100 text-[#1A1A1A]">
@@ -60,7 +60,7 @@ export default function DashboardNavbar() {
           />
           <DropdownMenuContent align="end" className="w-48">
             <div className="px-2 py-1.5">
-              <p className="text-sm font-medium truncate text-[#0F2244]">
+              <p className="text-sm font-medium truncate text-[#1A1A1A]">
                 {session.user?.name}
               </p>
               <p className="text-xs text-gray-400 truncate">

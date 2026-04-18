@@ -10,7 +10,6 @@ import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   Dialog,
@@ -37,7 +36,21 @@ import {
   LOCK_IN_OPTIONS,
 } from "@/lib/constants";
 import { propertyStep1Schema, propertyStep3Schema } from "@/lib/validations/property";
-import { ChevronRight, ChevronLeft, Upload, X, Star, CheckCircle2, Loader2, ImageOff, Camera } from "lucide-react";
+import {
+  ChevronRight,
+  ChevronLeft,
+  Upload,
+  X,
+  Star,
+  CheckCircle2,
+  Loader2,
+  ImageOff,
+  Camera,
+  MapPin,
+  Navigation,
+} from "lucide-react";
+import LocationPicker from "@/components/map/LocationPicker";
+import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 
 // ─── types ───────────────────────────────────────────────────────────────────
 
@@ -60,7 +73,7 @@ interface WizardData {
   step3: Partial<Step3Data>;
 }
 
-// ─── step indicators ─────────────────────────────────────────────────────────
+// ─── step indicator (used in steps 2-4) ──────────────────────────────────────
 
 const STEPS = ["Property Details", "Photos", "Pricing", "Review & Submit"];
 
@@ -72,9 +85,9 @@ function StepIndicator({ current }: { current: number }) {
           <div
             className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-semibold transition-colors ${
               i < current
-                ? "bg-blue-600 text-white"
+                ? "bg-[#1A1A1A] text-white"
                 : i === current
-                ? "bg-blue-600 text-white ring-2 ring-blue-200"
+                ? "bg-[#1A1A1A] text-white ring-2 ring-gray-300"
                 : "bg-gray-100 text-gray-400"
             }`}
           >
@@ -82,7 +95,7 @@ function StepIndicator({ current }: { current: number }) {
           </div>
           <span
             className={`text-xs font-medium hidden sm:inline ${
-              i === current ? "text-blue-700" : "text-gray-400"
+              i === current ? "text-gray-900" : "text-gray-400"
             }`}
           >
             {label}
@@ -110,6 +123,7 @@ function Step1({
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<Step1Data>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -120,298 +134,450 @@ function Step1({
     },
   });
 
+  const [showAllAmenities, setShowAllAmenities] = useState(false);
+  const [detectingLocation, setDetectingLocation] = useState(false);
+
   const watchedAmenities = watch("amenities") ?? [];
+  const watchedLat      = watch("latitude");
+  const watchedLng      = watch("longitude");
+  const watchedBuilding = watch("building");
+  const watchedLocality = watch("locality");
+
+  const visibleAmenities = showAllAmenities
+    ? AMENITIES_LIST
+    : AMENITIES_LIST.slice(0, 6);
+
+  const detectLocation = async () => {
+    const building = watchedBuilding;
+    const locality = watchedLocality;
+    if (!building && !locality) {
+      toast.error("Fill in Building Name or Locality first");
+      return;
+    }
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    if (!apiKey) return;
+
+    setDetectingLocation(true);
+    try {
+      setOptions({ key: apiKey, v: "weekly" });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { Geocoder } = await importLibrary("geocoding") as any;
+      const geocoder = new Geocoder();
+      const address = [building, locality, "Hiranandani Estate", "Thane", "Maharashtra", "India"]
+        .filter(Boolean)
+        .join(", ");
+
+      geocoder.geocode(
+        { address },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (results: any[], status: string) => {
+          if (status === "OK" && results[0]) {
+            const loc = results[0].geometry.location;
+            setValue("latitude", loc.lat());
+            setValue("longitude", loc.lng());
+            toast.success("Location found on map");
+          } else {
+            toast.error("Couldn't find this address — try adjusting the details");
+          }
+          setDetectingLocation(false);
+        }
+      );
+    } catch {
+      toast.error("Location lookup failed");
+      setDetectingLocation(false);
+    }
+  };
+
+  const inputCls =
+    "w-full bg-[#f2f4f4] border-none rounded-lg px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all";
+  const selectCls =
+    "w-full bg-[#f2f4f4] border-none rounded-lg px-4 py-3.5 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all appearance-none cursor-pointer";
+  const sectionHeadCls =
+    "text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8";
 
   return (
-    <form onSubmit={handleSubmit(onNext)} className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Property Type */}
-        <div className="space-y-1.5">
-          <Label>Property Type *</Label>
-          <Controller
-            control={control}
-            name="type"
-            render={({ field }) => (
-              <Select
-                value={field.value ?? ""}
-                onValueChange={(v) => field.onChange(v ?? "")}
-              >
-                <SelectTrigger className="w-full" aria-invalid={!!errors.type}>
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(PROPERTY_TYPE_LABELS).map(([val, label]) => (
-                    <SelectItem key={val} value={val}>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-          {errors.type && (
-            <p className="text-xs text-red-500">{errors.type.message}</p>
-          )}
-        </div>
+    <form id="step1-form" onSubmit={handleSubmit(onNext)}>
+      <div className="grid grid-cols-12 gap-8 pb-28">
 
-        {/* Listing Type */}
-        <div className="space-y-1.5">
-          <Label>Listing Type *</Label>
-          <Controller
-            control={control}
-            name="listingType"
-            render={({ field }) => (
-              <Select
-                value={field.value ?? ""}
-                onValueChange={(v) => field.onChange(v ?? "")}
-              >
-                <SelectTrigger className="w-full" aria-invalid={!!errors.listingType}>
-                  <SelectValue placeholder="Rent or Sale" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(LISTING_TYPE_LABELS).map(([val, label]) => (
-                    <SelectItem key={val} value={val}>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-          {errors.listingType && (
-            <p className="text-xs text-red-500">{errors.listingType.message}</p>
-          )}
-        </div>
+        {/* ── Left Column ─────────────────────────────────────────────────── */}
+        <div className="col-span-12 lg:col-span-7 space-y-8">
 
-        {/* Locality */}
-        <div className="space-y-1.5">
-          <Label>Locality *</Label>
-          <Controller
-            control={control}
-            name="locality"
-            render={({ field }) => (
-              <Select
-                value={field.value ?? ""}
-                onValueChange={(v) => field.onChange(v ?? "")}
-              >
-                <SelectTrigger className="w-full" aria-invalid={!!errors.locality}>
-                  <SelectValue placeholder="Select locality" />
-                </SelectTrigger>
-                <SelectContent>
-                  {HIRANANDANI_LOCALITIES.map((loc) => (
-                    <SelectItem key={loc} value={loc}>
-                      {loc}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-          {errors.locality && (
-            <p className="text-xs text-red-500">{errors.locality.message}</p>
-          )}
-        </div>
+          {/* Basic Information */}
+          <section className="bg-white rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+            <h3 className={sectionHeadCls}>Basic Information</h3>
+            <div className="grid grid-cols-2 gap-6">
 
-        {/* Furnished */}
-        <div className="space-y-1.5">
-          <Label>Furnished Status *</Label>
-          <Controller
-            control={control}
-            name="furnished"
-            render={({ field }) => (
-              <Select
-                value={field.value ?? ""}
-                onValueChange={(v) => field.onChange(v ?? "")}
-              >
-                <SelectTrigger className="w-full" aria-invalid={!!errors.furnished}>
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(FURNISHED_LABELS).map(([val, label]) => (
-                    <SelectItem key={val} value={val}>
-                      {label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-          {errors.furnished && (
-            <p className="text-xs text-red-500">{errors.furnished.message}</p>
-          )}
-        </div>
-      </div>
+              {/* Property Type */}
+              <div className="space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Property Type</label>
+                <Controller
+                  control={control}
+                  name="type"
+                  render={({ field }) => (
+                    <select
+                      className={selectCls}
+                      value={field.value ?? ""}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    >
+                      <option value="" disabled>Select type</option>
+                      {Object.entries(PROPERTY_TYPE_LABELS).map(([val, label]) => (
+                        <option key={val} value={val}>{label}</option>
+                      ))}
+                    </select>
+                  )}
+                />
+                {errors.type && <p className="text-xs text-red-500">{errors.type.message}</p>}
+              </div>
 
-      {/* Title */}
-      <div className="space-y-1.5">
-        <Label>Title *</Label>
-        <Input
-          {...register("title")}
-          placeholder="e.g. Spacious 2BHK in Regent Hill"
-          aria-invalid={!!errors.title}
-        />
-        {errors.title && (
-          <p className="text-xs text-red-500">{errors.title.message}</p>
-        )}
-      </div>
+              {/* Listing Type */}
+              <div className="space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Listing Type</label>
+                <Controller
+                  control={control}
+                  name="listingType"
+                  render={({ field }) => (
+                    <select
+                      className={selectCls}
+                      value={field.value ?? ""}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    >
+                      <option value="" disabled>Rent or Sale</option>
+                      {Object.entries(LISTING_TYPE_LABELS).map(([val, label]) => (
+                        <option key={val} value={val}>{label}</option>
+                      ))}
+                    </select>
+                  )}
+                />
+                {errors.listingType && <p className="text-xs text-red-500">{errors.listingType.message}</p>}
+              </div>
 
-      {/* Description */}
-      <div className="space-y-1.5">
-        <Label>Description *</Label>
-        <Textarea
-          {...register("description")}
-          placeholder="Describe the property, view, and key highlights..."
-          rows={4}
-          aria-invalid={!!errors.description}
-        />
-        {errors.description && (
-          <p className="text-xs text-red-500">{errors.description.message}</p>
-        )}
-      </div>
+              {/* Property Title */}
+              <div className="col-span-2 space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Property Title</label>
+                <input
+                  {...register("title")}
+                  className={inputCls}
+                  placeholder="e.g. Luxurious 3BHK overlooking Central Park"
+                />
+                {errors.title && <p className="text-xs text-red-500">{errors.title.message}</p>}
+              </div>
 
-      {/* Address & Building */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label>Address *</Label>
-          <Input
-            {...register("address")}
-            placeholder="Street / Society address"
-            aria-invalid={!!errors.address}
-          />
-          {errors.address && (
-            <p className="text-xs text-red-500">{errors.address.message}</p>
-          )}
-        </div>
-        <div className="space-y-1.5">
-          <Label>Building Name *</Label>
-          <Input
-            {...register("building")}
-            placeholder="e.g. Regent Hill Tower A"
-            aria-invalid={!!errors.building}
-          />
-          {errors.building && (
-            <p className="text-xs text-red-500">{errors.building.message}</p>
-          )}
-        </div>
-        <div className="space-y-1.5">
-          <Label>Flat Number</Label>
-          <Input {...register("flatNumber")} placeholder="e.g. 1203" />
-        </div>
-      </div>
+              {/* Description */}
+              <div className="col-span-2 space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Description</label>
+                <textarea
+                  {...register("description")}
+                  className={`${inputCls} resize-none`}
+                  rows={4}
+                  placeholder="Describe the property, neighborhood, and unique features..."
+                />
+                {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
+              </div>
 
-      {/* Bedrooms / Bathrooms / Area */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="space-y-1.5">
-          <Label>Bedrooms</Label>
-          <Controller
-            control={control}
-            name="bedrooms"
-            render={({ field }) => (
-              <Select
-                value={field.value ? String(field.value) : ""}
-                onValueChange={(v) =>
-                  field.onChange(v ? parseInt(v) : undefined)
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="BHK" />
-                </SelectTrigger>
-                <SelectContent>
-                  {BHK_OPTIONS.map((n) => (
-                    <SelectItem key={n} value={String(n)}>
-                      {n} BHK
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
-          />
-        </div>
+            </div>
+          </section>
 
-        <div className="space-y-1.5">
-          <Label>Bathrooms</Label>
-          <Input
-            {...register("bathrooms")}
-            type="number"
-            min={1}
-            max={10}
-            placeholder="e.g. 2"
-          />
-        </div>
+          {/* Location Details */}
+          <section className="bg-white rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+            <div className="flex justify-between items-center mb-8">
+              <h3 className={sectionHeadCls.replace("mb-8", "")}>Location Details</h3>
+              <span className="text-[12px] text-gray-400 flex items-center gap-1">
+                <MapPin className="h-3.5 w-3.5" />
+                Hiranandani Estate, Thane
+              </span>
+            </div>
 
-        <div className="space-y-1.5">
-          <Label>Area (sq.ft) *</Label>
-          <Input
-            {...register("areaSqft")}
-            type="number"
-            placeholder="e.g. 950"
-            aria-invalid={!!errors.areaSqft}
-          />
-          {errors.areaSqft && (
-            <p className="text-xs text-red-500">{errors.areaSqft.message}</p>
-          )}
-        </div>
+            <div className="grid grid-cols-2 gap-6">
 
-        <div className="space-y-1.5">
-          <Label>Floor</Label>
-          <Input
-            {...register("floor")}
-            type="number"
-            min={0}
-            placeholder="e.g. 12"
-          />
-        </div>
+              {/* Building Name */}
+              <div className="space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Building Name</label>
+                <input
+                  {...register("building")}
+                  className={inputCls}
+                  placeholder="e.g. Regent Hill"
+                />
+                {errors.building && <p className="text-xs text-red-500">{errors.building.message}</p>}
+              </div>
 
-        <div className="space-y-1.5">
-          <Label>Total Floors</Label>
-          <Input
-            {...register("totalFloors")}
-            type="number"
-            min={1}
-            placeholder="e.g. 20"
-          />
-        </div>
-      </div>
+              {/* Locality */}
+              <div className="space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Locality</label>
+                <Controller
+                  control={control}
+                  name="locality"
+                  render={({ field }) => (
+                    <select
+                      className={selectCls}
+                      value={field.value ?? ""}
+                      onChange={(e) => field.onChange(e.target.value)}
+                    >
+                      <option value="" disabled>Select locality</option>
+                      {HIRANANDANI_LOCALITIES.map((loc) => (
+                        <option key={loc} value={loc}>{loc}</option>
+                      ))}
+                    </select>
+                  )}
+                />
+                {errors.locality && <p className="text-xs text-red-500">{errors.locality.message}</p>}
+              </div>
 
-      {/* Amenities */}
-      <div className="space-y-2">
-        <Label>Amenities</Label>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {AMENITIES_LIST.map((amenity) => {
-            const checked = watchedAmenities.includes(amenity);
-            return (
-              <Controller
-                key={amenity}
-                control={control}
-                name="amenities"
-                render={({ field }) => (
-                  <label className="flex items-center gap-2 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      className="rounded border-gray-300 text-blue-600"
-                      checked={checked}
-                      onChange={(e) => {
-                        const current = field.value ?? [];
-                        if (e.target.checked) {
-                          field.onChange([...current, amenity]);
-                        } else {
-                          field.onChange(current.filter((a) => a !== amenity));
-                        }
-                      }}
-                    />
-                    <span className="text-sm text-gray-700">{amenity}</span>
-                  </label>
-                )}
+              {/* Detailed Address */}
+              <div className="col-span-2 space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Detailed Address</label>
+                <input
+                  {...register("address")}
+                  className={inputCls}
+                  placeholder="Street name, landmark, etc."
+                />
+                {errors.address && <p className="text-xs text-red-500">{errors.address.message}</p>}
+              </div>
+
+              {/* Flat Number */}
+              <div className="space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Flat / House Number</label>
+                <input
+                  {...register("flatNumber")}
+                  className={inputCls}
+                  placeholder="e.g. 1204, Wing A"
+                />
+              </div>
+
+              {/* Detect Location */}
+              <div className="flex items-end">
+                <button
+                  type="button"
+                  onClick={detectLocation}
+                  disabled={detectingLocation}
+                  className="w-full py-3.5 px-4 border border-gray-200 text-[12px] font-bold rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 text-gray-700 disabled:opacity-50"
+                >
+                  {detectingLocation ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Navigation className="h-4 w-4" />
+                  )}
+                  Detect My Location
+                </button>
+              </div>
+
+            </div>
+
+            {/* Map */}
+            <div className="mt-6">
+              <LocationPicker
+                value={watchedLat && watchedLng ? { lat: watchedLat, lng: watchedLng } : null}
+                onChange={(lat, lng) => {
+                  setValue("latitude", lat);
+                  setValue("longitude", lng);
+                }}
+                building={watchedBuilding}
+                locality={watchedLocality}
               />
-            );
-          })}
-        </div>
-      </div>
+            </div>
+          </section>
 
-      <div className="flex justify-end">
-        <Button type="submit" className="gap-2">
-          Next: Photos <ChevronRight className="h-4 w-4" />
-        </Button>
+        </div>
+
+        {/* ── Right Column ─────────────────────────────────────────────────── */}
+        <div className="col-span-12 lg:col-span-5 space-y-8">
+
+          {/* Configurations */}
+          <section className="bg-white rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+            <h3 className={sectionHeadCls}>Configurations</h3>
+            <div className="space-y-6">
+
+              {/* Bedrooms */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Bedrooms</label>
+                <Controller
+                  control={control}
+                  name="bedrooms"
+                  render={({ field }) => (
+                    <div className="space-y-2">
+                      <div className="flex bg-[#f2f4f4] rounded-lg p-1 gap-1">
+                        {BHK_OPTIONS.map((n) => (
+                          <button
+                            key={n}
+                            type="button"
+                            onClick={() => field.onChange(n)}
+                            className={`flex-1 py-2 text-[12px] font-bold rounded-md transition-all ${
+                              (n < 5 && field.value === n) || (n === 5 && Number(field.value) >= 5)
+                                ? "bg-white shadow-sm text-gray-900"
+                                : "text-gray-400 hover:text-gray-600"
+                            }`}
+                          >
+                            {n === 5 ? "5+" : n}
+                          </button>
+                        ))}
+                      </div>
+                      {Number(field.value) >= 5 && (
+                        <input
+                          type="number"
+                          min={5}
+                          max={20}
+                          autoFocus
+                          value={field.value ?? 5}
+                          onChange={(e) => field.onChange(Math.max(5, parseInt(e.target.value) || 5))}
+                          className={inputCls}
+                          placeholder="Enter exact number of bedrooms"
+                        />
+                      )}
+                    </div>
+                  )}
+                />
+              </div>
+
+              {/* Bathrooms */}
+              <div className="space-y-2">
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Bathrooms</label>
+                <Controller
+                  control={control}
+                  name="bathrooms"
+                  render={({ field }) => (
+                    <div className="space-y-2">
+                      <div className="flex bg-[#f2f4f4] rounded-lg p-1 gap-1">
+                        {[1, 2, 3, 4, 5].map((n) => (
+                          <button
+                            key={n}
+                            type="button"
+                            onClick={() => field.onChange(n)}
+                            className={`flex-1 py-2 text-[12px] font-bold rounded-md transition-all ${
+                              (n < 5 && Number(field.value) === n) || (n === 5 && Number(field.value) >= 5)
+                                ? "bg-white shadow-sm text-gray-900"
+                                : "text-gray-400 hover:text-gray-600"
+                            }`}
+                          >
+                            {n === 5 ? "5+" : n}
+                          </button>
+                        ))}
+                      </div>
+                      {Number(field.value) >= 5 && (
+                        <input
+                          type="number"
+                          min={5}
+                          max={20}
+                          autoFocus
+                          value={field.value ?? 5}
+                          onChange={(e) => field.onChange(Math.max(5, parseInt(e.target.value) || 5))}
+                          className={inputCls}
+                          placeholder="Enter exact number of bathrooms"
+                        />
+                      )}
+                    </div>
+                  )}
+                />
+              </div>
+
+              {/* Total Area */}
+              <div className="space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Total Area (Sq.ft)</label>
+                <input
+                  {...register("areaSqft")}
+                  type="number"
+                  className={inputCls}
+                  placeholder="e.g. 1850"
+                />
+                {errors.areaSqft && <p className="text-xs text-red-500">{errors.areaSqft.message}</p>}
+              </div>
+
+              {/* Floor + Total Floors */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[12px] font-semibold text-gray-800">Floor</label>
+                  <input
+                    {...register("floor")}
+                    type="number"
+                    className={inputCls}
+                    placeholder="e.g. 12"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[12px] font-semibold text-gray-800">Total Floors</label>
+                  <input
+                    {...register("totalFloors")}
+                    type="number"
+                    className={inputCls}
+                    placeholder="e.g. 24"
+                  />
+                </div>
+              </div>
+
+              {/* Furnished Status */}
+              <div className="space-y-2">
+                <label className="text-[12px] font-semibold text-gray-800">Furnished Status</label>
+                <Controller
+                  control={control}
+                  name="furnished"
+                  render={({ field }) => (
+                    <div className="grid grid-cols-3 gap-2">
+                      {Object.entries(FURNISHED_LABELS).map(([val, label]) => (
+                        <button
+                          key={val}
+                          type="button"
+                          onClick={() => field.onChange(val)}
+                          className={`py-3 px-1 text-[10px] font-bold uppercase tracking-tight rounded-lg transition-all ${
+                            field.value === val
+                              ? "bg-[#1A1A1A] text-white"
+                              : "border border-gray-200 text-gray-500 hover:border-gray-400"
+                          }`}
+                        >
+                          {label.replace(" Furnished", "").replace("Unfurnished", "Unfurnished")}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                />
+                {errors.furnished && <p className="text-xs text-red-500">{errors.furnished.message}</p>}
+              </div>
+
+            </div>
+          </section>
+
+          {/* Amenities */}
+          <section className="bg-white rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+            <h3 className={sectionHeadCls}>Amenities</h3>
+            <div className="grid grid-cols-2 gap-1">
+              {visibleAmenities.map((amenity) => {
+                const checked = watchedAmenities.includes(amenity);
+                return (
+                  <Controller
+                    key={amenity}
+                    control={control}
+                    name="amenities"
+                    render={({ field }) => (
+                      <label className="cursor-pointer flex items-center gap-3 p-3 rounded-xl hover:bg-[#f2f4f4] transition-colors">
+                        <input
+                          type="checkbox"
+                          className="rounded border-gray-300 text-gray-900 focus:ring-0"
+                          checked={checked}
+                          onChange={(e) => {
+                            const current = field.value ?? [];
+                            if (e.target.checked) {
+                              field.onChange([...current, amenity]);
+                            } else {
+                              field.onChange(current.filter((a) => a !== amenity));
+                            }
+                          }}
+                        />
+                        <span className="text-[11px] font-medium text-gray-700">{amenity}</span>
+                      </label>
+                    )}
+                  />
+                );
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAllAmenities(!showAllAmenities)}
+              className="w-full mt-6 text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-gray-700 transition-colors"
+            >
+              {showAllAmenities
+                ? "− Show Less"
+                : `+ View All ${AMENITIES_LIST.length} Amenities`}
+            </button>
+          </section>
+
+        </div>
       </div>
     </form>
   );
@@ -544,9 +710,9 @@ function Step2({
   return (
     <div className="space-y-6">
       {/* Tip banner */}
-      <div className="flex items-start gap-3 bg-[#C9A96E]/10 border border-[#C9A96E]/30 rounded-xl px-4 py-3">
-        <Camera className="h-4 w-4 text-[#C9A96E] mt-0.5 shrink-0" />
-        <p className="text-sm text-[#8B6914] leading-relaxed">
+      <div className="flex items-start gap-3 bg-[#1A1A1A]/10 border border-[#1A1A1A]/30 rounded-xl px-4 py-3">
+        <Camera className="h-4 w-4 text-[#1A1A1A] mt-0.5 shrink-0" />
+        <p className="text-sm text-[#555555] leading-relaxed">
           <span className="font-semibold">Photos are optional</span> — but listings with photos get significantly more attention. Adding clear photos helps serious buyers and tenants find you faster.
         </p>
       </div>
@@ -556,7 +722,7 @@ function Step2({
         {...getRootProps()}
         className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
           isDragActive
-            ? "border-[#C9A96E] bg-[#C9A96E]/5"
+            ? "border-[#1A1A1A] bg-[#1A1A1A]/5"
             : "border-gray-200 hover:border-gray-300 bg-gray-50"
         }`}
       >
@@ -577,7 +743,7 @@ function Step2({
             <div
               key={idx}
               className={`relative rounded-xl overflow-hidden border-2 transition-colors ${
-                img.isPrimary ? "border-blue-500" : "border-gray-200"
+                img.isPrimary ? "border-gray-900" : "border-gray-200"
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -590,7 +756,7 @@ function Step2({
               {/* Uploading overlay */}
               {img.uploading && (
                 <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
-                  <Loader2 className="h-5 w-5 animate-spin text-blue-600" />
+                  <Loader2 className="h-5 w-5 animate-spin text-gray-900" />
                 </div>
               )}
 
@@ -610,7 +776,7 @@ function Step2({
                     title="Set as primary"
                     className={`p-1 rounded-full transition-colors ${
                       img.isPrimary
-                        ? "bg-blue-500 text-white"
+                        ? "bg-gray-900 text-white"
                         : "bg-white/80 text-gray-600 hover:bg-yellow-400 hover:text-white"
                     }`}
                   >
@@ -628,7 +794,7 @@ function Step2({
 
               {/* Primary label */}
               {img.isPrimary && !img.uploading && !img.error && (
-                <div className="absolute bottom-1.5 left-1.5 text-[10px] font-semibold bg-blue-500 text-white px-1.5 py-0.5 rounded-full">
+                <div className="absolute bottom-1.5 left-1.5 text-[10px] font-semibold bg-gray-900 text-white px-1.5 py-0.5 rounded-full">
                   Primary
                 </div>
               )}
@@ -644,7 +810,7 @@ function Step2({
         <Button
           onClick={handleNext}
           disabled={hasUploading || hasError}
-          className="gap-2 bg-[#0F2244] hover:bg-[#0F2244]/90 text-white"
+          className="gap-2 bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white"
         >
           Next: Pricing <ChevronRight className="h-4 w-4" />
         </Button>
@@ -659,18 +825,18 @@ function Step2({
                 <ImageOff className="h-6 w-6 text-amber-500" />
               </div>
             </div>
-            <DialogTitle className="text-center text-[#0F2244]">
+            <DialogTitle className="text-center text-[#1A1A1A]">
               No photos added
             </DialogTitle>
             <DialogDescription className="text-center leading-relaxed">
-              Listings with photos receive <span className="font-semibold text-[#0F2244]">significantly more interest</span> from serious buyers and tenants. Adding even one photo makes your listing stand out.
+              Listings with photos receive <span className="font-semibold text-[#1A1A1A]">significantly more interest</span> from serious buyers and tenants. Adding even one photo makes your listing stand out.
               <br /><br />
               You can still list without photos and add them later from your dashboard.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex-col sm:flex-col gap-2 border-0 bg-transparent p-0 mt-2">
             <Button
-              className="w-full bg-[#0F2244] hover:bg-[#0F2244]/90 text-white gap-2"
+              className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2"
               onClick={() => setShowSkipDialog(false)}
             >
               <Camera className="h-4 w-4" /> Add Photos
@@ -761,7 +927,7 @@ function Step3({
             <input
               type="checkbox"
               id="rentNegotiable"
-              className="rounded border-gray-300 text-blue-600"
+              className="rounded border-gray-300 text-gray-900"
               checked={!!field.value}
               onChange={(e) => field.onChange(e.target.checked)}
             />
@@ -809,7 +975,7 @@ function Step3({
                   <input
                     type="checkbox"
                     id="lockInNegotiable"
-                    className="rounded border-gray-300 text-blue-600"
+                    className="rounded border-gray-300 text-gray-900"
                     checked={!!field.value}
                     onChange={(e) => field.onChange(e.target.checked)}
                   />
@@ -827,7 +993,7 @@ function Step3({
         <Button variant="outline" onClick={onBack} className="gap-2">
           <ChevronLeft className="h-4 w-4" /> Back
         </Button>
-        <Button type="submit" className="gap-2">
+        <Button type="submit" className="gap-2 bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white">
           Next: Review <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
@@ -900,7 +1066,7 @@ function Step4({
               {step1.amenities?.map((a) => (
                 <span
                   key={a}
-                  className="text-xs bg-blue-50 text-blue-700 border border-blue-100 px-2 py-0.5 rounded-full"
+                  className="text-xs bg-gray-100 text-gray-700 border border-gray-200 px-2 py-0.5 rounded-full"
                 >
                   {a}
                 </span>
@@ -925,7 +1091,7 @@ function Step4({
                 className="h-16 w-20 object-cover rounded-lg border border-gray-200"
               />
               {img.isPrimary && (
-                <span className="absolute bottom-0.5 left-0.5 text-[9px] bg-blue-500 text-white px-1 rounded">
+                <span className="absolute bottom-0.5 left-0.5 text-[9px] bg-gray-900 text-white px-1 rounded">
                   Primary
                 </span>
               )}
@@ -938,7 +1104,11 @@ function Step4({
         <Button variant="outline" onClick={onBack} className="gap-2">
           <ChevronLeft className="h-4 w-4" /> Back
         </Button>
-        <Button onClick={onSubmit} disabled={submitting} className="gap-2">
+        <Button
+          onClick={onSubmit}
+          disabled={submitting}
+          className="gap-2 bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white"
+        >
           {submitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" /> Submitting…
@@ -958,19 +1128,18 @@ export default function NewListingPage() {
   const router = useRouter();
   const { data: session } = useSession();
   const [step, setStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [data, setData] = useState<WizardData>({
+    step1: {},
+    images: [],
+    step3: {},
+  });
 
   // Guard: only OWNER, MANAGER, ADMIN may list properties
   if (session && !["OWNER", "MANAGER", "ADMIN"].includes(session.user?.role ?? "")) {
     router.replace("/become-owner");
     return null;
   }
-  const [submitting, setSubmitting] = useState(false);
-
-  const [data, setData] = useState<WizardData>({
-    step1: {},
-    images: [],
-    step3: {},
-  });
 
   const handleStep1Next = (step1Data: Step1Data) => {
     setData((d) => ({ ...d, step1: step1Data }));
@@ -1015,10 +1184,6 @@ export default function NewListingPage() {
 
       const { property } = await res.json();
 
-      // After property is created, save images via a separate call or inline
-      // The POST /api/properties creates the property; images need to be linked.
-      // We'll POST to /api/properties/[id]/images if it exists, or handle via the schema.
-      // For now the createPropertySchema doesn't include images — we'll store them separately.
       if (data.images.length > 0) {
         await Promise.allSettled(
           data.images.map((img) =>
@@ -1045,47 +1210,84 @@ export default function NewListingPage() {
   };
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Add New Listing</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Fill in the details to list your property on HiranandaniHomes
-        </p>
-      </div>
+    <div className="relative">
 
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
-        <StepIndicator current={step} />
+      {/* ── Step 1: full two-column layout ── */}
+      {step === 0 && (
+        <Step1 defaultValues={data.step1} onNext={handleStep1Next} />
+      )}
 
-        {step === 0 && (
-          <Step1 defaultValues={data.step1} onNext={handleStep1Next} />
-        )}
-        {step === 1 && (
-          <Step2
-            images={data.images}
-            onImagesChange={handleImagesChange}
-            onNext={() => setStep(2)}
-            onBack={() => setStep(0)}
-          />
-        )}
-        {step === 2 && (
-          <Step3
-            defaultValues={data.step3}
-            listingType={data.step1.listingType ?? "SALE"}
-            onNext={handleStep3Next}
-            onBack={() => setStep(1)}
-          />
-        )}
-        {step === 3 && (
-          <Step4
-            step1={data.step1}
-            images={data.images}
-            step3={data.step3}
-            onBack={() => setStep(2)}
-            onSubmit={handleSubmit}
-            submitting={submitting}
-          />
-        )}
-      </div>
+      {/* ── Steps 2-4: card layout ── */}
+      {step !== 0 && (
+        <div className="bg-white rounded-xl border border-gray-100 p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)] mb-8">
+          <StepIndicator current={step} />
+          {step === 1 && (
+            <Step2
+              images={data.images}
+              onImagesChange={handleImagesChange}
+              onNext={() => setStep(2)}
+              onBack={() => setStep(0)}
+            />
+          )}
+          {step === 2 && (
+            <Step3
+              defaultValues={data.step3}
+              listingType={data.step1.listingType ?? "SALE"}
+              onNext={handleStep3Next}
+              onBack={() => setStep(1)}
+            />
+          )}
+          {step === 3 && (
+            <Step4
+              step1={data.step1}
+              images={data.images}
+              step3={data.step3}
+              onBack={() => setStep(2)}
+              onSubmit={handleSubmit}
+              submitting={submitting}
+            />
+          )}
+        </div>
+      )}
+
+      {/* ── Fixed footer (Step 1 only) ── */}
+      {step === 0 && (
+        <footer className="fixed bottom-0 left-64 right-0 bg-[#f5f5f5]/90 backdrop-blur-xl border-t border-black/5 px-12 py-5 flex justify-between items-center z-50">
+          <div className="flex items-center gap-4">
+            <div className="flex gap-1.5">
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === 0 ? "w-8 bg-[#1A1A1A]" : "w-8 bg-gray-200"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-[12px] font-bold text-gray-400 uppercase tracking-widest">
+              Step 1 of 4
+            </span>
+          </div>
+          <div className="flex items-center gap-8">
+            <button
+              type="button"
+              onClick={() => router.push("/dashboard")}
+              className="text-[12px] font-bold uppercase tracking-widest text-gray-400 hover:text-gray-700 transition-colors"
+            >
+              Cancel Listing
+            </button>
+            <button
+              form="step1-form"
+              type="submit"
+              className="bg-[#1A1A1A] text-white px-10 py-4 rounded-xl text-[12px] font-bold uppercase tracking-widest flex items-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-black/10"
+            >
+              Next: Photos
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </footer>
+      )}
+
     </div>
   );
 }

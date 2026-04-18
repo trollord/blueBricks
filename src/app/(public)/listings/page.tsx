@@ -31,8 +31,8 @@ async function getListings(filters: PropertyFilters) {
     prisma.property.findMany({
       where,
       orderBy: { createdAt: "desc" },
-      skip: (page - 1) * PAGE_SIZE,
-      take: PAGE_SIZE,
+      skip: 0,
+      take: page * PAGE_SIZE,   // cumulative: page 2 returns 12, page 3 returns 18, etc.
       select: {
         id: true,
         title: true,
@@ -60,6 +60,39 @@ async function getListings(filters: PropertyFilters) {
   return { properties, total, page, totalPages: Math.ceil(total / PAGE_SIZE) };
 }
 
+// Lightweight query for map view — all matching pins, no pagination limit
+async function getAllMapPins(filters: PropertyFilters) {
+  const where = {
+    status: "ACTIVE" as const,
+    latitude:  { not: null },
+    longitude: { not: null },
+    ...(filters.type && { type: filters.type as never }),
+    ...(filters.listingType && { listingType: filters.listingType as never }),
+    ...(filters.locality && { locality: filters.locality }),
+    ...(filters.bedrooms && { bedrooms: parseInt(filters.bedrooms) }),
+    ...(filters.furnished && { furnished: filters.furnished as never }),
+    ...((filters.minPrice || filters.maxPrice) && {
+      price: {
+        ...(filters.minPrice && { gte: parseFloat(filters.minPrice) }),
+        ...(filters.maxPrice && { lte: parseFloat(filters.maxPrice) }),
+      },
+    }),
+  };
+
+  return prisma.property.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      listingType: true,
+      latitude: true,
+      longitude: true,
+    },
+  });
+}
+
 interface ListingsPageProps {
   searchParams: Promise<PropertyFilters>;
 }
@@ -68,6 +101,7 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
   const filters = await searchParams;
   const view = filters.view ?? "grid";
   const { properties, total, page, totalPages } = await getListings(filters);
+  const mapPins = view === "map" ? await getAllMapPins(filters) : [];
 
   const headingLocation = filters.locality ?? "All Localities";
   const listingWord = total === 1 ? "property" : "properties";
@@ -171,7 +205,7 @@ export default async function ListingsPage({ searchParams }: ListingsPageProps) 
               </Link>
             </div>
           ) : view === "map" ? (
-            <MapView properties={properties} />
+            <MapView properties={mapPins} />
           ) : (
             <>
               <div

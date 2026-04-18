@@ -80,8 +80,6 @@
     --sidebar-ring: oklch(0.72 0.12 75);
 
     /* Utility brand tokens */
-    --gold: #C9A96E;
-    --navy: #0F2244;
     --cream: #FAF8F5;
   }
   .dark {

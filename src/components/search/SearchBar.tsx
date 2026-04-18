@@ -37,7 +37,7 @@ export default function SearchBar() {
             onClick={() => setListingType(t)}
             className={`px-5 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
               listingType === t
-                ? "bg-[#0F2244] text-white shadow-sm"
+                ? "bg-[#1A1A1A] text-white shadow-sm"
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
@@ -79,7 +79,7 @@ export default function SearchBar() {
 
       <Button
         onClick={handleSearch}
-        className="bg-[#C9A96E] hover:bg-[#C9A96E]/90 text-[#0F2244] font-semibold px-6 rounded-full shrink-0 gap-2 transition-all duration-300"
+        className="bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-[#1A1A1A] font-semibold px-6 rounded-full shrink-0 gap-2 transition-all duration-300"
       >
         <Search className="h-4 w-4" />
         Search

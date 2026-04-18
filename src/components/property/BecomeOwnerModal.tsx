@@ -51,7 +51,7 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Gold top bar */}
-        <div className="h-1.5 bg-gradient-to-r from-[#C9A96E] to-[#e8c98a]" />
+        <div className="h-1.5 bg-[#1A1A1A]" />
 
         {/* Back */}
         <button
@@ -70,11 +70,11 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
         </button>
 
         <div className="p-8 text-center">
-          <div className="inline-flex p-4 rounded-full bg-[#0F2244]/5 mb-5">
-            <Building2 className="h-8 w-8 text-[#C9A96E]" />
+          <div className="inline-flex p-4 rounded-full bg-[#1A1A1A]/5 mb-5">
+            <Building2 className="h-8 w-8 text-[#1A1A1A]" />
           </div>
 
-          <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#0F2244] mb-2">
+          <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#1A1A1A] mb-2">
             List Your Property
           </h2>
           <p className="text-gray-500 text-sm mb-7 leading-relaxed">
@@ -90,7 +90,7 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
               "Get notified when someone registers interest",
             ].map((point) => (
               <li key={point} className="flex items-start gap-2.5 text-sm text-gray-700">
-                <CheckCircle2 className="h-4 w-4 text-[#C9A96E] mt-0.5 shrink-0" />
+                <CheckCircle2 className="h-4 w-4 text-[#1A1A1A] mt-0.5 shrink-0" />
                 {point}
               </li>
             ))}
@@ -101,7 +101,7 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
           <Button
             onClick={handleActivate}
             disabled={loading}
-            className="w-full bg-[#0F2244] hover:bg-[#0F2244]/90 text-white gap-2 py-5"
+            className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2 py-5"
           >
             {loading ? "Activating…" : "Activate Owner Account — Free"}
             {!loading && <ArrowRight className="h-4 w-4" />}

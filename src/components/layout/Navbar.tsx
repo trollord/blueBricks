@@ -1,18 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { PlusSquare, LayoutDashboard, Shield } from "lucide-react";
+import { PlusSquare, LayoutDashboard, Shield, LogOut } from "lucide-react";
 import BecomeOwnerModal from "@/components/property/BecomeOwnerModal";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import FloatingActionMenu from "@/components/ui/floating-action-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Navbar,
@@ -32,19 +26,62 @@ const navItems = [
   { name: "How It Works", link: "/how-it-works" },
 ];
 
-/* ─── Avatar dropdown ─────────────────────────────────────────────────────── */
+/* ─── Avatar menu (FloatingActionMenu) ────────────────────────────────────── */
 function UserMenu() {
   const { data: session } = useSession();
   const router = useRouter();
   const { scrolled } = useNavbar();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Close menu on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
 
   if (!session) return null;
 
+  const isAdmin = ["MANAGER", "ADMIN"].includes(session.user?.role ?? "");
+
+  const options = [
+    {
+      label: "My Dashboard",
+      onClick: () => { router.push("/dashboard"); setMenuOpen(false); },
+      Icon: <LayoutDashboard className="h-4 w-4" />,
+    },
+    ...(isAdmin
+      ? [
+          {
+            label: "Admin Panel",
+            onClick: () => { router.push("/admin"); setMenuOpen(false); },
+            Icon: <Shield className="h-4 w-4" />,
+          },
+        ]
+      : []),
+    {
+      label: "Sign Out",
+      onClick: () => { signOut({ callbackUrl: "/" }); setMenuOpen(false); },
+      Icon: <LogOut className="h-4 w-4" />,
+    },
+  ];
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#C9A96E]/50">
+    <div ref={wrapperRef}>
+      <FloatingActionMenu
+        options={options}
+        isOpen={menuOpen}
+        onToggle={() => setMenuOpen((v) => !v)}
+        direction="down"
+        trigger={
+          <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#1A1A1A]/50">
             <Avatar className="h-8 w-8">
               <AvatarImage src={session.user?.image ?? undefined} />
               <AvatarFallback
@@ -60,39 +97,7 @@ function UserMenu() {
           </button>
         }
       />
-      <DropdownMenuContent align="end" className="w-48">
-        <div className="px-2 py-1.5">
-          <p className="text-sm font-medium truncate text-[#0F2244]">
-            {session.user?.name}
-          </p>
-          <p className="text-xs text-gray-400 truncate">{session.user?.email}</p>
-        </div>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="cursor-pointer"
-          onClick={() => router.push("/dashboard")}
-        >
-          <LayoutDashboard className="mr-2 h-4 w-4" />
-          My Dashboard
-        </DropdownMenuItem>
-        {["MANAGER", "ADMIN"].includes(session.user?.role ?? "") && (
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => router.push("/admin")}
-          >
-            <Shield className="mr-2 h-4 w-4" />
-            Admin Panel
-          </DropdownMenuItem>
-        )}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="text-red-600 cursor-pointer"
-          onClick={() => signOut({ callbackUrl: "/" })}
-        >
-          Sign Out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    </div>
   );
 }
 
@@ -189,7 +194,7 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
                   setMobileOpen(false);
                   handleListProperty();
                 }}
-                className="flex items-center gap-2 px-1 py-2.5 text-sm font-medium text-[#C9A96E]"
+                className="flex items-center gap-2 px-1 py-2.5 text-sm font-medium text-[#1A1A1A]"
               >
                 <PlusSquare className="h-4 w-4" />
                 List a Property

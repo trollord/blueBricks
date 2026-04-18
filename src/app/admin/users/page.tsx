@@ -90,7 +90,7 @@ export default function AdminUsersPage() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold text-[#0F2244] mb-6">Users ({users.length})</h1>
+      <h1 className="text-2xl font-bold text-[#1A1A1A] mb-6">Users ({users.length})</h1>
 
       {/* Filter tabs */}
       <div className="flex gap-2 mb-4">
@@ -100,8 +100,8 @@ export default function AdminUsersPage() {
             onClick={() => setTab(t)}
             className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors ${
               tab === t
-                ? "bg-[#0F2244] text-white"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-[#0F2244] hover:text-[#0F2244]"
+                ? "bg-[#1A1A1A] text-white"
+                : "bg-white border border-gray-200 text-gray-600 hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
             }`}
           >
             {t}

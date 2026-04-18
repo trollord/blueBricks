@@ -10,30 +10,10 @@ const AMENITIES: {
   type: AmenityType;
   label: string;
   icon: React.ElementType;
-  activeClass: string;
-  idleClass: string;
 }[] = [
-  {
-    type:        "hospital",
-    label:       "Hospitals",
-    icon:        Cross,
-    activeClass: "bg-red-500   text-white  border-red-500",
-    idleClass:   "bg-red-50    text-red-600   border-red-200   hover:bg-red-100",
-  },
-  {
-    type:        "pharmacy",
-    label:       "Pharmacies",
-    icon:        Pill,
-    activeClass: "bg-green-500 text-white  border-green-500",
-    idleClass:   "bg-green-50  text-green-600 border-green-200 hover:bg-green-100",
-  },
-  {
-    type:        "school",
-    label:       "Schools",
-    icon:        GraduationCap,
-    activeClass: "bg-blue-500  text-white  border-blue-500",
-    idleClass:   "bg-blue-50   text-blue-600  border-blue-200  hover:bg-blue-100",
-  },
+  { type: "hospital", label: "Hospitals",  icon: Cross         },
+  { type: "pharmacy", label: "Pharmacies", icon: Pill          },
+  { type: "school",   label: "Schools",    icon: GraduationCap },
 ];
 
 interface Props {
@@ -53,12 +33,14 @@ export default function PropertyMapSection({ lat, lng, propertyId }: Props) {
     <div className="space-y-3">
       {/* Category buttons */}
       <div className="flex flex-wrap gap-2">
-        {AMENITIES.map(({ type, label, icon: Icon, activeClass, idleClass }) => (
+        {AMENITIES.map(({ type, label, icon: Icon }) => (
           <button
             key={type}
             onClick={() => toggle(type)}
             className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-colors duration-150 ${
-              activeAmenity === type ? activeClass : idleClass
+              activeAmenity === type
+                ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
+                : "bg-white text-[#1A1A1A]/60 border-gray-200 hover:border-[#1A1A1A]/30 hover:text-[#1A1A1A]"
             }`}
           >
             <Icon className="h-3.5 w-3.5" />

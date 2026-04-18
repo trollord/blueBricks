@@ -48,7 +48,7 @@ export default async function InterestsPage() {
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">My Interests</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Properties you've registered interest in
+          Properties you&apos;ve registered interest in
         </p>
       </div>
 
@@ -63,7 +63,7 @@ export default async function InterestsPage() {
           </p>
           <Link
             href="/listings"
-            className="inline-flex items-center gap-2 bg-[#0F2244] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#0F2244]/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-[#1A1A1A] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#1A1A1A]/90 transition-colors"
           >
             Browse Listings
             <ArrowRight className="h-4 w-4" />
@@ -93,7 +93,7 @@ export default async function InterestsPage() {
                   />
                   {/* Badges */}
                   <div className="absolute top-3 left-3 flex gap-1.5">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isRent ? "bg-[#C9A96E] text-[#0F2244]" : "bg-[#0F2244] text-white"}`}>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isRent ? "bg-[#1A1A1A] text-[#1A1A1A]" : "bg-[#1A1A1A] text-white"}`}>
                       {LISTING_TYPE_LABELS[property.listingType]}
                     </span>
                     {inactive && (
@@ -109,11 +109,11 @@ export default async function InterestsPage() {
                   <p className="text-xs text-gray-400 uppercase tracking-wide">
                     {PROPERTY_TYPE_LABELS[property.type]}
                   </p>
-                  <h3 className="font-semibold text-[#0F2244] text-sm line-clamp-1">
+                  <h3 className="font-semibold text-[#1A1A1A] text-sm line-clamp-1">
                     {property.title}
                   </h3>
                   <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <MapPin className="h-3 w-3 shrink-0 text-[#C9A96E]" />
+                    <MapPin className="h-3 w-3 shrink-0 text-[#1A1A1A]" />
                     {property.building}, {property.locality}
                   </div>
 
@@ -131,7 +131,7 @@ export default async function InterestsPage() {
                   </div>
 
                   <div className="pt-2 border-t border-gray-50 flex items-baseline gap-1">
-                    <span className="font-bold text-[#0F2244]">
+                    <span className="font-bold text-[#1A1A1A]">
                       {formatPrice(property.price)}
                     </span>
                     {isRent && (
