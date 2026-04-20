@@ -85,12 +85,10 @@ export async function GET(req: NextRequest) {
     prisma.property.count({ where }),
   ]);
 
-  return NextResponse.json({
-    properties,
-    total,
-    page,
-    totalPages: Math.ceil(total / PAGE_SIZE),
-  });
+  return NextResponse.json(
+    { properties, total, page, totalPages: Math.ceil(total / PAGE_SIZE) },
+    { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" } }
+  );
 }
 
 export async function POST(req: NextRequest) {

@@ -116,21 +116,17 @@ export function CardItem({
   translateX?: number;
   translateY?: number;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
   const [isMouseEntered] = useMouseEnter();
-
-  useEffect(() => {
-    if (!ref.current) return;
-    ref.current.style.transform = isMouseEntered
-      ? `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px)`
-      : "translateX(0px) translateY(0px) translateZ(0px)";
-  }, [isMouseEntered, translateX, translateY, translateZ]);
 
   return (
     <div
-      ref={ref}
       className={className}
-      style={{ transition: "transform 0.25s ease" }}
+      style={{
+        transition: "transform 0.25s ease",
+        transform: isMouseEntered
+          ? `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px)`
+          : "translateX(0px) translateY(0px) translateZ(0px)",
+      }}
     >
       {children}
     </div>
