@@ -19,8 +19,8 @@ export const propertyStep1Schema = z.object({
   totalFloors: z.coerce.number().min(1).max(100).optional(),
   furnished: z.enum(["FURNISHED", "SEMI_FURNISHED", "UNFURNISHED"]),
   amenities: z.array(z.string()).default([]),
-  latitude:  z.coerce.number({ required_error: "Pin the property location on the map" }),
-  longitude: z.coerce.number({ required_error: "Pin the property location on the map" }),
+  latitude:  z.coerce.number({ message: "Pin the property location on the map" }),
+  longitude: z.coerce.number({ message: "Pin the property location on the map" }),
 });
 
 export const propertyStep3Schema = z.object({

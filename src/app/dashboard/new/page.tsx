@@ -135,8 +135,6 @@ function Step1({
   const watchedAmenities = watch("amenities") ?? [];
   const watchedLat = watch("latitude");
   const watchedLng = watch("longitude");
-  const watchedBuilding = watch("building");
-  const watchedLocality = watch("locality");
 
   const visibleAmenities = showAllAmenities
     ? AMENITIES_LIST

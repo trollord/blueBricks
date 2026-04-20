@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import PriceHistoryChart from "@/components/property/PriceHistoryChart";
 import PropertyMapSection from "@/components/map/PropertyMapSection";
 import InquiryButton from "@/components/payment/InquiryButton";
 import PropertyGallery from "@/components/property/PropertyGallery";
@@ -354,19 +353,6 @@ export default async function PropertyDetailPage({
           </>
         )}
 
-        {/* ── Price History — hidden for now, re-enable by removing the false && ── */}
-        {false && property.priceHistory.length > 0 && (
-          <>
-            <SectionLabel title="Price History" />
-            <PriceHistoryChart
-              data={property.priceHistory.map((ph) => ({
-                ...ph,
-                recordedAt: ph.recordedAt.toString(),
-              }))}
-              listingType={property.listingType}
-            />
-          </>
-        )}
 
         {/* ── Footer meta ── */}
         <div className="flex flex-wrap items-center gap-3 text-[11px] text-[#1A1A1A]/30 mt-10 sm:mt-16 pt-6 pb-16 sm:pb-20 border-t border-gray-100">
