@@ -3,6 +3,8 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Papa from "papaparse";
 
+export const dynamic = "force-dynamic";
+
 interface CSVRow {
   propertyId: string;
   price: string;
