@@ -40,7 +40,7 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
   const initial  = (name ?? email ?? "U").charAt(0).toUpperCase();
 
   return (
-    <aside className="w-64 shrink-0 bg-white border-r border-gray-100 flex flex-col min-h-[calc(100vh-60px)]">
+    <aside className="hidden md:flex w-64 shrink-0 bg-white border-r border-gray-100 flex-col sticky top-[60px] h-[calc(100vh-60px)] overflow-y-auto">
 
       {/* User section */}
       <div className="px-6 py-7 border-b border-gray-100">
@@ -88,18 +88,18 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
             <ListPropertyButton />
           </div>
         )}
-      </nav>
 
-      {/* Footer */}
-      <div className="px-6 py-5 border-t border-gray-100">
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-xs text-[#1A1A1A]/35 hover:text-[#0B0B0C] transition-colors"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Back to site
-        </Link>
-      </div>
+        {/* Back to site — inside nav, above footer */}
+        <div className="pt-4 mt-2 border-t border-gray-100">
+          <Link
+            href="/"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-[#0B0B0C] hover:bg-gray-50 transition-all duration-150"
+          >
+            <ArrowLeft className="h-4 w-4 shrink-0" />
+            Back to site
+          </Link>
+        </div>
+      </nav>
     </aside>
   );
 }

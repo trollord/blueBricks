@@ -165,13 +165,10 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
-            <div className="flex items-center gap-3">
-              {session && <UserMenu />}
-              <MobileNavToggle
-                isOpen={mobileOpen}
-                onClick={() => setMobileOpen((v) => !v)}
-              />
-            </div>
+            <MobileNavToggle
+              isOpen={mobileOpen}
+              onClick={() => setMobileOpen((v) => !v)}
+            />
           </MobileNavHeader>
 
           <MobileNavMenu
@@ -189,16 +186,30 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
             ))}
 
             {session ? (
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  handleListProperty();
-                }}
-                className="flex items-center gap-2 px-1 py-2.5 text-sm font-medium text-[#1A1A1A]"
-              >
-                <PlusSquare className="h-4 w-4" />
-                List a Property
-              </button>
+              <>
+                <MobileNavLink href="/dashboard" onClick={() => setMobileOpen(false)}>
+                  My Dashboard
+                </MobileNavLink>
+                {session.user?.role === "ADMIN" && (
+                  <MobileNavLink href="/admin" onClick={() => setMobileOpen(false)}>
+                    Admin Panel
+                  </MobileNavLink>
+                )}
+                <button
+                  onClick={() => { setMobileOpen(false); handleListProperty(); }}
+                  className="flex items-center gap-2 px-1 py-2.5 text-sm font-medium text-[#1A1A1A]"
+                >
+                  <PlusSquare className="h-4 w-4" />
+                  List a Property
+                </button>
+                <button
+                  onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}
+                  className="flex items-center gap-2 px-1 py-2.5 text-sm font-medium text-red-500"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </button>
+              </>
             ) : (
               <div className="flex flex-col gap-3 pt-3 mt-1">
                 <NavbarButton

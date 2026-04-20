@@ -2,6 +2,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import DashboardNavbar from "@/components/layout/DashboardNavbar";
 import DashboardSidebar from "@/components/layout/DashboardSidebar";
+import MobileDashboardNav from "@/components/layout/MobileDashboardNav";
 
 export default async function DashboardLayout({
   children,
@@ -24,9 +25,12 @@ export default async function DashboardLayout({
           isOwnerPlus={isOwnerPlus}
         />
         <main className="flex-1 overflow-auto">
-          <div className="max-w-5xl mx-auto px-6 py-8">{children}</div>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 md:pb-8">
+            {children}
+          </div>
         </main>
       </div>
+      <MobileDashboardNav isOwnerPlus={isOwnerPlus} />
     </div>
   );
 }

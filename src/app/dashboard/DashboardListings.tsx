@@ -165,7 +165,7 @@ export default function DashboardListings({
   return (
     <>
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
         {(
           [
             { key: "ACTIVE", label: "Active", color: "text-green-700 bg-green-50 border-green-200" },
