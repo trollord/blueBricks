@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { auth } from "@/lib/auth";
 import SessionProvider from "@/components/layout/SessionProvider";
+import WarmDB from "@/components/WarmDB";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const playfair = Playfair_Display({
@@ -48,6 +49,7 @@ export default async function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         <SessionProvider session={session}>
+          <WarmDB />
           {children}
           <Toaster richColors position="top-right" />
         </SessionProvider>
