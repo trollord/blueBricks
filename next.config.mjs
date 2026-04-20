@@ -31,8 +31,11 @@ const nextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3000"],
+      allowedOrigins: ["localhost:3000", "hiranandani-homes.vercel.app", "hiranandaniproperties-puce.vercel.app"],
     },
+  },
+  outputFileTracingExcludes: {
+    "/api/admin/import": ["**/@prisma/engines/**"],
   },
 };
 
