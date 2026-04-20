@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, XCircle, ArrowLeft, Loader2 } from "lucide-react";
+import { CheckCircle2, XCircle, ArrowLeft, Loader2, Trash2 } from "lucide-react";
 import { PROPERTY_TYPE_LABELS, LISTING_TYPE_LABELS, FURNISHED_LABELS } from "@/lib/constants";
 import { formatPrice, formatArea, formatDate } from "@/lib/utils/formatters";
 import { Users } from "lucide-react";
@@ -115,21 +115,21 @@ export default function AdminListingDetailPage() {
   }
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl">
       <button
         onClick={() => router.push("/admin/listings")}
-        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 mb-6"
+        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 mb-4 sm:mb-6"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to listings
       </button>
 
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">{property.title}</h1>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-5 sm:mb-6">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 break-words">{property.title}</h1>
           <p className="text-gray-500 text-sm mt-1">{property.locality} · {property.building}</p>
         </div>
-        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+        <span className={`self-start px-3 py-1 rounded-full text-sm font-medium shrink-0 ${
           property.status === "PENDING" ? "bg-yellow-100 text-yellow-800" :
           property.status === "ACTIVE" ? "bg-green-100 text-green-800" :
           "bg-red-100 text-red-800"
@@ -140,9 +140,9 @@ export default function AdminListingDetailPage() {
 
       {/* Images */}
       {property.images.length > 0 && (
-        <div className="flex gap-2 mb-6 overflow-x-auto">
+        <div className="flex gap-2 mb-5 sm:mb-6 overflow-x-auto pb-1 -mx-4 px-4 sm:mx-0 sm:px-0">
           {property.images.map((img) => (
-            <div key={img.id} className="relative h-40 w-60 shrink-0 rounded-lg overflow-hidden">
+            <div key={img.id} className="relative h-32 w-48 sm:h-40 sm:w-60 shrink-0 rounded-lg overflow-hidden">
               <Image src={img.url} alt="Property" fill className="object-cover" />
               {img.isPrimary && (
                 <span className="absolute top-1 left-1 bg-blue-600 text-white text-xs px-1.5 py-0.5 rounded">
@@ -274,6 +274,7 @@ export default function AdminListingDetailPage() {
       </Card>
 
       {/* Actions — only for PENDING */}
+      {/* Approve/Reject listing (PENDING) */}
       {property.status === "PENDING" && (
         <div className="mt-8 space-y-4">
           <Separator />
@@ -315,6 +316,91 @@ export default function AdminListingDetailPage() {
               </Button>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Approve/Reject delete request (DELETE_REQUESTED) */}
+      {property.status === "DELETE_REQUESTED" && (
+        <div className="mt-8 space-y-4">
+          <Separator />
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <p className="text-sm font-semibold text-red-800 mb-1">Owner has requested deletion of this property.</p>
+            <p className="text-xs text-red-600">Approving will permanently delete the listing and all associated data.</p>
+          </div>
+          <div className="flex gap-3">
+            <Button
+              className="bg-red-600 hover:bg-red-700 gap-2"
+              onClick={async () => {
+                if (!window.confirm("Permanently delete this property? This cannot be undone.")) return;
+                setSubmitting(true);
+                try {
+                  const res = await fetch(`/api/admin/properties/${id}/delete`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: "APPROVE" }),
+                  });
+                  if (!res.ok) { toast.error("Failed to delete"); return; }
+                  toast.success("Property permanently deleted");
+                  router.push("/admin/listings");
+                } catch { toast.error("Failed to delete"); }
+                finally { setSubmitting(false); }
+              }}
+              disabled={submitting}
+            >
+              {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+              Approve & Delete
+            </Button>
+            <Button
+              variant="outline"
+              className="border-gray-300 gap-2"
+              onClick={async () => {
+                setSubmitting(true);
+                try {
+                  const res = await fetch(`/api/admin/properties/${id}/delete`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action: "REJECT" }),
+                  });
+                  if (!res.ok) { toast.error("Failed"); return; }
+                  toast.success("Deletion request rejected — property set to Inactive");
+                  router.push("/admin/listings");
+                } catch { toast.error("Failed"); }
+                finally { setSubmitting(false); }
+              }}
+              disabled={submitting}
+            >
+              <XCircle className="h-4 w-4" />
+              Reject Request
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Admin direct delete (any status except DELETE_REQUESTED) */}
+      {isAdmin && property.status !== "DELETE_REQUESTED" && (
+        <div className="mt-6">
+          <Separator />
+          <div className="mt-4">
+            <Button
+              variant="outline"
+              className="border-red-200 text-red-600 hover:bg-red-50 gap-2 text-xs"
+              onClick={async () => {
+                if (!window.confirm("Permanently delete this property? This cannot be undone.")) return;
+                setSubmitting(true);
+                try {
+                  const res = await fetch(`/api/properties/${id}`, { method: "DELETE" });
+                  if (!res.ok) { toast.error("Failed to delete"); return; }
+                  toast.success("Property deleted");
+                  router.push("/admin/listings");
+                } catch { toast.error("Failed to delete"); }
+                finally { setSubmitting(false); }
+              }}
+              disabled={submitting}
+            >
+              {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
+              Delete Property
+            </Button>
+          </div>
         </div>
       )}
     </div>

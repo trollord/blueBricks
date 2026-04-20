@@ -70,6 +70,10 @@ const STATUS_BADGE: Record<string, { label: string; className: string }> = {
     label: "Inactive",
     className: "bg-gray-100 text-gray-700 border-gray-200",
   },
+  DELETE_REQUESTED: {
+    label: "Deletion Requested",
+    className: "bg-red-100 text-red-700 border-red-200",
+  },
 };
 
 export default function DashboardListings({
@@ -83,6 +87,7 @@ export default function DashboardListings({
   const [interests, setInterests] = useState<Inquiry[]>([]);
   const [interestsLoading, setInterestsLoading] = useState(false);
   const [statusLoading, setStatusLoading] = useState<string | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
 
   const counts = {
     ACTIVE: properties.filter((p) => p.status === "ACTIVE").length,
@@ -104,6 +109,30 @@ export default function DashboardListings({
       toast.error("Failed to load interests");
     } finally {
       setInterestsLoading(false);
+    }
+  }
+
+  async function requestDelete(propertyId: string) {
+    const confirmed = window.confirm(
+      "Request deletion of this property? An admin will review and confirm before it's permanently removed."
+    );
+    if (!confirmed) return;
+
+    setDeleteLoading(propertyId);
+    try {
+      const res = await fetch(`/api/properties/${propertyId}`, { method: "DELETE" });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error ?? "Failed to request deletion");
+      }
+      setProperties((prev) =>
+        prev.map((p) => (p.id === propertyId ? { ...p, status: "DELETE_REQUESTED" } : p))
+      );
+      toast.success("Deletion request submitted. Admin will review shortly.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setDeleteLoading(null);
     }
   }
 
@@ -286,10 +315,22 @@ export default function DashboardListings({
                       onClick={() => toggleStatus(property.id, "ACTIVE")}
                       disabled={isLoading}
                     >
-                      {isLoading ? (
+                      {isLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Reactivate"}
+                    </Button>
+                  )}
+
+                  {property.status !== "DELETE_REQUESTED" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-red-200 text-red-600 hover:bg-red-50 mt-1"
+                      onClick={() => requestDelete(property.id)}
+                      disabled={deleteLoading === property.id}
+                    >
+                      {deleteLoading === property.id ? (
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       ) : (
-                        "Reactivate"
+                        "Request Deletion"
                       )}
                     </Button>
                   )}

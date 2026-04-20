@@ -89,8 +89,8 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold text-[#1A1A1A] mb-6">Users ({users.length})</h1>
+    <div className="p-4 sm:p-6 lg:p-8">
+      <h1 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] mb-4 sm:mb-6">Users ({users.length})</h1>
 
       {/* Filter tabs */}
       <div className="flex gap-2 mb-4">
@@ -98,7 +98,7 @@ export default function AdminUsersPage() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors ${
+            className={`px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium capitalize transition-colors ${
               tab === t
                 ? "bg-[#1A1A1A] text-white"
                 : "bg-white border border-gray-200 text-gray-600 hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
@@ -109,59 +109,47 @@ export default function AdminUsersPage() {
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Name</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Email</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Role</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Joined</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Change Role</th>
-              <th className="px-4 py-3 font-medium text-gray-600">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filteredUsers.map((u) => (
-              <tr key={u.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium text-gray-900">{u.name ?? "—"}</td>
-                <td className="px-4 py-3 text-gray-500">{u.email}</td>
-                <td className="px-4 py-3">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                    u.role === "ADMIN" ? "bg-red-100 text-red-800" :
-                    u.role === "OWNER" ? "bg-blue-100 text-blue-800" :
-                    "bg-gray-100 text-gray-600"
-                  }`}>
-                    {u.role}
-                  </span>
-                </td>
-                <td className="px-4 py-3 text-gray-400">{formatDate(new Date(u.createdAt))}</td>
-                <td className="px-4 py-3">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                    u.disabled ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
-                  }`}>
-                    {u.disabled ? "Disabled" : "Active"}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  {["ADMIN"].includes(u.role) ? (
-                    <span className="text-xs text-gray-400 italic">Protected</span>
-                  ) : (
-                    <select
-                      value={u.role}
-                      onChange={(e) => updateRole(u.id, e.target.value)}
-                      disabled={updating === u.id}
-                      className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    >
-                      {ROLE_OPTIONS.map((r) => (
-                        <option key={r} value={r}>{r}</option>
-                      ))}
-                    </select>
-                  )}
-                </td>
-                <td className="px-4 py-3">
-                  {!["ADMIN"].includes(u.role) && u.id !== session?.user?.id && (
+      {/* Mobile cards */}
+      <div className="sm:hidden space-y-3">
+        {filteredUsers.map((u) => (
+          <div key={u.id} className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">{u.name ?? "—"}</p>
+                <p className="text-xs text-gray-500 truncate">{u.email}</p>
+              </div>
+              <div className="flex gap-1.5 shrink-0">
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
+                  u.role === "ADMIN" ? "bg-red-100 text-red-800" :
+                  u.role === "OWNER" ? "bg-blue-100 text-blue-800" :
+                  "bg-gray-100 text-gray-600"
+                }`}>
+                  {u.role}
+                </span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
+                  u.disabled ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
+                }`}>
+                  {u.disabled ? "Disabled" : "Active"}
+                </span>
+              </div>
+            </div>
+            <p className="text-[10px] text-gray-400 mb-3">Joined {formatDate(new Date(u.createdAt))}</p>
+            <div className="flex items-center gap-2">
+              {["ADMIN"].includes(u.role) ? (
+                <span className="text-xs text-gray-400 italic">Protected</span>
+              ) : (
+                <>
+                  <select
+                    value={u.role}
+                    onChange={(e) => updateRole(u.id, e.target.value)}
+                    disabled={updating === u.id}
+                    className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  >
+                    {ROLE_OPTIONS.map((r) => (
+                      <option key={r} value={r}>{r}</option>
+                    ))}
+                  </select>
+                  {u.id !== session?.user?.id && (
                     u.disabled ? (
                       <button
                         onClick={() => toggleDisabled(u.id, false)}
@@ -180,11 +168,95 @@ export default function AdminUsersPage() {
                       </button>
                     )
                   )}
-                </td>
+                </>
+              )}
+            </div>
+          </div>
+        ))}
+        {filteredUsers.length === 0 && (
+          <p className="text-center py-12 text-gray-400">No users found.</p>
+        )}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden sm:block bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="text-left px-4 py-3 font-medium text-gray-600">Name</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-600">Email</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-600">Role</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Joined</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-600">Status</th>
+                <th className="px-4 py-3 font-medium text-gray-600 hidden lg:table-cell">Change Role</th>
+                <th className="px-4 py-3 font-medium text-gray-600">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {filteredUsers.map((u) => (
+                <tr key={u.id} className="hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium text-gray-900">{u.name ?? "—"}</td>
+                  <td className="px-4 py-3 text-gray-500 max-w-[180px] truncate">{u.email}</td>
+                  <td className="px-4 py-3">
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                      u.role === "ADMIN" ? "bg-red-100 text-red-800" :
+                      u.role === "OWNER" ? "bg-blue-100 text-blue-800" :
+                      "bg-gray-100 text-gray-600"
+                    }`}>
+                      {u.role}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-gray-400 hidden md:table-cell">{formatDate(new Date(u.createdAt))}</td>
+                  <td className="px-4 py-3">
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                      u.disabled ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
+                    }`}>
+                      {u.disabled ? "Disabled" : "Active"}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 hidden lg:table-cell">
+                    {["ADMIN"].includes(u.role) ? (
+                      <span className="text-xs text-gray-400 italic">Protected</span>
+                    ) : (
+                      <select
+                        value={u.role}
+                        onChange={(e) => updateRole(u.id, e.target.value)}
+                        disabled={updating === u.id}
+                        className="text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                      >
+                        {ROLE_OPTIONS.map((r) => (
+                          <option key={r} value={r}>{r}</option>
+                        ))}
+                      </select>
+                    )}
+                  </td>
+                  <td className="px-4 py-3">
+                    {!["ADMIN"].includes(u.role) && u.id !== session?.user?.id && (
+                      u.disabled ? (
+                        <button
+                          onClick={() => toggleDisabled(u.id, false)}
+                          disabled={updating === u.id}
+                          className="text-xs px-3 py-1 rounded font-medium bg-green-100 text-green-700 hover:bg-green-200 disabled:opacity-50 transition-colors"
+                        >
+                          Enable
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => toggleDisabled(u.id, true)}
+                          disabled={updating === u.id}
+                          className="text-xs px-3 py-1 rounded font-medium bg-red-100 text-red-700 hover:bg-red-200 disabled:opacity-50 transition-colors"
+                        >
+                          Disable
+                        </button>
+                      )
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {filteredUsers.length === 0 && (
           <p className="text-center py-12 text-gray-400">No users found.</p>
         )}

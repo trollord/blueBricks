@@ -81,26 +81,26 @@ export default function AdminInquiryDetailPage() {
   const contactPhone = inquiry.phone ?? inquiry.seeker.phone;
 
   return (
-    <div className="p-8 max-w-3xl">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-3xl">
       <button
         onClick={() => router.push("/admin/inquiries")}
-        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 mb-6"
+        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-blue-600 mb-4 sm:mb-6"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to inquiries
       </button>
 
       {/* Header */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Inquiry Details</h1>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Inquiry Details</h1>
           <p className="text-sm text-gray-500 mt-1">
             {formatDate(new Date(inquiry.createdAt))}
           </p>
         </div>
         <div className="flex items-center gap-3">
           <span
-            className={`text-sm px-3 py-1 rounded-full font-medium ${
+            className={`text-xs sm:text-sm px-3 py-1 rounded-full font-medium ${
               inquiry.status === "SEEN"
                 ? "bg-green-100 text-green-700"
                 : "bg-yellow-100 text-yellow-700"
@@ -112,7 +112,7 @@ export default function AdminInquiryDetailPage() {
             <button
               onClick={markAsSeen}
               disabled={updating}
-              className="flex items-center gap-1.5 text-sm bg-gray-900 text-white px-4 py-1.5 rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 text-xs sm:text-sm bg-gray-900 text-white px-3 sm:px-4 py-1.5 rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50"
             >
               {updating ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -127,7 +127,7 @@ export default function AdminInquiryDetailPage() {
 
       <div className="space-y-4">
         {/* Inquiry Info Card */}
-        <div className="bg-white rounded-xl p-6">
+        <div className="bg-white rounded-xl p-4 sm:p-6">
           <div className="flex items-center gap-2 mb-4">
             <FileText className="h-4 w-4 text-gray-400" />
             <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
@@ -151,7 +151,7 @@ export default function AdminInquiryDetailPage() {
         </div>
 
         {/* Seeker Card */}
-        <div className="bg-white rounded-xl p-6">
+        <div className="bg-white rounded-xl p-4 sm:p-6">
           <div className="flex items-center gap-2 mb-4">
             <User className="h-4 w-4 text-gray-400" />
             <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
@@ -171,7 +171,7 @@ export default function AdminInquiryDetailPage() {
         </div>
 
         {/* Owner Card */}
-        <div className="bg-white rounded-xl p-6">
+        <div className="bg-white rounded-xl p-4 sm:p-6">
           <div className="flex items-center gap-2 mb-4">
             <Building2 className="h-4 w-4 text-gray-400" />
             <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">

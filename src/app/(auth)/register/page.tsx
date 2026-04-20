@@ -53,6 +53,7 @@ export default function RegisterPage() {
   };
 
   const handleGoogle = async () => {
+    localStorage.setItem("hp_last_provider", "google");
     setGoogleLoading(true);
     await signIn("google", { callbackUrl: "/dashboard" });
   };

@@ -43,10 +43,10 @@ export default function AdminInquiriesPage() {
   }
 
   return (
-    <div className="p-8 max-w-4xl">
-      <div className="flex items-center gap-2 mb-6">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl">
+      <div className="flex items-center gap-2 mb-4 sm:mb-6">
         <MessageSquare className="h-5 w-5 text-gray-500" />
-        <h1 className="text-2xl font-bold text-gray-900">Inquiries</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Inquiries</h1>
         <span className="text-sm text-gray-400 ml-1">({inquiries.length})</span>
       </div>
 
@@ -58,7 +58,7 @@ export default function AdminInquiriesPage() {
             <button
               key={inq.id}
               onClick={() => router.push(`/admin/inquiries/${inq.id}`)}
-              className="w-full flex items-center justify-between bg-white rounded-xl px-5 py-4 hover:bg-gray-50 transition-colors text-left"
+              className="w-full flex items-center justify-between bg-white rounded-xl px-4 sm:px-5 py-3 sm:py-4 hover:bg-gray-50 transition-colors text-left"
             >
               <div className="min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">

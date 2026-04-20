@@ -41,9 +41,9 @@ export default function AdminImportPage() {
   }
 
   return (
-    <div className="p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">Import Price History</h1>
-      <p className="text-gray-500 text-sm mb-6">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-2xl">
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Import Price History</h1>
+      <p className="text-gray-500 text-xs sm:text-sm mb-4 sm:mb-6">
         CSV format: <code className="bg-gray-100 px-1 rounded text-xs">propertyId,price,recordedAt,source</code>
         <br />
         <span className="text-xs">source must be <code className="bg-gray-100 px-1 rounded">LISTING</code> or <code className="bg-gray-100 px-1 rounded">ADMIN_IMPORT</code></span>

@@ -61,45 +61,45 @@ export default async function AdminOverviewPage() {
   const maxTypeCount = byType.length > 0 ? Math.max(...byType.map((t) => t._count.id)) : 1;
 
   return (
-    <div className="p-8 bg-[#FAF8F5] min-h-full">
-      <h1 className="text-2xl font-bold text-[#1A1A1A] mb-8">Overview</h1>
+    <div className="p-4 sm:p-6 lg:p-8 bg-[#FAF8F5] min-h-full">
+      <h1 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] mb-6 sm:mb-8">Overview</h1>
 
       {/* Row 1 — Action needed */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6">
         <Link href="/admin/listings?status=PENDING" className="group">
-          <div className="bg-white rounded-xl border border-amber-200 p-6 hover:shadow-md transition-shadow">
-            <p className="text-xs font-medium text-[#1A1A1A]/60 uppercase tracking-widest mb-2">Pending Review</p>
-            <p className="text-4xl font-bold text-amber-500 mb-1">{pendingCount}</p>
+          <div className="bg-white rounded-xl border border-amber-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
+            <p className="text-[10px] sm:text-xs font-medium text-[#1A1A1A]/60 uppercase tracking-widest mb-2">Pending Review</p>
+            <p className="text-3xl sm:text-4xl font-bold text-amber-500 mb-1">{pendingCount}</p>
             <p className="text-sm text-[#1A1A1A]/50 group-hover:text-[#1A1A1A] transition-colors">View listings →</p>
           </div>
         </Link>
-        <div className="bg-white rounded-xl border border-red-200 p-6">
-          <p className="text-xs font-medium text-[#1A1A1A]/60 uppercase tracking-widest mb-2">Rejected Listings</p>
-          <p className="text-4xl font-bold text-red-500 mb-1">{rejectedCount}</p>
+        <div className="bg-white rounded-xl border border-red-200 p-4 sm:p-6">
+          <p className="text-[10px] sm:text-xs font-medium text-[#1A1A1A]/60 uppercase tracking-widest mb-2">Rejected Listings</p>
+          <p className="text-3xl sm:text-4xl font-bold text-red-500 mb-1">{rejectedCount}</p>
           <p className="text-sm text-[#1A1A1A]/50">Total rejected</p>
         </div>
       </div>
 
       {/* Row 2 — Platform health */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {[
           { label: "Active Listings", value: activeCount, color: "text-green-600" },
           { label: "Total Users", value: totalUsers, color: "text-[#1A1A1A]" },
           { label: "Property Owners", value: totalOwners, color: "text-[#1A1A1A]" },
           { label: "Interests Registered", value: totalInterests, color: "text-blue-600" },
         ].map(({ label, value, color }) => (
-          <div key={label} className="bg-white rounded-xl border border-[#1A1A1A]/8 p-5">
-            <p className={`text-3xl font-bold ${color} mb-1`}>{value}</p>
-            <p className="text-sm text-[#1A1A1A]/60">{label}</p>
+          <div key={label} className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-5">
+            <p className={`text-2xl sm:text-3xl font-bold ${color} mb-1`}>{value}</p>
+            <p className="text-xs sm:text-sm text-[#1A1A1A]/60">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Row 3 — Breakdowns */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {/* By Property Type */}
-        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-6">
-          <h2 className="text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-4">By Property Type</h2>
+        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-6">
+          <h2 className="text-xs sm:text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-3 sm:mb-4">By Property Type</h2>
           {byType.length === 0 && <p className="text-sm text-[#1A1A1A]/40">No data yet.</p>}
           <div className="space-y-3">
             {byType.map((t) => (
@@ -120,8 +120,8 @@ export default async function AdminOverviewPage() {
         </div>
 
         {/* Top Localities */}
-        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-6">
-          <h2 className="text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-4">Top Localities</h2>
+        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-6">
+          <h2 className="text-xs sm:text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-3 sm:mb-4">Top Localities</h2>
           {byLocality.length === 0 && <p className="text-sm text-[#1A1A1A]/40">No data yet.</p>}
           <div className="space-y-3">
             {byLocality.map((l, i) => (
@@ -135,8 +135,8 @@ export default async function AdminOverviewPage() {
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-6">
-          <h2 className="text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-4">Recent Activity</h2>
+        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-6">
+          <h2 className="text-xs sm:text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-3 sm:mb-4">Recent Activity</h2>
           {recentVerifications.length === 0 && <p className="text-sm text-[#1A1A1A]/40">No activity yet.</p>}
           <div className="space-y-4">
             {recentVerifications.map((v, i) => (
