@@ -6,7 +6,7 @@ import Image from "next/image";
 import { formatPrice, formatArea } from "@/lib/utils/formatters";
 import { PROPERTY_TYPE_LABELS, LISTING_TYPE_LABELS } from "@/lib/constants";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
-import { getPlaceholderImage } from "@/lib/utils/placeholder";
+import { ImageOff } from "lucide-react";
 
 interface PropertyImage {
   id: string;
@@ -31,7 +31,6 @@ interface PropertyCardData {
 
 export default function PropertyCard({ property }: { property: PropertyCardData }) {
   const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
-  const imageUrl = primaryImage?.url ?? getPlaceholderImage(property.id);
   const isRent = property.listingType === "RENT";
 
   return (
@@ -43,13 +42,20 @@ export default function PropertyCard({ property }: { property: PropertyCardData 
             {/* Image — z-0 so content section can stack above it */}
             <CardItem translateZ={60} className="relative z-0 w-full flex-shrink-0 rounded-t-xl overflow-hidden">
               <div className="relative h-52 sm:h-60 lg:h-64 w-full">
-                <Image
-                  src={imageUrl}
-                  alt={property.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
+                {primaryImage ? (
+                  <Image
+                    src={primaryImage.url}
+                    alt={property.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-zinc-100 flex flex-col items-center justify-center gap-2">
+                    <ImageOff className="w-7 h-7 text-zinc-300" />
+                    <span className="text-xs text-zinc-400 font-medium">No photos</span>
+                  </div>
+                )}
 
                 {/* Badges */}
                 <CardItem translateZ={80} className="absolute top-4 left-4 flex gap-2">

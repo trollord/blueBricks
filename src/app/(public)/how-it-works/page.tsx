@@ -3,7 +3,7 @@ import { CheckCircle, User, ArrowRight, IndianRupee, ShieldCheck } from "lucide-
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "How It Works | HiranandaniHomes",
+  title: "How It Works | HiranandaniProperties",
   description:
     "We replaced traditional brokers with a simple, transparent process. Completely free. Direct access. Zero commissions.",
 };
@@ -37,7 +37,7 @@ export default function HowItWorksPage() {
           </span>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-extrabold tracking-tighter text-[#1A1A1A] max-w-4xl leading-[0.92] mb-8">
-            How HiranandaniHomes Works
+            How HiranandaniProperties Works
           </h1>
 
           <p className="text-[#1A1A1A]/55 text-base sm:text-lg md:text-xl max-w-2xl font-medium leading-relaxed mb-12">
@@ -71,7 +71,7 @@ export default function HowItWorksPage() {
               Browse Verified Listings
             </h2>
             <p className="text-[#1A1A1A]/55 text-lg leading-relaxed">
-              Every property listed on HiranandaniHomes undergoes a rigorous
+              Every property listed on HiranandaniProperties undergoes a rigorous
               internal verification. High-resolution imagery, accurate square
               footage, and verified legal status come standard.
             </p>

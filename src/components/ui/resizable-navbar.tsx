@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 /* ─── Context ─────────────────────────────────────────────────────────────── */
 
@@ -9,12 +10,14 @@ interface NavbarCtx {
   scrolled: boolean;
   mobileOpen: boolean;
   setMobileOpen: (v: boolean) => void;
+  darkHero: boolean;
 }
 
 const NavbarContext = createContext<NavbarCtx>({
   scrolled: false,
   mobileOpen: false,
   setMobileOpen: () => {},
+  darkHero: true,
 });
 
 export const useNavbar = () => useContext(NavbarContext);
@@ -27,6 +30,10 @@ export const useNavbar = () => useContext(NavbarContext);
 export function Navbar({ children, forceScrolled = false }: { children: React.ReactNode; forceScrolled?: boolean }) {
   const [scrolled, setScrolled] = useState(forceScrolled);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Only the landing page has a dark hero where white text is readable
+  const darkHero = pathname === "/";
 
   useEffect(() => {
     if (forceScrolled) { setScrolled(true); return; }
@@ -42,7 +49,7 @@ export function Navbar({ children, forceScrolled = false }: { children: React.Re
   const active = scrolled || mobileOpen; // needs a background
 
   return (
-    <NavbarContext.Provider value={{ scrolled, mobileOpen, setMobileOpen }}>
+    <NavbarContext.Provider value={{ scrolled, mobileOpen, setMobileOpen, darkHero }}>
       <div
         className="fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
         style={{
@@ -88,20 +95,25 @@ export function NavBody({ children }: { children: React.ReactNode }) {
 /* ─── NavbarLogo ──────────────────────────────────────────────────────────── */
 
 export function NavbarLogo() {
-  const { scrolled, mobileOpen } = useNavbar();
+  const { scrolled, mobileOpen, darkHero } = useNavbar();
+
+  // scrolled → white (dark pill bg), mobileOpen → dark, at top on dark hero → white, at top on light page → dark
+  const textColor = scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
+  const subtleColor = scrolled ? "#ffffff" : mobileOpen ? "#555555" : darkHero ? "#ffffff" : "#555555";
+  const dotColor = scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
 
   return (
     <Link href="/" className="flex items-center gap-1.5 group shrink-0">
       <span
         className="font-bold text-xl tracking-tight transition-colors duration-300"
-        style={{ color: scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : "#ffffff" }}
+        style={{ color: textColor }}
       >
         Hiranandani
-        <span style={{ color: scrolled ? "#ffffff" : mobileOpen ? "#555555" : "#ffffff" }}>Homes</span>
+        <span style={{ color: subtleColor }}>Properties</span>
       </span>
       <span
         className="h-1.5 w-1.5 rounded-full mt-1 group-hover:scale-125 transition-transform duration-300"
-        style={{ background: scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : "#ffffff" }}
+        style={{ background: dotColor }}
       />
     </Link>
   );
@@ -115,7 +127,8 @@ interface NavItem {
 }
 
 export function NavItems({ items }: { items: NavItem[] }) {
-  const { scrolled, mobileOpen } = useNavbar();
+  const { scrolled, mobileOpen, darkHero } = useNavbar();
+  const linkColor = scrolled ? "rgba(255,255,255,0.75)" : mobileOpen ? "#1A1A1A" : darkHero ? "rgba(255,255,255,0.85)" : "rgba(26,26,26,0.65)";
   return (
     <nav className="flex items-center gap-6 lg:gap-8">
       {items.map((item) => (
@@ -123,7 +136,7 @@ export function NavItems({ items }: { items: NavItem[] }) {
           key={item.link}
           href={item.link}
           className="text-sm font-medium relative group transition-colors duration-200"
-          style={{ color: scrolled ? "rgba(255,255,255,0.75)" : mobileOpen ? "#1A1A1A" : "rgba(255,255,255,0.85)" }}
+          style={{ color: linkColor }}
         >
           {item.name}
           <span
@@ -153,7 +166,7 @@ export function NavbarButton({
   onClick,
   href,
 }: NavbarButtonProps) {
-  const { scrolled, mobileOpen } = useNavbar();
+  const { scrolled, mobileOpen, darkHero } = useNavbar();
 
   const base: React.CSSProperties = {
     display: "inline-flex",
@@ -169,16 +182,19 @@ export function NavbarButton({
     width: className.includes("w-full") ? "100%" : undefined,
   };
 
+  // On light pages (no dark hero), at-top state uses dark colors like mobileOpen
+  const atTopLight = !scrolled && !mobileOpen && !darkHero;
+
   const variant_style: React.CSSProperties =
     variant === "primary"
       ? scrolled
         ? { background: "#ffffff", color: "#0B0B0C" }
-        : mobileOpen
+        : mobileOpen || atTopLight
         ? { background: "#1A1A1A", color: "#ffffff" }
         : { background: "#ffffff", color: "#0B0B0C" }
       : scrolled
       ? { background: "transparent", color: "rgba(255,255,255,0.75)", border: "1px solid rgba(255,255,255,0.2)" }
-      : mobileOpen
+      : mobileOpen || atTopLight
       ? { background: "transparent", color: "#1A1A1A", border: "1px solid rgba(26,26,26,0.2)" }
       : { background: "transparent", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.3)" };
 
@@ -222,9 +238,9 @@ export function MobileNavToggle({
   isOpen: boolean;
   onClick: () => void;
 }) {
-  const { scrolled, mobileOpen } = useNavbar();
-  // use dark lines when transparent+closed, white when scrolled or menu open on dark bg
-  const lineColor = !scrolled && mobileOpen ? "#1A1A1A" : "#ffffff";
+  const { scrolled, mobileOpen, darkHero } = useNavbar();
+  // scrolled → white lines, mobileOpen → dark lines, at top on light page → dark lines, at top on dark hero → white lines
+  const lineColor = scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
 
   return (
     <button

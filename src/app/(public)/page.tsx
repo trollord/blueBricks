@@ -15,8 +15,9 @@ import {
   Heart,
   KeyRound,
   ArrowRight,
-  Building2,
 } from "lucide-react";
+import StackedCards from "@/components/ui/stacked-cards";
+import ListPropertyCTA from "@/components/property/ListPropertyCTA";
 
 async function getHomeData() {
   const [featured, stats] = await Promise.all([
@@ -63,7 +64,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           HERO
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center px-8 overflow-hidden">
+      <section className="relative min-h-screen flex items-center px-5 sm:px-8 overflow-hidden">
 
         {/* Full-bleed background image */}
         <div className="absolute inset-0 z-0">
@@ -85,34 +86,34 @@ export default async function HomePage() {
         </div>
 
         {/* Hero content */}
-        <div className="relative z-10 max-w-[1440px] mx-auto w-full pt-28">
+        <div className="relative z-10 max-w-[1440px] mx-auto w-full pt-24 sm:pt-28">
           <div className="max-w-3xl">
 
             {/* Glass pill badge */}
             <div
-              className="mb-6 inline-flex items-center gap-2 py-1.5 px-4 rounded-full"
+              className="mb-5 sm:mb-6 inline-flex items-center gap-2 py-1.5 px-3 sm:px-4 rounded-full"
               style={{
                 background: "rgba(221,228,229,0.4)",
                 backdropFilter: "blur(20px)",
               }}
             >
               <ShieldCheck
-                className="text-white"
-                style={{ width: 18, height: 18 }}
+                className="text-white shrink-0"
+                style={{ width: 16, height: 16 }}
                 strokeWidth={1.5}
               />
-              <span className="text-xs font-bold uppercase tracking-widest text-white">
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white">
                 Trusted Real Estate Advisors · Zero Brokerage
               </span>
             </div>
 
             {/* Headline */}
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-white leading-[1.1] mb-8">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tighter text-white leading-[1.1] mb-6 sm:mb-8">
               Discover Exceptional Living in Hiranandani Estate
             </h1>
 
             {/* Sub-copy */}
-            <p className="text-lg md:text-xl text-white/70 max-w-xl leading-relaxed mb-10">
+            <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-xl leading-relaxed mb-8 sm:mb-10">
               Browse verified listings, register interest for free, and connect
               directly with owners. No broker fees. No commissions. Completely free.
             </p>
@@ -121,7 +122,7 @@ export default async function HomePage() {
             <div className="flex items-start">
               <Link
                 href="/listings"
-                className="bg-white text-[#0B0B0C] py-4 px-10 rounded-xl text-base font-bold hover:opacity-90 active:scale-95 transition-all duration-200"
+                className="bg-white text-[#0B0B0C] py-3.5 px-8 sm:py-4 sm:px-10 rounded-xl text-sm sm:text-base font-bold hover:opacity-90 active:scale-95 transition-all duration-200"
               >
                 Browse Listings
               </Link>
@@ -134,8 +135,8 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           FEATURE HIGHLIGHTS  (bento grid) — dark bg
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#111111] py-24 px-8">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="bg-[#111111] py-16 sm:py-24 px-5 sm:px-8">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {[
             {
               icon: ShieldCheck,
@@ -153,14 +154,14 @@ export default async function HomePage() {
               desc: "We strictly prohibit agents, ensuring you never pay a rupee in brokerage or commissions.",
             },
           ].map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="bg-[#1c1c1c] p-10 rounded-xl">
+            <div key={title} className="bg-[#1c1c1c] p-7 sm:p-10 rounded-xl">
               <Icon
-                className="text-white/50 mb-6"
-                style={{ width: 32, height: 32 }}
+                className="text-white/50 mb-4 sm:mb-6"
+                style={{ width: 28, height: 28 }}
                 strokeWidth={1.4}
               />
-              <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-              <p className="text-white/45 leading-relaxed">{desc}</p>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">{title}</h3>
+              <p className="text-sm sm:text-base text-white/45 leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
@@ -169,8 +170,8 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           STATS BAR
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 bg-[#f9f9f9] px-8">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="py-12 sm:py-16 bg-[#f9f9f9] px-5 sm:px-8">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {[
             { value: `${activeListings}+`, label: "Active Listings" },
             { value: `${completedDeals}+`, label: "Deals Closed" },
@@ -178,10 +179,10 @@ export default async function HomePage() {
             { value: "Always",             label: "Free" },
           ].map(({ value, label }) => (
             <div key={label} className="text-center md:text-left">
-              <div className="text-4xl font-black text-[#0B0B0C] tracking-tighter mb-1">
+              <div className="text-3xl sm:text-4xl font-black text-[#0B0B0C] tracking-tighter mb-1">
                 {value}
               </div>
-              <div className="text-xs font-bold uppercase tracking-widest text-[#5a6061]">
+              <div className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#5a6061]">
                 {label}
               </div>
             </div>
@@ -192,68 +193,73 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           ADVANTAGE  (2-col: features left, dark card right)
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-32 px-8 max-w-[1440px] mx-auto overflow-visible">
-        <div className="flex flex-col lg:flex-row gap-20 items-center">
+      <section className="py-16 sm:py-32 px-5 sm:px-8 max-w-[1440px] mx-auto overflow-visible">
+        <div className="flex flex-col lg:flex-row gap-12 sm:gap-20 items-start">
 
           {/* ── Left: feature list ── */}
-          <div className="w-full lg:w-1/2">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-[#0B0B0C] mb-8 leading-tight">
+          <div className="w-full lg:w-1/2 lg:sticky lg:top-32">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-[#0B0B0C] mb-6 sm:mb-8 leading-tight">
               Experience the Hiranandani Advantage
             </h2>
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {[
                 { icon: PiggyBank,   title: "Completely Free",     desc: "Zero subscription fees or platform costs for tenants and buyers." },
                 { icon: ListChecks,  title: "Verified Listings",   desc: "Say goodbye to bait-and-switch. Every photo and detail is real." },
                 { icon: Zap,         title: "Instant Access",       desc: "Direct contact lines with owners for immediate viewings." },
                 { icon: ScanEye,     title: "Price Transparency",   desc: "View the true market rates without agent markups." },
               ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="flex gap-6">
+                <div key={title} className="flex gap-4 sm:gap-6">
                   <div
-                    className="w-12 h-12 shrink-0 flex items-center justify-center rounded-lg"
+                    className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 flex items-center justify-center rounded-lg"
                     style={{ background: "#e4e9ea" }}
                   >
-                    <Icon className="h-5 w-5 text-[#5a6061]" strokeWidth={1.5} />
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-[#5a6061]" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg text-[#0B0B0C] mb-1">{title}</h4>
-                    <p className="text-[#5a6061]">{desc}</p>
+                    <h4 className="font-bold text-base sm:text-lg text-[#0B0B0C] mb-1">{title}</h4>
+                    <p className="text-sm sm:text-base text-[#5a6061]">{desc}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ── Right: dark card + floating image ── */}
-          <div className="w-full lg:w-1/2 relative h-[500px] lg:mr-16">
-            {/* Dark card — fills the column */}
-            <div className="absolute inset-0 bg-[#0B0B0C] rounded-xl overflow-hidden p-12 flex flex-col justify-end">
-              {/* Faint decoration */}
-              <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none">
-                <Building2 className="h-32 w-32 text-white" strokeWidth={0.5} />
-              </div>
-              <div className="relative z-10">
-                <span className="text-[#d6d4d3] text-xs font-bold uppercase tracking-widest mb-4 block">
-                  Our Advantage
-                </span>
-                <h3 className="text-white text-4xl font-bold tracking-tighter mb-6 leading-tight">
-                  Zero Brokerage.<br />Full Transparency.
-                </h3>
-                <div className="h-1 w-20 bg-[#d6d4d3] mb-8" />
-                <p className="text-[#adb3b4] leading-relaxed max-w-sm">
-                  We&apos;ve redefined real estate in Hiranandani Estate by removing
-                  the middleman, creating a direct bridge between you and your future home.
-                </p>
-              </div>
-            </div>
-
-            {/* Floating peek image — desktop only */}
-            <div className="hidden md:block absolute -right-12 -top-12 w-64 h-80 rounded-xl overflow-hidden shadow-2xl border-4 border-[#f9f9f9]">
-              <img
-                src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&auto=format&fit=crop&q=80"
-                alt="Luxury terrace at dusk"
-                className="w-full h-full object-cover"
-              />
-            </div>
+          {/* ── Right: stacked card scroll ── */}
+          <div className="w-full lg:w-[55%] hidden lg:block">
+            <StackedCards
+              cards={[
+                {
+                  label: "Our Promise",
+                  title: "Zero Brokerage.\nFull Transparency.",
+                  description:
+                    "We\u2019ve redefined real estate in Hiranandani Estate by removing the middleman, creating a direct bridge between you and your future home.",
+                },
+                {
+                  label: "Verified Only",
+                  title: "Every Listing.\nManually Checked.",
+                  description:
+                    "Our curation team scrutinizes every property listing to ensure accuracy, authenticity, and up-to-date information.",
+                },
+                {
+                  label: "Direct Access",
+                  title: "Owner Contact.\nNo Middlemen.",
+                  description:
+                    "Connect directly with property owners for immediate viewings and honest conversations about your future home.",
+                },
+                {
+                  label: "Market Insight",
+                  title: "True Prices.\nNo Agent Markups.",
+                  description:
+                    "View real market rates with full price history so you can make informed decisions without inflated numbers.",
+                },
+                {
+                  label: "Always Free",
+                  title: "No Fees.\nNo Subscriptions.",
+                  description:
+                    "Our platform is completely free for tenants and buyers. No hidden charges, no platform costs, no surprises.",
+                },
+              ]}
+            />
           </div>
 
         </div>
@@ -263,22 +269,22 @@ export default async function HomePage() {
           LATEST LISTINGS  — dark bg, white heading
       ══════════════════════════════════════════════════════════════════ */}
       {featured.length > 0 && (
-        <section className="py-24 bg-[#111111] px-8">
+        <section className="py-16 sm:py-24 bg-[#111111] px-5 sm:px-8">
           <div className="max-w-[1440px] mx-auto">
 
             {/* Section header */}
-            <div className="flex justify-between items-end mb-12">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-8 sm:mb-12">
               <div>
-                <h2 className="text-4xl font-bold tracking-tighter text-white">
+                <h2 className="text-3xl sm:text-4xl font-bold tracking-tighter text-white">
                   Latest Listings
                 </h2>
-                <p className="text-white/45 mt-2">
+                <p className="text-white/45 mt-1 sm:mt-2 text-sm sm:text-base">
                   New properties hand-picked for you this week.
                 </p>
               </div>
               <Link
                 href="/listings"
-                className="text-white font-bold flex items-center gap-2 group"
+                className="text-white font-bold flex items-center gap-2 group text-sm sm:text-base"
               >
                 View All
                 <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
@@ -286,7 +292,7 @@ export default async function HomePage() {
             </div>
 
             {/* Property cards grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8 items-stretch">
               {featured.map((p) => (
                 <PropertyCard key={p.id} property={p} />
               ))}
@@ -299,12 +305,12 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           SIMPLE PROCESS
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-32 px-8 max-w-[1440px] mx-auto">
-        <h2 className="text-center text-4xl font-bold tracking-tighter text-[#0B0B0C] mb-20">
+      <section className="py-16 sm:py-32 px-5 sm:px-8 max-w-[1440px] mx-auto">
+        <h2 className="text-center text-3xl sm:text-4xl font-bold tracking-tighter text-[#0B0B0C] mb-12 sm:mb-20">
           Simple Process
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 relative">
           {/* Horizontal connector line — desktop only */}
           <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-[#dde4e5] z-0" />
 
@@ -329,11 +335,11 @@ export default async function HomePage() {
               key={title}
               className="relative z-10 flex flex-col items-center text-center"
             >
-              <div className="w-20 h-20 rounded-full bg-white border-4 border-[#f9f9f9] flex items-center justify-center mb-8 shadow-sm">
-                <Icon className="h-7 w-7 text-[#0B0B0C]" strokeWidth={1.5} />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-4 border-[#f9f9f9] flex items-center justify-center mb-5 sm:mb-8 shadow-sm">
+                <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-[#0B0B0C]" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-bold text-[#0B0B0C] mb-4">{title}</h3>
-              <p className="text-[#5a6061] max-w-xs leading-relaxed">{desc}</p>
+              <h3 className="text-lg sm:text-xl font-bold text-[#0B0B0C] mb-3 sm:mb-4">{title}</h3>
+              <p className="text-sm sm:text-base text-[#5a6061] max-w-xs leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
@@ -342,31 +348,26 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           OWNER CTA  (dark split card)
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-24 px-8 max-w-[1440px] mx-auto">
+      <section className="py-12 sm:py-24 px-5 sm:px-8 max-w-[1440px] mx-auto">
         <div className="bg-[#0B0B0C] rounded-xl overflow-hidden flex flex-col md:flex-row items-center">
 
           {/* Text side */}
-          <div className="w-full md:w-1/2 p-12 lg:p-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tighter mb-6 leading-tight">
+          <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-20">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tighter mb-4 sm:mb-6 leading-tight">
               Own a Property in Hiranandani?
             </h2>
-            <p className="text-[#adb3b4] text-lg mb-10 leading-relaxed max-w-md">
+            <p className="text-[#adb3b4] text-base sm:text-lg mb-8 sm:mb-10 leading-relaxed max-w-md">
               List it for free and reach thousands of verified seekers directly.
               We help you find the best tenants or buyers without commissions.
             </p>
-            <Link
-              href="/become-owner"
-              className="inline-block bg-white text-[#0B0B0C] py-4 px-10 rounded-xl font-bold text-base hover:opacity-90 transition-opacity"
-            >
-              List Your Property
-            </Link>
+            <ListPropertyCTA />
           </div>
 
           {/* Image side */}
-          <div className="w-full md:w-1/2 h-64 md:h-auto self-stretch">
+          <div className="w-full md:w-1/2 h-52 sm:h-64 md:h-auto self-stretch">
             <img
-              src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&auto=format&fit=crop&q=80"
-              alt="Hiranandani high-rise at dusk"
+              src="/images/hiranandanilol.jpeg"
+              alt="Hiranandani Estate"
               className="w-full h-full object-cover"
             />
           </div>
@@ -377,13 +378,13 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           FINAL CTA
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-32 text-center px-8">
-        <h2 className="text-5xl md:text-6xl font-bold tracking-tighter text-[#0B0B0C] mb-10">
+      <section className="py-20 sm:py-32 text-center px-5 sm:px-8">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-[#0B0B0C] mb-8 sm:mb-10">
           Ready to find your home?
         </h2>
         <Link
           href="/listings"
-          className="inline-block bg-[#0c0f0f] text-[#f9f9f9] py-5 px-16 rounded-full text-lg font-bold shadow-2xl shadow-[#0c0f0f]/10 hover:scale-105 active:scale-95 transition-transform duration-200"
+          className="inline-block bg-[#0c0f0f] text-[#f9f9f9] py-4 px-10 sm:py-5 sm:px-16 rounded-full text-base sm:text-lg font-bold shadow-2xl shadow-[#0c0f0f]/10 hover:scale-105 active:scale-95 transition-transform duration-200"
         >
           Explore Listings
         </Link>

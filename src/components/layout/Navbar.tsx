@@ -30,7 +30,7 @@ const navItems = [
 function UserMenu() {
   const { data: session } = useSession();
   const router = useRouter();
-  const { scrolled } = useNavbar();
+  const { scrolled, darkHero } = useNavbar();
   const [menuOpen, setMenuOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +49,7 @@ function UserMenu() {
 
   if (!session) return null;
 
-  const isAdmin = ["MANAGER", "ADMIN"].includes(session.user?.role ?? "");
+  const isAdmin = ["ADMIN"].includes(session.user?.role ?? "");
 
   const options = [
     {
@@ -87,8 +87,8 @@ function UserMenu() {
               <AvatarFallback
                 className="text-xs font-semibold"
                 style={{
-                  background: scrolled ? "rgba(255,255,255,0.12)" : "rgba(26,26,26,0.08)",
-                  color: scrolled ? "#ffffff" : "#1A1A1A",
+                  background: scrolled ? "rgba(255,255,255,0.12)" : darkHero ? "rgba(255,255,255,0.15)" : "rgba(26,26,26,0.08)",
+                  color: scrolled ? "#ffffff" : darkHero ? "#ffffff" : "#1A1A1A",
                 }}
               >
                 {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
@@ -108,7 +108,7 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [ownerModalOpen, setOwnerModalOpen] = useState(false);
 
-  const isOwnerPlus = ["OWNER", "MANAGER", "ADMIN"].includes(
+  const isOwnerPlus = ["OWNER", "ADMIN"].includes(
     session?.user?.role ?? ""
   );
 

@@ -22,7 +22,7 @@ function timeAgo(date: Date | string): string {
 
 export default async function AdminOverviewPage() {
   const session = await auth();
-  if (!session || !["MANAGER", "ADMIN"].includes(session.user.role ?? "")) {
+  if (!session || !["ADMIN"].includes(session.user.role ?? "")) {
     redirect("/login");
   }
 

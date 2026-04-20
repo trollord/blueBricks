@@ -2,11 +2,11 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { Badge } from "@/components/ui/badge";
-import { LayoutDashboard, ListChecks, Users, Upload, Building2 } from "lucide-react";
+import { LayoutDashboard, ListChecks, Users, Upload, Building2, MessageSquare } from "lucide-react";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session || !["MANAGER", "ADMIN"].includes(session.user.role)) {
+  if (!session || !["ADMIN"].includes(session.user.role)) {
     redirect("/login");
   }
 
@@ -15,6 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const navLinks = [
     { href: "/admin", label: "Overview", icon: LayoutDashboard, adminOnly: false },
     { href: "/admin/listings", label: "Listings Queue", icon: ListChecks, adminOnly: false },
+    { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare, adminOnly: false },
     { href: "/admin/users", label: "Users", icon: Users, adminOnly: true },
     { href: "/admin/import", label: "Import Prices", icon: Upload, adminOnly: true },
   ].filter((l) => !l.adminOnly || isAdmin);

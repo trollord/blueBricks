@@ -20,9 +20,9 @@ export default auth((req) => {
   // Dashboard: any logged-in user (USER sees interests, OWNER+ sees listings)
   // No role gate here — role-based content is handled inside the dashboard itself
 
-  // Admin: MANAGER or ADMIN only
+  // Admin: ADMIN only
   if (pathname.startsWith("/admin")) {
-    if (!role || !["MANAGER", "ADMIN"].includes(role)) {
+    if (!role || role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }

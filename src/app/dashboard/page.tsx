@@ -11,7 +11,7 @@ export default async function DashboardPage() {
   if (!session) redirect("/login");
 
   // Plain users have no listings — send them to their interests page
-  if (!["OWNER", "MANAGER", "ADMIN"].includes(session.user.role)) {
+  if (!["OWNER", "ADMIN"].includes(session.user.role)) {
     redirect("/dashboard/interests");
   }
 
@@ -49,7 +49,7 @@ export default async function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">My Listings</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage your property listings on HiranandaniHomes
+            Manage your property listings on HiranandaniProperties
           </p>
         </div>
         <Link href="/dashboard/new">

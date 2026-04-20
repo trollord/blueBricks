@@ -1,19 +1,16 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import PriceHistoryChart from "@/components/property/PriceHistoryChart";
 import PropertyMapSection from "@/components/map/PropertyMapSection";
 import InquiryButton from "@/components/payment/InquiryButton";
+import PropertyGallery from "@/components/property/PropertyGallery";
 import {
   MapPin,
   BedDouble,
   Bath,
   Maximize2,
   Building2,
-  TrainFront,
-  GraduationCap,
-  HeartPulse,
   Wifi,
   Car,
   Dumbbell,
@@ -34,7 +31,6 @@ import {
   LISTING_TYPE_LABELS,
   FURNISHED_LABELS,
 } from "@/lib/constants";
-import { getPlaceholderImage } from "@/lib/utils/placeholder";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
@@ -75,7 +71,6 @@ async function getProperty(id: string) {
         orderBy: { recordedAt: "asc" },
       },
       owner: { select: { id: true, name: true, image: true } },
-      _count: { select: { inquiries: true } },
     },
   });
 }
@@ -126,33 +121,30 @@ function getAmenityIcon(name: string) {
 }
 
 /* ── Section label ── */
-function SectionLabel({ title }: { title: string }) {
+function SectionLabel({ title, compact, withLine }: { title: string; compact?: boolean; withLine?: boolean }) {
   return (
-    <p className="text-[10px] font-semibold tracking-[0.25em] text-[#1A1A1A]/50 uppercase mb-8 mt-16">
-      {title}
-    </p>
+    <div className={`flex items-center gap-4 mb-5 sm:mb-8 ${compact ? "mt-0" : "mt-10 sm:mt-16"}`}>
+      <p className="text-[11px] sm:text-[13px] font-bold tracking-[0.25em] text-[#1A1A1A]/80 uppercase shrink-0">{title}</p>
+      {withLine && <div className="flex-1 h-px bg-[#1A1A1A]/20" />}
+    </div>
   );
 }
 
 export default async function PropertyDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ showInterest?: string }>;
 }) {
-  const { id } = await params;
+  const [{ id }, resolvedSearch] = await Promise.all([params, searchParams]);
   const [property, session] = await Promise.all([getProperty(id), auth()]);
 
   if (!property) notFound();
 
   const isRent = property.listingType === "RENT";
-  const primaryImage =
-    property.images.find((i) => i.isPrimary) ?? property.images[0];
-  const primaryImageUrl =
-    primaryImage?.url ?? getPlaceholderImage(property.id);
-  const secondImageUrl =
-    property.images[1]?.url ?? getPlaceholderImage(property.id + "_2");
-  const thirdImageUrl =
-    property.images[2]?.url ?? getPlaceholderImage(property.id + "_3");
+
+  const galleryImages = property.images;
 
   let hasRegistered = false;
   if (session?.user?.id) {
@@ -180,141 +172,58 @@ export default async function PropertyDetailPage({
     <div className="min-h-screen bg-white">
 
       {/* ── Hero Gallery ──────────────────────────────────────────────────── */}
-      <div className="pt-[60px]">
-        <div className="grid grid-cols-5 gap-px h-[480px] sm:h-[580px] lg:h-[650px]">
-          {/* Primary image — 60% */}
-          <div className="col-span-3 relative">
-            <Image
-              src={primaryImageUrl}
-              alt={property.title}
-              fill
-              className="object-cover"
-              priority
-              sizes="60vw"
-            />
-          </div>
-          {/* Right stack — 40% */}
-          <div className="col-span-2 grid grid-rows-2 gap-px">
-            <div className="relative">
-              <Image
-                src={secondImageUrl}
-                alt={`${property.title} 2`}
-                fill
-                className="object-cover"
-                sizes="40vw"
-              />
-            </div>
-            <div className="relative">
-              <Image
-                src={thirdImageUrl}
-                alt={`${property.title} 3`}
-                fill
-                className="object-cover"
-                sizes="40vw"
-              />
-            </div>
-          </div>
-        </div>
+      <div className="pt-[72px] sm:pt-[84px] max-w-6xl mx-auto px-3 sm:px-6 lg:px-10">
+        <PropertyGallery images={galleryImages} title={property.title} />
       </div>
 
       {/* ── Content ───────────────────────────────────────────────────────── */}
-      <div className="max-w-6xl mx-auto px-6 sm:px-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
 
-        {/* Badges */}
-        <div className="flex flex-wrap gap-2 mt-10">
-          {[
-            `For ${LISTING_TYPE_LABELS[property.listingType]}`,
-            PROPERTY_TYPE_LABELS[property.type],
-            FURNISHED_LABELS[property.furnished],
-          ].map((label) => (
-            <span
-              key={label}
-              className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1A1A]/55 border border-gray-200 px-3 py-1 rounded-full"
-            >
-              {label}
-            </span>
-          ))}
-        </div>
+        {/* ── Title row + Price Card ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-6 lg:gap-12 items-start mt-6 sm:mt-10">
 
-        {/* Title */}
-        <h1 className="font-[family-name:var(--font-playfair)] text-4xl sm:text-5xl lg:text-6xl font-bold text-[#0B0B0C] mt-5 leading-tight tracking-tight">
-          {mainTitle}
-          {italicTitle && (
-            <span className="italic font-normal text-[#0B0B0C]/80">
-              {italicTitle}
-            </span>
-          )}
-        </h1>
-
-        {/* Location */}
-        <div className="flex items-center gap-1.5 text-[#1A1A1A]/45 text-[13px] mt-3">
-          <MapPin className="h-3.5 w-3.5 shrink-0" />
-          <span>
-            {property.building}, {property.locality}, Hiranandani Estate, Thane
-          </span>
-        </div>
-
-        {/* ── Key Stats ── */}
-        <div className="grid grid-cols-4 mt-10 bg-[#f5f5f5] divide-x divide-white">
-          {[
-            {
-              icon: BedDouble,
-              label: "BEDROOM",
-              value: property.bedrooms ? `${property.bedrooms} BHK` : "N/A",
-            },
-            {
-              icon: Bath,
-              label: "BATHROOM",
-              value: property.bathrooms ?? "N/A",
-            },
-            {
-              icon: Maximize2,
-              label: "SQ.FT AREA",
-              value: formatArea(property.areaSqft),
-            },
-            {
-              icon: Building2,
-              label: "FLOOR",
-              value:
-                property.floor != null
-                  ? `${property.floor}${property.totalFloors ? `/${property.totalFloors}` : ""}`
-                  : "N/A",
-            },
-          ].map(({ icon: Icon, label, value }) => (
-            <div
-              key={label}
-              className="flex flex-col items-center py-9 px-4"
-            >
-              <Icon className="h-5 w-5 text-[#0B0B0C]/35 mb-4" strokeWidth={1.5} />
-              <p className="font-bold text-[#0B0B0C] text-2xl leading-none tracking-tight">
-                {value}
-              </p>
-              <p className="text-[9px] tracking-[0.22em] text-[#1A1A1A]/45 mt-2.5 uppercase">
-                {label}
-              </p>
+          {/* Left: Badges + Title + Location */}
+          <div className="min-w-0">
+            <div className="flex flex-wrap gap-2">
+              {[
+                `For ${LISTING_TYPE_LABELS[property.listingType]}`,
+                PROPERTY_TYPE_LABELS[property.type],
+                FURNISHED_LABELS[property.furnished],
+              ].map((label) => (
+                <span
+                  key={label}
+                  className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1A1A]/55 border border-gray-200 px-3 py-1 rounded-full"
+                >
+                  {label}
+                </span>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* ── About + Price Card ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl lg:text-6xl font-bold text-[#0B0B0C] mt-4 sm:mt-5 leading-tight tracking-tight break-words">
+              {mainTitle}
+              {italicTitle && (
+                <span className="italic font-normal text-[#0B0B0C]/80">
+                  {italicTitle}
+                </span>
+              )}
+            </h1>
 
-          {/* About — left 3/5 */}
-          <div className="lg:col-span-3">
-            <SectionLabel title="About This Property" />
-            <p className="text-[#0B0B0C]/75 leading-[1.85] text-[15px] whitespace-pre-line">
-              {property.description}
-            </p>
+            <div className="flex items-start gap-1.5 text-[#1A1A1A]/45 text-[13px] mt-3">
+              <MapPin className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+              <span>
+                {property.building}, {property.locality}, Hiranandani Estate, Thane
+              </span>
+            </div>
           </div>
 
-          {/* Price Card — right 2/5 */}
-          <div className="lg:col-span-2 lg:sticky lg:top-24 mt-0 lg:mt-[88px]">
-            <div className="border border-gray-150 bg-[#fafafa] p-8 rounded-sm">
+          {/* Right: Price Card — sticky on desktop, inline on mobile */}
+          <div className="lg:sticky lg:top-24">
+            <div className="border border-gray-150 bg-[#fafafa] p-5 sm:p-8 rounded-sm">
               <p className="text-[9px] tracking-[0.25em] text-[#1A1A1A]/45 uppercase mb-3">
                 {isRent ? "Price Per Month" : "Sale Price"}
               </p>
               <div className="flex items-baseline gap-1.5 mb-1">
-                <span className="text-4xl font-bold text-[#0B0B0C] font-[family-name:var(--font-playfair)]">
+                <span className="text-3xl sm:text-4xl font-bold text-[#0B0B0C] font-[family-name:var(--font-playfair)]">
                   {formatPrice(property.price)}
                 </span>
                 {isRent && (
@@ -345,6 +254,9 @@ export default async function PropertyDetailPage({
                   propertyId={property.id}
                   hasRegistered={hasRegistered}
                   isLoggedIn={!!session}
+                  userName={session?.user?.name ?? ""}
+                  userEmail={session?.user?.email ?? ""}
+                  autoOpen={resolvedSearch?.showInterest === "1" && !!session && !hasRegistered}
                 />
               </div>
 
@@ -355,82 +267,95 @@ export default async function PropertyDetailPage({
           </div>
         </div>
 
-        {/* ── Amenities ── */}
-        {amenities.length > 0 && (
-          <>
-            <SectionLabel title="Amenities" />
-            <div className="flex flex-wrap gap-10 sm:gap-14">
-              {amenities.map((amenity) => {
-                const Icon = getAmenityIcon(amenity);
-                return (
-                  <div key={amenity} className="flex flex-col items-center gap-2.5">
-                    <Icon className="h-[18px] w-[18px] text-[#0B0B0C]/40" strokeWidth={1.5} />
-                    <span className="text-[11px] text-[#1A1A1A]/55 text-center leading-tight">
-                      {amenity}
-                    </span>
-                  </div>
-                );
-              })}
+        {/* ── Key Stats ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 mt-6 sm:mt-10 gap-3">
+          {[
+            {
+              icon: BedDouble,
+              label: "BEDROOM",
+              value: property.bedrooms ? `${property.bedrooms} BHK` : "N/A",
+            },
+            {
+              icon: Bath,
+              label: "BATHROOM",
+              value: property.bathrooms ?? "N/A",
+            },
+            {
+              icon: Maximize2,
+              label: "SQ.FT AREA",
+              value: formatArea(property.areaSqft),
+            },
+            {
+              icon: Building2,
+              label: "FLOOR",
+              value:
+                property.floor != null
+                  ? `${property.floor}${property.totalFloors ? `/${property.totalFloors}` : ""}`
+                  : "N/A",
+            },
+          ].map(({ icon: Icon, label, value }) => (
+            <div
+              key={label}
+              className="flex flex-col items-center py-6 sm:py-9 px-3 sm:px-4 bg-[#f5f5f5] rounded-lg"
+            >
+              <Icon className="h-5 w-5 text-[#0B0B0C]/35 mb-3 sm:mb-4" strokeWidth={1.5} />
+              <p className="font-bold text-[#0B0B0C] text-xl sm:text-2xl leading-none tracking-tight">
+                {value}
+              </p>
+              <p className="text-[9px] tracking-[0.22em] text-[#1A1A1A]/45 mt-2 sm:mt-2.5 uppercase">
+                {label}
+              </p>
             </div>
-          </>
-        )}
+          ))}
+        </div>
+
+        {/* ── About + Amenities ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4 lg:gap-8 items-stretch mt-6 sm:mt-10">
+          {/* Left 60%: About */}
+          <div className="bg-[#fafafa] px-5 sm:px-8 pb-6 sm:pb-8 pt-5 sm:pt-6 rounded-sm">
+            <SectionLabel title="About This Property" compact />
+            <p className="text-[#0B0B0C]/75 leading-[1.85] text-[14px] sm:text-[15px] whitespace-pre-line italic">
+              {property.description}
+            </p>
+          </div>
+
+          {/* Right 40%: Amenities */}
+          {amenities.length > 0 && (
+            <div className="bg-[#fafafa] px-5 sm:px-8 pb-6 sm:pb-8 pt-5 sm:pt-6 rounded-sm">
+              <SectionLabel title="Amenities" compact />
+              <div className="flex flex-wrap gap-6 sm:gap-10">
+                {amenities.map((amenity) => {
+                  const Icon = getAmenityIcon(amenity);
+                  return (
+                    <div key={amenity} className="flex flex-col items-center gap-2">
+                      <Icon className="h-[18px] w-[18px] text-[#0B0B0C]/40" strokeWidth={1.5} />
+                      <span className="text-[11px] text-[#1A1A1A]/55 text-center leading-tight">
+                        {amenity}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* ── Location / Map ── */}
         {property.latitude && property.longitude && (
           <>
-            <SectionLabel title="Location" />
+            <SectionLabel title="Location" withLine />
             <PropertyMapSection
               lat={property.latitude}
               lng={property.longitude}
               propertyId={property.id}
+              isLoggedIn={!!session}
             />
 
-            {/* ── Connectivity ── */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mt-12">
-              {[
-                {
-                  icon: TrainFront,
-                  label: "CONNECTIVITY",
-                  headline: "Thane Station (3km)",
-                  description:
-                    "Quick access to the Central Line and Eastern Express Highway connecting to Mumbai.",
-                },
-                {
-                  icon: GraduationCap,
-                  label: "EDUCATION",
-                  headline: "Hiranandani School (0.5km)",
-                  description:
-                    "Proximity to top-rated ICSE and CBSE schools and international institutions.",
-                },
-                {
-                  icon: HeartPulse,
-                  label: "WELLNESS",
-                  headline: "Jupiter Hospital (2km)",
-                  description:
-                    "World-class healthcare facilities and wellness centres within short distance.",
-                },
-              ].map(({ icon: Icon, label, headline, description }) => (
-                <div key={label}>
-                  <p className="text-[9px] tracking-[0.25em] text-[#1A1A1A]/45 uppercase font-semibold mb-3">
-                    {label}
-                  </p>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Icon className="h-4 w-4 text-[#0B0B0C]/60 shrink-0" strokeWidth={1.5} />
-                    <p className="text-sm font-semibold text-[#0B0B0C]">
-                      {headline}
-                    </p>
-                  </div>
-                  <p className="text-[12px] text-[#1A1A1A]/50 leading-relaxed">
-                    {description}
-                  </p>
-                </div>
-              ))}
-            </div>
           </>
         )}
 
-        {/* ── Price History — only when data exists ── */}
-        {property.priceHistory.length > 0 && (
+        {/* ── Price History — hidden for now, re-enable by removing the false && ── */}
+        {false && property.priceHistory.length > 0 && (
           <>
             <SectionLabel title="Price History" />
             <PriceHistoryChart
@@ -444,12 +369,10 @@ export default async function PropertyDetailPage({
         )}
 
         {/* ── Footer meta ── */}
-        <div className="flex items-center gap-4 text-[11px] text-[#1A1A1A]/30 mt-16 pt-6 pb-20 border-t border-gray-100">
+        <div className="flex flex-wrap items-center gap-3 text-[11px] text-[#1A1A1A]/30 mt-10 sm:mt-16 pt-6 pb-16 sm:pb-20 border-t border-gray-100">
           <span>Listed {formatDate(property.createdAt)}</span>
           <span>&middot;</span>
-          <span>{property._count.inquiries} inquiries</span>
-          <span>&middot;</span>
-          <span className="text-gray-400 font-medium">Verified Owner</span>
+<span className="text-gray-400 font-medium">Verified Owner</span>
         </div>
       </div>
     </div>

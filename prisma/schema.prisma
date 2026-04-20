@@ -123,6 +123,7 @@ model Inquiry {
   propertyId        String
   seekerId          String
   status            String   @default("PENDING")
+  phone             String?
   razorpayOrderId   String?
   razorpayPaymentId String?
   createdAt         DateTime @default(now())

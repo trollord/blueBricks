@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   HIRANANDANI_LOCALITIES,
   PROPERTY_TYPE_LABELS,
@@ -22,6 +22,15 @@ export default function FilterPanel() {
   const [bedrooms, setBedrooms] = useState(searchParams.get("bedrooms") || "");
   const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
   const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
+
+  useEffect(() => {
+    setListingType(searchParams.get("listingType") || "SALE");
+    setType(searchParams.get("type") || "");
+    setLocality(searchParams.get("locality") || "");
+    setBedrooms(searchParams.get("bedrooms") || "");
+    setMinPrice(searchParams.get("minPrice") || "");
+    setMaxPrice(searchParams.get("maxPrice") || "");
+  }, [searchParams]);
 
   const priceRanges =
     listingType === "SALE" ? PRICE_RANGES_SALE : PRICE_RANGES_RENT;

@@ -327,7 +327,17 @@ function Step2({
 }) {
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
-      const newImages: UploadedImage[] = acceptedFiles.map((file) => ({
+      const MAX_SIZE = 2 * 1024 * 1024;
+      const oversized = acceptedFiles.filter((f) => f.size > MAX_SIZE);
+      if (oversized.length > 0) {
+        oversized.forEach((f) =>
+          toast.error(`"${f.name}" exceeds 2 MB and was removed.`)
+        );
+      }
+      const validFiles = acceptedFiles.filter((f) => f.size <= MAX_SIZE);
+      if (validFiles.length === 0) return;
+
+      const newImages: UploadedImage[] = validFiles.map((file) => ({
         file,
         preview: URL.createObjectURL(file),
         url: "",
@@ -838,7 +848,7 @@ export default function EditListingPage({
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Edit Listing</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Update your property details on HiranandaniHomes
+          Update your property details on HiranandaniProperties
         </p>
       </div>
 

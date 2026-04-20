@@ -3,9 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, MapPin, BedDouble, Maximize2, ArrowRight } from "lucide-react";
+import { Heart, MapPin, BedDouble, Maximize2, ArrowRight, ImageOff } from "lucide-react";
 import { formatPrice, formatArea } from "@/lib/utils/formatters";
-import { getPlaceholderImage } from "@/lib/utils/placeholder";
 import { PROPERTY_TYPE_LABELS, LISTING_TYPE_LABELS } from "@/lib/constants";
 import type { Metadata } from "next";
 
@@ -72,7 +71,7 @@ export default async function InterestsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {inquiries.map(({ id, property }) => {
-            const imageUrl = property.images[0]?.url ?? getPlaceholderImage(property.id);
+            const imageUrl = property.images[0]?.url;
             const isRent = property.listingType === "RENT";
             const inactive = property.status !== "ACTIVE";
 
@@ -83,7 +82,8 @@ export default async function InterestsPage() {
                 className={`group block bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 ${inactive ? "opacity-60 cursor-default pointer-events-none" : ""}`}
               >
                 {/* Image */}
-                <div className="relative h-48 bg-gray-100">
+                <div className="relative h-48 bg-zinc-100">
+                  {imageUrl ? (
                   <Image
                     src={imageUrl}
                     alt={property.title}
@@ -91,6 +91,12 @@ export default async function InterestsPage() {
                     className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                      <ImageOff className="w-7 h-7 text-zinc-300" />
+                      <span className="text-xs text-zinc-400 font-medium">No photos</span>
+                    </div>
+                  )}
                   {/* Badges */}
                   <div className="absolute top-3 left-3 flex gap-1.5">
                     <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isRent ? "bg-[#1A1A1A] text-[#1A1A1A]" : "bg-[#1A1A1A] text-white"}`}>

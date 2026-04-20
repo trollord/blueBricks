@@ -56,6 +56,8 @@ export async function GET(req: NextRequest) {
   const maxPrice = searchParams.get("maxPrice");
   const furnished = searchParams.get("furnished");
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1"));
+  const take = Math.min(50, Math.max(1, parseInt(searchParams.get("take") ?? String(PAGE_SIZE))));
+  const skip = searchParams.has("skip") ? Math.max(0, parseInt(searchParams.get("skip")!)) : (page - 1) * take;
 
   const where = {
     status: "ACTIVE" as const,
@@ -77,8 +79,8 @@ export async function GET(req: NextRequest) {
       where,
       select: PUBLIC_PROPERTY_SELECT,
       orderBy: { createdAt: "desc" },
-      skip: (page - 1) * PAGE_SIZE,
-      take: PAGE_SIZE,
+      skip,
+      take,
     }),
     prisma.property.count({ where }),
   ]);
@@ -135,7 +137,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ property }, { status: 201 });
-  } catch {
+  } catch (err) {
+    console.error("[POST /api/properties]", err);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

@@ -130,7 +130,6 @@ export default function AdminUsersPage() {
                 <td className="px-4 py-3">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                     u.role === "ADMIN" ? "bg-red-100 text-red-800" :
-                    u.role === "MANAGER" ? "bg-purple-100 text-purple-800" :
                     u.role === "OWNER" ? "bg-blue-100 text-blue-800" :
                     "bg-gray-100 text-gray-600"
                   }`}>
@@ -146,7 +145,7 @@ export default function AdminUsersPage() {
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  {["ADMIN", "MANAGER"].includes(u.role) ? (
+                  {["ADMIN"].includes(u.role) ? (
                     <span className="text-xs text-gray-400 italic">Protected</span>
                   ) : (
                     <select
@@ -162,7 +161,7 @@ export default function AdminUsersPage() {
                   )}
                 </td>
                 <td className="px-4 py-3">
-                  {!["ADMIN", "MANAGER"].includes(u.role) && u.id !== session?.user?.id && (
+                  {!["ADMIN"].includes(u.role) && u.id !== session?.user?.id && (
                     u.disabled ? (
                       <button
                         onClick={() => toggleDisabled(u.id, false)}

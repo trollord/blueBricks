@@ -14,14 +14,14 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "HiranandaniHomes — Real Estate Advisors",
-    template: "%s | HiranandaniHomes",
+    default: "HiranandaniProperties — Real Estate Advisors",
+    template: "%s | HiranandaniProperties",
   },
   description:
     "Discover exceptional homes in Hiranandani Estate, Thane. Zero brokerage — browse listings and connect directly with verified owners for free.",
   keywords: [
     "Hiranandani Estate",
-    "Hiranandani homes",
+    "Hiranandani properties",
     "Thane real estate",
     "flats for rent Thane",
     "flats for sale Thane",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://hiranandanihomes.in",
-    siteName: "HiranandaniHomes",
+    siteName: "HiranandaniProperties",
   },
 };
 

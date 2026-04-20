@@ -56,7 +56,7 @@ function LoginForm() {
         <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1A1A1A] mb-2">
           Welcome back
         </h1>
-        <p className="text-gray-500">Sign in to your HiranandaniHomes account</p>
+        <p className="text-gray-500">Sign in to your HiranandaniProperties account</p>
       </div>
 
       {/* Google OAuth */}

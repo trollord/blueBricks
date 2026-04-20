@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
@@ -14,7 +14,9 @@ export async function POST(
   const { id: propertyId } = await params;
   const seekerId = session.user.id;
 
-  // Check if property exists and get ownerId
+  const body = await req.json().catch(() => ({}));
+  const phone: string | undefined = typeof body?.phone === "string" ? body.phone.trim() : undefined;
+
   const property = await prisma.property.findUnique({
     where: { id: propertyId, status: "ACTIVE" },
     select: { id: true, ownerId: true },
@@ -23,12 +25,10 @@ export async function POST(
     return NextResponse.json({ error: "Property not found" }, { status: 404 });
   }
 
-  // Cannot inquire on own property
   if (property.ownerId === seekerId) {
     return NextResponse.json({ error: "Cannot inquire on your own property" }, { status: 400 });
   }
 
-  // Upsert: return existing or create new inquiry with PENDING status
   const existing = await prisma.inquiry.findUnique({
     where: { propertyId_seekerId: { propertyId, seekerId } },
   });
@@ -37,9 +37,20 @@ export async function POST(
     return NextResponse.json({ success: true, inquiryId: existing.id });
   }
 
-  const inquiry = await prisma.inquiry.create({
-    data: { propertyId, seekerId, status: "PENDING" },
-  });
+  const [inquiry] = await prisma.$transaction([
+    prisma.inquiry.create({
+      data: { propertyId, seekerId, status: "PENDING", phone: phone ?? null },
+    }),
+    // backfill user phone if not set
+    ...(phone
+      ? [
+          prisma.user.updateMany({
+            where: { id: seekerId, phone: null },
+            data: { phone },
+          }),
+        ]
+      : []),
+  ]);
 
   return NextResponse.json({ success: true, inquiryId: inquiry.id });
 }

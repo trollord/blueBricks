@@ -52,7 +52,17 @@ function makeIconPin(
   ].join(";");
 
   const iconSize = Math.round(size * 0.6);
-  pin.innerHTML = `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">${iconSvgInner}</svg>`;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("width", String(iconSize));
+  svg.setAttribute("height", String(iconSize));
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("fill", "none");
+  const parsed = new DOMParser().parseFromString(
+    `<svg xmlns="http://www.w3.org/2000/svg">${iconSvgInner}</svg>`,
+    "image/svg+xml"
+  );
+  parsed.documentElement.childNodes.forEach((n) => svg.appendChild(n.cloneNode(true)));
+  pin.appendChild(svg);
 
   const tooltip = document.createElement("span");
   tooltip.textContent = label;
@@ -196,7 +206,6 @@ export default function PropertyMap({ lat, lng, propertyId, activeAmenity }: Pro
           );
           const data = await res.json();
           if (!res.ok) {
-            console.error("[PropertyMap] Places API error:", data);
             places = [];
           } else {
             places = (data.places ?? []).map((p: {
@@ -208,8 +217,7 @@ export default function PropertyMap({ lat, lng, propertyId, activeAmenity }: Pro
               lng:  p.location?.longitude ?? 0,
             })).filter((p: { lat: number; lng: number }) => p.lat && p.lng);
           }
-        } catch (err) {
-          console.error("[PropertyMap] fetch failed:", err);
+        } catch {
           places = [];
         } finally {
           setLoading(false);

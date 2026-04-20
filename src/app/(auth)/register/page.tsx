@@ -45,7 +45,7 @@ export default function RegisterPage() {
         password: data.password,
         redirect: false,
       });
-      toast.success("Account created! Welcome to HiranandaniHomes.");
+      toast.success("Account created! Welcome to HiranandaniProperties.");
       window.location.href = "/dashboard";
     } finally {
       setLoading(false);
@@ -63,7 +63,7 @@ export default function RegisterPage() {
         <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1A1A1A] mb-2">
           Create your account
         </h1>
-        <p className="text-gray-500">Join HiranandaniHomes — find your home without a broker</p>
+        <p className="text-gray-500">Join HiranandaniProperties — find your home without a broker</p>
       </div>
 
       <Button

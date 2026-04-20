@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Cross, Pill, GraduationCap } from "lucide-react";
+import { toast } from "sonner";
 import PropertyMap from "./PropertyMap";
 
 type AmenityType = "hospital" | "pharmacy" | "school";
@@ -20,12 +21,21 @@ interface Props {
   lat: number;
   lng: number;
   propertyId: string;
+  isLoggedIn: boolean;
 }
 
-export default function PropertyMapSection({ lat, lng, propertyId }: Props) {
+export default function PropertyMapSection({ lat, lng, propertyId, isLoggedIn }: Props) {
   const [activeAmenity, setActiveAmenity] = useState<AmenityType | null>(null);
 
   function toggle(type: AmenityType) {
+    if (!isLoggedIn) {
+      toast("Sign in to explore nearby facilities", {
+        description: "Create a free account to discover hospitals, schools, and more around this property.",
+        action: { label: "Sign in", onClick: () => window.location.href = "/login" },
+        duration: 4000,
+      });
+      return;
+    }
     setActiveAmenity((prev) => (prev === type ? null : type));
   }
 
@@ -56,9 +66,6 @@ export default function PropertyMapSection({ lat, lng, propertyId }: Props) {
         activeAmenity={activeAmenity}
       />
 
-      <p className="text-xs text-gray-400">
-        Exact address revealed after registering interest.
-      </p>
     </div>
   );
 }

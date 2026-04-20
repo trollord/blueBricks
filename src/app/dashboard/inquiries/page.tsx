@@ -22,6 +22,7 @@ export default async function InquiriesPage() {
     select: {
       id: true,
       status: true,
+      phone: true,
       createdAt: true,
       property: {
         select: { id: true, title: true, locality: true },
@@ -53,88 +54,70 @@ export default async function InquiriesPage() {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-100">
-                <th className="text-left font-semibold text-gray-600 px-4 py-3">
-                  Property
-                </th>
-                <th className="text-left font-semibold text-gray-600 px-4 py-3">
-                  Seeker
-                </th>
-                <th className="text-left font-semibold text-gray-600 px-4 py-3">
-                  Contact
-                </th>
-                <th className="text-left font-semibold text-gray-600 px-4 py-3">
-                  Status
-                </th>
-                <th className="text-left font-semibold text-gray-600 px-4 py-3">
-                  Date
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {inquiries.map((inquiry) => {
-                const showContact =
-                  inquiry.status === "PAID" || inquiry.status === "COMPLETED";
-                const statusStyle =
-                  STATUS_STYLE[inquiry.status] ?? STATUS_STYLE.PENDING;
+          {/* Mobile cards */}
+          <div className="sm:hidden divide-y divide-gray-100">
+            {inquiries.map((inquiry) => {
+              const contactPhone = inquiry.phone ?? inquiry.seeker.phone;
+              const statusStyle = STATUS_STYLE[inquiry.status] ?? STATUS_STYLE.PENDING;
+              return (
+                <div key={inquiry.id} className="px-4 py-4 space-y-1.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <p className="font-medium text-gray-900 text-sm line-clamp-1 flex-1">
+                      {inquiry.property.title}
+                    </p>
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full border shrink-0 ${statusStyle}`}>
+                      {inquiry.status}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500">{inquiry.property.locality}</p>
+                  <p className="text-sm text-gray-800 font-medium">{inquiry.seeker.name ?? "Anonymous"}</p>
+                  <p className="text-xs text-gray-600">{inquiry.seeker.email}</p>
+                  {contactPhone && <p className="text-xs text-gray-500">{contactPhone}</p>}
+                  <p className="text-xs text-gray-400">{formatDate(inquiry.createdAt)}</p>
+                </div>
+              );
+            })}
+          </div>
 
-                return (
-                  <tr key={inquiry.id} className="hover:bg-gray-50 transition-colors">
-                    {/* Property */}
-                    <td className="px-4 py-3">
-                      <p className="font-medium text-gray-900 line-clamp-1">
-                        {inquiry.property.title}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {inquiry.property.locality}
-                      </p>
-                    </td>
-
-                    {/* Seeker name */}
-                    <td className="px-4 py-3">
-                      <p className="text-gray-900">
-                        {inquiry.seeker.name ?? "Anonymous"}
-                      </p>
-                    </td>
-
-                    {/* Contact — only shown if PAID or COMPLETED */}
-                    <td className="px-4 py-3">
-                      {showContact ? (
-                        <div>
-                          <p className="text-gray-700">{inquiry.seeker.email}</p>
-                          {inquiry.seeker.phone && (
-                            <p className="text-gray-500 text-xs">
-                              {inquiry.seeker.phone}
-                            </p>
-                          )}
-                        </div>
-                      ) : (
-                        <span className="text-xs text-gray-400 italic">
-                          Unlocked after payment
+          {/* Desktop table */}
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-100">
+                  <th className="text-left font-semibold text-gray-600 px-4 py-3">Property</th>
+                  <th className="text-left font-semibold text-gray-600 px-4 py-3">Seeker</th>
+                  <th className="text-left font-semibold text-gray-600 px-4 py-3">Contact</th>
+                  <th className="text-left font-semibold text-gray-600 px-4 py-3">Status</th>
+                  <th className="text-left font-semibold text-gray-600 px-4 py-3">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {inquiries.map((inquiry) => {
+                  const contactPhone = inquiry.phone ?? inquiry.seeker.phone;
+                  const statusStyle = STATUS_STYLE[inquiry.status] ?? STATUS_STYLE.PENDING;
+                  return (
+                    <tr key={inquiry.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3">
+                        <p className="font-medium text-gray-900 line-clamp-1">{inquiry.property.title}</p>
+                        <p className="text-xs text-gray-500">{inquiry.property.locality}</p>
+                      </td>
+                      <td className="px-4 py-3 text-gray-900">{inquiry.seeker.name ?? "Anonymous"}</td>
+                      <td className="px-4 py-3">
+                        <p className="text-gray-700">{inquiry.seeker.email}</p>
+                        {contactPhone && <p className="text-gray-500 text-xs mt-0.5">{contactPhone}</p>}
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${statusStyle}`}>
+                          {inquiry.status}
                         </span>
-                      )}
-                    </td>
-
-                    {/* Status badge */}
-                    <td className="px-4 py-3">
-                      <span
-                        className={`text-xs font-medium px-2 py-0.5 rounded-full border ${statusStyle}`}
-                      >
-                        {inquiry.status}
-                      </span>
-                    </td>
-
-                    {/* Date */}
-                    <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
-                      {formatDate(inquiry.createdAt)}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </td>
+                      <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{formatDate(inquiry.createdAt)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

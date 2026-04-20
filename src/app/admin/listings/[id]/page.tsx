@@ -10,7 +10,16 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, XCircle, ArrowLeft, Loader2 } from "lucide-react";
 import { PROPERTY_TYPE_LABELS, LISTING_TYPE_LABELS, FURNISHED_LABELS } from "@/lib/constants";
-import { formatPrice, formatArea } from "@/lib/utils/formatters";
+import { formatPrice, formatArea, formatDate } from "@/lib/utils/formatters";
+import { Users } from "lucide-react";
+
+interface Inquiry {
+  id: string;
+  status: string;
+  phone: string | null;
+  createdAt: string;
+  seeker: { id: string; name: string | null; email: string | null; phone: string | null };
+}
 
 interface PropertyDetail {
   id: string;
@@ -40,6 +49,7 @@ interface PropertyDetail {
     email: string | null;
     phone: string | null;
   };
+  inquiries: Inquiry[];
 }
 
 export default function AdminListingDetailPage() {
@@ -200,6 +210,68 @@ export default function AdminListingDetailPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Interested Users */}
+      <Card className="mt-4">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Users className="h-4 w-4 text-gray-500" />
+            Interested Users
+            <span className="text-xs font-normal text-gray-400 ml-1">
+              ({property.inquiries.length})
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {property.inquiries.length === 0 ? (
+            <p className="text-sm text-gray-400 italic">No interests registered yet.</p>
+          ) : (
+            <>
+              {/* Mobile cards */}
+              <div className="sm:hidden space-y-3">
+                {property.inquiries.map((inquiry) => {
+                  const contactPhone = inquiry.phone ?? inquiry.seeker.phone;
+                  return (
+                    <div key={inquiry.id} className="border border-gray-100 rounded-lg p-3 space-y-1">
+                      <p className="text-sm font-medium text-gray-900">{inquiry.seeker.name ?? "—"}</p>
+                      <p className="text-xs text-gray-600">{inquiry.seeker.email ?? "—"}</p>
+                      <p className="text-xs text-gray-600">{contactPhone ?? <span className="text-gray-400 italic">Phone not provided</span>}</p>
+                      <p className="text-xs text-gray-400">{formatDate(new Date(inquiry.createdAt))}</p>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Desktop table */}
+              <div className="hidden sm:block overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-100">
+                      <th className="text-left font-semibold text-gray-500 pb-2 pr-4">Name</th>
+                      <th className="text-left font-semibold text-gray-500 pb-2 pr-4">Email</th>
+                      <th className="text-left font-semibold text-gray-500 pb-2 pr-4">Phone</th>
+                      <th className="text-left font-semibold text-gray-500 pb-2">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-50">
+                    {property.inquiries.map((inquiry) => {
+                      const contactPhone = inquiry.phone ?? inquiry.seeker.phone;
+                      return (
+                        <tr key={inquiry.id} className="hover:bg-gray-50">
+                          <td className="py-2 pr-4 text-gray-900">{inquiry.seeker.name ?? "—"}</td>
+                          <td className="py-2 pr-4 text-gray-700">{inquiry.seeker.email ?? "—"}</td>
+                          <td className="py-2 pr-4 text-gray-700">{contactPhone ?? <span className="text-gray-400 italic">Not provided</span>}</td>
+                          <td className="py-2 text-gray-400 whitespace-nowrap">{formatDate(new Date(inquiry.createdAt))}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Actions — only for PENDING */}
       {property.status === "PENDING" && (

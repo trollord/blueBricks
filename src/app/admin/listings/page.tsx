@@ -21,7 +21,7 @@ interface PageProps {
 
 export default async function AdminListingsPage({ searchParams }: PageProps) {
   const session = await auth();
-  if (!session || !["MANAGER", "ADMIN"].includes(session.user.role ?? "")) {
+  if (!session || !["ADMIN"].includes(session.user.role ?? "")) {
     redirect("/login");
   }
 

@@ -46,11 +46,9 @@ import {
   Loader2,
   ImageOff,
   Camera,
-  MapPin,
-  Navigation,
 } from "lucide-react";
-import LocationPicker from "@/components/map/LocationPicker";
-import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
+import MapPicker from "@/components/map/MapPicker";
+import LocationInput from "@/components/map/LocationInput";
 
 // ─── types ───────────────────────────────────────────────────────────────────
 
@@ -83,20 +81,18 @@ function StepIndicator({ current }: { current: number }) {
       {STEPS.map((label, i) => (
         <div key={i} className="flex items-center gap-2">
           <div
-            className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-semibold transition-colors ${
-              i < current
-                ? "bg-[#1A1A1A] text-white"
-                : i === current
+            className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-semibold transition-colors ${i < current
+              ? "bg-[#1A1A1A] text-white"
+              : i === current
                 ? "bg-[#1A1A1A] text-white ring-2 ring-gray-300"
                 : "bg-gray-100 text-gray-400"
-            }`}
+              }`}
           >
             {i < current ? <CheckCircle2 className="h-4 w-4" /> : i + 1}
           </div>
           <span
-            className={`text-xs font-medium hidden sm:inline ${
-              i === current ? "text-gray-900" : "text-gray-400"
-            }`}
+            className={`text-xs font-medium hidden sm:inline ${i === current ? "text-gray-900" : "text-gray-400"
+              }`}
           >
             {label}
           </span>
@@ -135,58 +131,16 @@ function Step1({
   });
 
   const [showAllAmenities, setShowAllAmenities] = useState(false);
-  const [detectingLocation, setDetectingLocation] = useState(false);
 
   const watchedAmenities = watch("amenities") ?? [];
-  const watchedLat      = watch("latitude");
-  const watchedLng      = watch("longitude");
+  const watchedLat = watch("latitude");
+  const watchedLng = watch("longitude");
   const watchedBuilding = watch("building");
   const watchedLocality = watch("locality");
 
   const visibleAmenities = showAllAmenities
     ? AMENITIES_LIST
     : AMENITIES_LIST.slice(0, 6);
-
-  const detectLocation = async () => {
-    const building = watchedBuilding;
-    const locality = watchedLocality;
-    if (!building && !locality) {
-      toast.error("Fill in Building Name or Locality first");
-      return;
-    }
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    if (!apiKey) return;
-
-    setDetectingLocation(true);
-    try {
-      setOptions({ key: apiKey, v: "weekly" });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { Geocoder } = await importLibrary("geocoding") as any;
-      const geocoder = new Geocoder();
-      const address = [building, locality, "Hiranandani Estate", "Thane", "Maharashtra", "India"]
-        .filter(Boolean)
-        .join(", ");
-
-      geocoder.geocode(
-        { address },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (results: any[], status: string) => {
-          if (status === "OK" && results[0]) {
-            const loc = results[0].geometry.location;
-            setValue("latitude", loc.lat());
-            setValue("longitude", loc.lng());
-            toast.success("Location found on map");
-          } else {
-            toast.error("Couldn't find this address — try adjusting the details");
-          }
-          setDetectingLocation(false);
-        }
-      );
-    } catch {
-      toast.error("Location lookup failed");
-      setDetectingLocation(false);
-    }
-  };
 
   const inputCls =
     "w-full bg-[#f2f4f4] border-none rounded-lg px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all";
@@ -281,10 +235,6 @@ function Step1({
           <section className="bg-white rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
             <div className="flex justify-between items-center mb-8">
               <h3 className={sectionHeadCls.replace("mb-8", "")}>Location Details</h3>
-              <span className="text-[12px] text-gray-400 flex items-center gap-1">
-                <MapPin className="h-3.5 w-3.5" />
-                Hiranandani Estate, Thane
-              </span>
             </div>
 
             <div className="grid grid-cols-2 gap-6">
@@ -343,36 +293,32 @@ function Step1({
                 />
               </div>
 
-              {/* Detect Location */}
-              <div className="flex items-end">
-                <button
-                  type="button"
-                  onClick={detectLocation}
-                  disabled={detectingLocation}
-                  className="w-full py-3.5 px-4 border border-gray-200 text-[12px] font-bold rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 text-gray-700 disabled:opacity-50"
-                >
-                  {detectingLocation ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Navigation className="h-4 w-4" />
-                  )}
-                  Detect My Location
-                </button>
-              </div>
 
             </div>
 
-            {/* Map */}
+            {/* Address search autocomplete */}
             <div className="mt-6">
-              <LocationPicker
+              <label className="text-[12px] font-semibold text-gray-800 block mb-2">Search Address</label>
+              <LocationInput
+                onSelect={(place) => {
+                  setValue("latitude", place.lat);
+                  setValue("longitude", place.lng);
+                }}
+              />
+            </div>
+
+            {/* Map */}
+            <div className="mt-4">
+              <MapPicker
                 value={watchedLat && watchedLng ? { lat: watchedLat, lng: watchedLng } : null}
-                onChange={(lat, lng) => {
+                onChange={(lat: number, lng: number) => {
                   setValue("latitude", lat);
                   setValue("longitude", lng);
                 }}
-                building={watchedBuilding}
-                locality={watchedLocality}
               />
+              {(errors.latitude || errors.longitude) && (
+                <p className="text-xs text-red-500 mt-1.5">Pin the property location on the map</p>
+              )}
             </div>
           </section>
 
@@ -400,11 +346,10 @@ function Step1({
                             key={n}
                             type="button"
                             onClick={() => field.onChange(n)}
-                            className={`flex-1 py-2 text-[12px] font-bold rounded-md transition-all ${
-                              (n < 5 && field.value === n) || (n === 5 && Number(field.value) >= 5)
-                                ? "bg-white shadow-sm text-gray-900"
-                                : "text-gray-400 hover:text-gray-600"
-                            }`}
+                            className={`flex-1 py-2 text-[12px] font-bold rounded-md transition-all ${(n < 5 && field.value === n) || (n === 5 && Number(field.value) >= 5)
+                              ? "bg-white shadow-sm text-gray-900"
+                              : "text-gray-400 hover:text-gray-600"
+                              }`}
                           >
                             {n === 5 ? "5+" : n}
                           </button>
@@ -441,11 +386,10 @@ function Step1({
                             key={n}
                             type="button"
                             onClick={() => field.onChange(n)}
-                            className={`flex-1 py-2 text-[12px] font-bold rounded-md transition-all ${
-                              (n < 5 && Number(field.value) === n) || (n === 5 && Number(field.value) >= 5)
-                                ? "bg-white shadow-sm text-gray-900"
-                                : "text-gray-400 hover:text-gray-600"
-                            }`}
+                            className={`flex-1 py-2 text-[12px] font-bold rounded-md transition-all ${(n < 5 && Number(field.value) === n) || (n === 5 && Number(field.value) >= 5)
+                              ? "bg-white shadow-sm text-gray-900"
+                              : "text-gray-400 hover:text-gray-600"
+                              }`}
                           >
                             {n === 5 ? "5+" : n}
                           </button>
@@ -515,11 +459,10 @@ function Step1({
                           key={val}
                           type="button"
                           onClick={() => field.onChange(val)}
-                          className={`py-3 px-1 text-[10px] font-bold uppercase tracking-tight rounded-lg transition-all ${
-                            field.value === val
-                              ? "bg-[#1A1A1A] text-white"
-                              : "border border-gray-200 text-gray-500 hover:border-gray-400"
-                          }`}
+                          className={`py-3 px-1 text-[10px] font-bold uppercase tracking-tight rounded-lg transition-all ${field.value === val
+                            ? "bg-[#1A1A1A] text-white"
+                            : "border border-gray-200 text-gray-500 hover:border-gray-400"
+                            }`}
                         >
                           {label.replace(" Furnished", "").replace("Unfurnished", "Unfurnished")}
                         </button>
@@ -598,7 +541,17 @@ function Step2({
 }) {
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
-      const newImages: UploadedImage[] = acceptedFiles.map((file) => ({
+      const MAX_SIZE = 2 * 1024 * 1024;
+      const oversized = acceptedFiles.filter((f) => f.size > MAX_SIZE);
+      if (oversized.length > 0) {
+        oversized.forEach((f) =>
+          toast.error(`"${f.name}" exceeds 2 MB and was removed.`)
+        );
+      }
+      const validFiles = acceptedFiles.filter((f) => f.size <= MAX_SIZE);
+      if (validFiles.length === 0) return;
+
+      const newImages: UploadedImage[] = validFiles.map((file) => ({
         file,
         preview: URL.createObjectURL(file),
         url: "",
@@ -618,7 +571,7 @@ function Step2({
       const uploadPromises = newImages.map(async (img, idx) => {
         try {
           const res = await fetch(
-            `/api/upload?filename=${encodeURIComponent(img.file.name)}&contentType=${encodeURIComponent(img.file.type)}`
+            `/api/upload?filename=${encodeURIComponent(img.file.name)}&contentType=${encodeURIComponent(img.file.type)}&fileSize=${img.file.size}`
           );
           if (!res.ok) {
             const err = await res.json().catch(() => ({}));
@@ -720,11 +673,10 @@ function Step2({
       {/* Dropzone */}
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
-          isDragActive
-            ? "border-[#1A1A1A] bg-[#1A1A1A]/5"
-            : "border-gray-200 hover:border-gray-300 bg-gray-50"
-        }`}
+        className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${isDragActive
+          ? "border-[#1A1A1A] bg-[#1A1A1A]/5"
+          : "border-gray-200 hover:border-gray-300 bg-gray-50"
+          }`}
       >
         <input {...getInputProps()} />
         <Upload className="h-8 w-8 mx-auto text-gray-400 mb-3" />
@@ -742,9 +694,8 @@ function Step2({
           {images.map((img, idx) => (
             <div
               key={idx}
-              className={`relative rounded-xl overflow-hidden border-2 transition-colors ${
-                img.isPrimary ? "border-gray-900" : "border-gray-200"
-              }`}
+              className={`relative rounded-xl overflow-hidden border-2 transition-colors ${img.isPrimary ? "border-gray-900" : "border-gray-200"
+                }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -774,11 +725,10 @@ function Step2({
                     type="button"
                     onClick={() => setPrimary(idx)}
                     title="Set as primary"
-                    className={`p-1 rounded-full transition-colors ${
-                      img.isPrimary
-                        ? "bg-gray-900 text-white"
-                        : "bg-white/80 text-gray-600 hover:bg-yellow-400 hover:text-white"
-                    }`}
+                    className={`p-1 rounded-full transition-colors ${img.isPrimary
+                      ? "bg-gray-900 text-white"
+                      : "bg-white/80 text-gray-600 hover:bg-yellow-400 hover:text-white"
+                      }`}
                   >
                     <Star className="h-3 w-3" />
                   </button>
@@ -1136,7 +1086,7 @@ export default function NewListingPage() {
   });
 
   // Guard: only OWNER, MANAGER, ADMIN may list properties
-  if (session && !["OWNER", "MANAGER", "ADMIN"].includes(session.user?.role ?? "")) {
+  if (session && !["OWNER", "ADMIN"].includes(session.user?.role ?? "")) {
     router.replace("/become-owner");
     return null;
   }
@@ -1258,9 +1208,8 @@ export default function NewListingPage() {
               {[0, 1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className={`h-1.5 rounded-full transition-all ${
-                    i === 0 ? "w-8 bg-[#1A1A1A]" : "w-8 bg-gray-200"
-                  }`}
+                  className={`h-1.5 rounded-full transition-all ${i === 0 ? "w-8 bg-[#1A1A1A]" : "w-8 bg-gray-200"
+                    }`}
                 />
               ))}
             </div>

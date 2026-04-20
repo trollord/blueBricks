@@ -1,0 +1,40 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import BecomeOwnerModal from "@/components/property/BecomeOwnerModal";
+
+export default function ListPropertyCTA() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const isOwnerPlus = ["OWNER", "ADMIN"].includes(
+    session?.user?.role ?? ""
+  );
+
+  function handleClick() {
+    if (!session) {
+      router.push("/register");
+      return;
+    }
+    if (isOwnerPlus) {
+      router.push("/dashboard/new");
+    } else {
+      setModalOpen(true);
+    }
+  }
+
+  return (
+    <>
+      <BecomeOwnerModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <button
+        onClick={handleClick}
+        className="inline-block bg-white text-[#0B0B0C] py-4 px-10 rounded-xl font-bold text-base hover:opacity-90 transition-opacity"
+      >
+        List Your Property
+      </button>
+    </>
+  );
+}
