@@ -8,22 +8,22 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen flex">
         {/* Left panel — dark navy */}
-        <div className="hidden lg:flex lg:w-1/2 bg-[#0F2244] flex-col justify-between p-12 relative overflow-hidden">
+        <div className="hidden lg:flex lg:w-1/2 bg-[#1A1A1A] flex-col justify-between p-12 relative overflow-hidden">
           {/* Decorative circles */}
-          <div className="absolute top-0 right-0 h-64 w-64 bg-[#C9A96E]/10 rounded-full translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 left-0 h-48 w-48 bg-[#C9A96E]/5 rounded-full -translate-x-1/3 translate-y-1/3" />
+          <div className="absolute top-0 right-0 h-64 w-64 bg-white/5 rounded-full translate-x-1/3 -translate-y-1/3" />
+          <div className="absolute bottom-0 left-0 h-48 w-48 bg-white/3 rounded-full -translate-x-1/3 translate-y-1/3" />
 
           <Link href="/" className="relative z-10">
             <span className="font-bold text-2xl text-white">
-              Hiranandani<span className="text-[#C9A96E]">Homes</span>
+              HiranandaniProperties
             </span>
           </Link>
 
           <div className="relative z-10">
-            <div className="h-px w-12 bg-[#C9A96E] mb-6" />
+            <div className="h-px w-12 bg-white/30 mb-6" />
             <h2 className="font-[family-name:var(--font-playfair)] text-4xl font-bold text-white leading-tight mb-4">
               Discover Exceptional<br />
-              <span className="text-[#C9A96E]">Living in Hiranandani</span>
+              <span className="text-white/70">Living in Hiranandani</span>
             </h2>
             <p className="text-white/60 leading-relaxed max-w-sm">
               Browse verified listings and connect directly with owners — completely free.
@@ -38,7 +38,7 @@ export default function AuthLayout({
               { value: "Instant", label: "Contact access" },
             ].map(({ value, label }) => (
               <div key={label}>
-                <p className="text-[#C9A96E] font-bold text-xl">{value}</p>
+                <p className="text-white font-bold text-xl">{value}</p>
                 <p className="text-white/50 text-xs mt-0.5">{label}</p>
               </div>
             ))}
@@ -50,8 +50,8 @@ export default function AuthLayout({
           {/* Mobile logo */}
           <div className="lg:hidden p-5">
             <Link href="/" className="flex items-center gap-2">
-              <span className="font-bold text-xl text-[#0F2244]">
-                Hiranandani<span className="text-[#C9A96E]">Homes</span>
+              <span className="font-bold text-xl text-[#1A1A1A]">
+                HiranandaniProperties
               </span>
             </Link>
           </div>

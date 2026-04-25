@@ -70,6 +70,10 @@ const STATUS_BADGE: Record<string, { label: string; className: string }> = {
     label: "Inactive",
     className: "bg-gray-100 text-gray-700 border-gray-200",
   },
+  DELETE_REQUESTED: {
+    label: "Deletion Requested",
+    className: "bg-red-100 text-red-700 border-red-200",
+  },
 };
 
 export default function DashboardListings({
@@ -83,6 +87,7 @@ export default function DashboardListings({
   const [interests, setInterests] = useState<Inquiry[]>([]);
   const [interestsLoading, setInterestsLoading] = useState(false);
   const [statusLoading, setStatusLoading] = useState<string | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
 
   const counts = {
     ACTIVE: properties.filter((p) => p.status === "ACTIVE").length,
@@ -104,6 +109,30 @@ export default function DashboardListings({
       toast.error("Failed to load interests");
     } finally {
       setInterestsLoading(false);
+    }
+  }
+
+  async function requestDelete(propertyId: string) {
+    const confirmed = window.confirm(
+      "Request deletion of this property? An admin will review and confirm before it's permanently removed."
+    );
+    if (!confirmed) return;
+
+    setDeleteLoading(propertyId);
+    try {
+      const res = await fetch(`/api/properties/${propertyId}`, { method: "DELETE" });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error ?? "Failed to request deletion");
+      }
+      setProperties((prev) =>
+        prev.map((p) => (p.id === propertyId ? { ...p, status: "DELETE_REQUESTED" } : p))
+      );
+      toast.success("Deletion request submitted. Admin will review shortly.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setDeleteLoading(null);
     }
   }
 
@@ -144,16 +173,16 @@ export default function DashboardListings({
 
   if (properties.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-[#0F2244]/20 text-center">
-        <div className="inline-flex p-5 rounded-full bg-[#0F2244]/5 mb-6">
-          <Building2 className="h-10 w-10 text-[#C9A96E]" />
+      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-[#1A1A1A]/20 text-center">
+        <div className="inline-flex p-5 rounded-full bg-[#1A1A1A]/5 mb-6">
+          <Building2 className="h-10 w-10 text-[#1A1A1A]" />
         </div>
-        <h2 className="text-xl font-bold text-[#0F2244] mb-2">No properties listed yet</h2>
+        <h2 className="text-xl font-bold text-[#1A1A1A] mb-2">No properties listed yet</h2>
         <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
           You haven&apos;t listed any properties yet. Start listing now and connect with serious buyers and tenants in Hiranandani Estate — completely free.
         </p>
         <Link href="/dashboard/new">
-          <Button className="bg-[#0F2244] hover:bg-[#0F2244]/90 text-white gap-2 px-6 py-5 text-base">
+          <Button className="bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2 px-6 py-5 text-base">
             <PlusCircle className="h-5 w-5" />
             Start Listing Now
           </Button>
@@ -165,7 +194,7 @@ export default function DashboardListings({
   return (
     <>
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
         {(
           [
             { key: "ACTIVE", label: "Active", color: "text-green-700 bg-green-50 border-green-200" },
@@ -286,10 +315,22 @@ export default function DashboardListings({
                       onClick={() => toggleStatus(property.id, "ACTIVE")}
                       disabled={isLoading}
                     >
-                      {isLoading ? (
+                      {isLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Reactivate"}
+                    </Button>
+                  )}
+
+                  {property.status !== "DELETE_REQUESTED" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-red-200 text-red-600 hover:bg-red-50 mt-1"
+                      onClick={() => requestDelete(property.id)}
+                      disabled={deleteLoading === property.id}
+                    >
+                      {deleteLoading === property.id ? (
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       ) : (
-                        "Reactivate"
+                        "Request Deletion"
                       )}
                     </Button>
                   )}

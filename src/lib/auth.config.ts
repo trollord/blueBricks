@@ -15,14 +15,10 @@ export const authConfig: NextAuthConfig = {
       return true;
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async jwt({ token, user, trigger, session }: { token: any; user: any; trigger?: string; session?: any }) {
+    async jwt({ token, user }: { token: any; user: any; trigger?: string; session?: any }) {
       if (user) {
         token.id = user.id as string;
         token.role = user.role ?? "USER";
-      }
-      // Allow explicit role update via useSession().update({ role: "..." })
-      if (trigger === "update" && session?.role) {
-        token.role = session.role;
       }
       return token;
     },

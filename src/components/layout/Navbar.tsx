@@ -1,199 +1,266 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import { PlusSquare, LayoutDashboard, Shield, LogOut } from "lucide-react";
+import BecomeOwnerModal from "@/components/property/BecomeOwnerModal";
+import FloatingActionMenu from "@/components/ui/floating-action-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, PlusSquare, LayoutDashboard, Shield } from "lucide-react";
+import {
+  Navbar,
+  NavBody,
+  NavItems,
+  NavbarLogo,
+  NavbarButton,
+  MobileNav,
+  MobileNavHeader,
+  MobileNavToggle,
+  MobileNavMenu,
+  useNavbar,
+} from "@/components/ui/resizable-navbar";
 
-export default function Navbar() {
+const navItems = [
+  { name: "Listings", link: "/listings" },
+  { name: "How It Works", link: "/how-it-works" },
+];
+
+/* ─── Avatar menu (FloatingActionMenu) ────────────────────────────────────── */
+function UserMenu() {
   const { data: session } = useSession();
   const router = useRouter();
-  const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const { scrolled, darkHero } = useNavbar();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
+  // Close menu on outside click
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+    function handleClickOutside(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
 
-  const navLinks = [
-    { href: "/listings", label: "Listings" },
-    { href: "/how-it-works", label: "How It Works" },
+  if (!session) return null;
+
+  const isAdmin = ["ADMIN"].includes(session.user?.role ?? "");
+
+  const options = [
+    {
+      label: "My Dashboard",
+      onClick: () => { router.push("/dashboard"); setMenuOpen(false); },
+      Icon: <LayoutDashboard className="h-4 w-4" />,
+    },
+    ...(isAdmin
+      ? [
+          {
+            label: "Admin Panel",
+            onClick: () => { router.push("/admin"); setMenuOpen(false); },
+            Icon: <Shield className="h-4 w-4" />,
+          },
+        ]
+      : []),
+    {
+      label: "Sign Out",
+      onClick: () => { signOut({ callbackUrl: "/" }); setMenuOpen(false); },
+      Icon: <LogOut className="h-4 w-4" />,
+    },
   ];
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full bg-white border-b border-[#0F2244]/10 transition-shadow duration-300 ${
-        scrolled ? "shadow-md" : "shadow-none"
-      }`}
-    >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <span className="font-bold text-xl text-[#0F2244] tracking-tight">
-            Hiranandani
-            <span className="text-[#C9A96E]">Homes</span>
-          </span>
-          <span className="h-1.5 w-1.5 rounded-full bg-[#C9A96E] mt-1 group-hover:scale-125 transition-transform duration-300" />
-        </Link>
+    <div ref={wrapperRef}>
+      <FloatingActionMenu
+        options={options}
+        isOpen={menuOpen}
+        onToggle={() => setMenuOpen((v) => !v)}
+        direction="down"
+        trigger={
+          <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#1A1A1A]/50">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={session.user?.image ?? undefined} />
+              <AvatarFallback
+                className="text-xs font-semibold"
+                style={{
+                  background: scrolled ? "rgba(255,255,255,0.12)" : darkHero ? "rgba(255,255,255,0.15)" : "rgba(26,26,26,0.08)",
+                  color: scrolled ? "#ffffff" : darkHero ? "#ffffff" : "#1A1A1A",
+                }}
+              >
+                {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+              </AvatarFallback>
+            </Avatar>
+          </button>
+        }
+      />
+    </div>
+  );
+}
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm font-medium transition-colors duration-200 ${
-                pathname === link.href
-                  ? "text-[#0F2244]"
-                  : "text-gray-500 hover:text-[#0F2244]"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+/* ─── Main Navbar export ──────────────────────────────────────────────────── */
 
-        {/* Right side */}
-        <div className="flex items-center gap-3">
-          {session ? (
-            <>
-              <Link href="/dashboard/new" className="hidden md:block">
-                <Button
-                  size="sm"
-                  className="bg-[#0F2244] hover:bg-[#0F2244]/90 text-white gap-1.5 transition-all duration-300"
+export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: boolean }) {
+  const { data: session } = useSession();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [ownerModalOpen, setOwnerModalOpen] = useState(false);
+
+  const isOwnerPlus = ["OWNER", "ADMIN"].includes(
+    session?.user?.role ?? ""
+  );
+
+  // If logged in as OWNER+ → go straight to /dashboard/new
+  // If logged in as USER   → open the become-owner modal
+  // If not logged in       → go to /register
+  function handleListProperty() {
+    if (!session) {
+      window.location.href = "/register";
+      return;
+    }
+    if (isOwnerPlus) {
+      window.location.href = "/dashboard/new";
+    } else {
+      setOwnerModalOpen(true);
+    }
+  }
+
+  return (
+    <>
+      <BecomeOwnerModal
+        open={ownerModalOpen}
+        onClose={() => setOwnerModalOpen(false)}
+      />
+
+      <Navbar forceScrolled={forceScrolled}>
+        {/* ── Desktop ── */}
+        <NavBody>
+          <NavbarLogo />
+          <NavItems items={navItems} />
+          <div className="flex items-center gap-3">
+            {session ? (
+              <>
+                <NavbarButton variant="primary" onClick={handleListProperty}>
+                  <PlusSquare className="h-4 w-4 mr-1.5" />
+                  List Property
+                </NavbarButton>
+                <UserMenu />
+              </>
+            ) : (
+              <>
+                <NavbarButton variant="secondary" href="/login">
+                  Sign In
+                </NavbarButton>
+                <NavbarButton variant="primary" href="/register">
+                  List Property
+                </NavbarButton>
+              </>
+            )}
+          </div>
+        </NavBody>
+
+        {/* ── Mobile ── */}
+        <MobileNav>
+          <MobileNavHeader>
+            <NavbarLogo />
+            <MobileNavToggle
+              isOpen={mobileOpen}
+              onClick={() => setMobileOpen((v) => !v)}
+            />
+          </MobileNavHeader>
+
+          <MobileNavMenu
+            isOpen={mobileOpen}
+            onClose={() => setMobileOpen(false)}
+          >
+            {navItems.map((item) => (
+              <MobileNavLink
+                key={item.link}
+                href={item.link}
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.name}
+              </MobileNavLink>
+            ))}
+
+            {session ? (
+              <>
+                <MobileNavLink href="/dashboard" onClick={() => setMobileOpen(false)}>
+                  My Dashboard
+                </MobileNavLink>
+                {session.user?.role === "ADMIN" && (
+                  <MobileNavLink href="/admin" onClick={() => setMobileOpen(false)}>
+                    Admin Panel
+                  </MobileNavLink>
+                )}
+                <button
+                  onClick={() => { setMobileOpen(false); handleListProperty(); }}
+                  className="flex items-center gap-2 px-1 py-2.5 text-sm font-medium text-[#1A1A1A]"
                 >
                   <PlusSquare className="h-4 w-4" />
-                  List Property
-                </Button>
-              </Link>
-              <DropdownMenu>
-                <DropdownMenuTrigger render={
-                  <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#C9A96E]/50">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={session.user?.image ?? undefined} />
-                      <AvatarFallback className="bg-[#0F2244]/10 text-[#0F2244] text-xs font-semibold">
-                        {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                } />
-                <DropdownMenuContent align="end" className="w-48">
-                  <div className="px-2 py-1.5">
-                    <p className="text-sm font-medium truncate text-[#0F2244]">{session.user?.name}</p>
-                    <p className="text-xs text-gray-400 truncate">{session.user?.email}</p>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className="cursor-pointer"
-                    onClick={() => router.push("/dashboard")}
-                  >
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    My Dashboard
-                  </DropdownMenuItem>
-                  {["MANAGER", "ADMIN"].includes(session.user?.role ?? "") && (
-                    <DropdownMenuItem
-                      className="cursor-pointer"
-                      onClick={() => router.push("/admin")}
-                    >
-                      <Shield className="mr-2 h-4 w-4" />
-                      Admin Panel
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    className="text-red-600 cursor-pointer"
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                  >
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-          ) : (
-            <>
-              <Link href="/login">
-                <Button variant="ghost" size="sm" className="text-gray-600 hover:text-[#0F2244]">
+                  List a Property
+                </button>
+                <button
+                  onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}
+                  className="flex items-center gap-2 px-1 py-2.5 text-sm font-medium text-red-500"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <div className="flex flex-col gap-3 pt-3 mt-1">
+                <NavbarButton
+                  variant="secondary"
+                  href="/login"
+                  className="w-full"
+                  onClick={() => setMobileOpen(false)}
+                >
                   Sign In
-                </Button>
-              </Link>
-              <Link href="/register">
-                <Button
-                  size="sm"
-                  className="bg-[#0F2244] hover:bg-[#0F2244]/90 text-white transition-all duration-300"
+                </NavbarButton>
+                <NavbarButton
+                  variant="primary"
+                  href="/register"
+                  className="w-full"
+                  onClick={() => setMobileOpen(false)}
                 >
                   List Property
-                </Button>
-              </Link>
-            </>
-          )}
-
-          {/* Mobile menu */}
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger
-              render={
-                <Button variant="ghost" size="icon" className="md:hidden text-[#0F2244]">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              }
-            />
-            <SheetContent side="right" className="w-72">
-              <div className="mb-8 mt-2">
-                <span className="font-bold text-xl text-[#0F2244]">
-                  Hiranandani<span className="text-[#C9A96E]">Homes</span>
-                </span>
+                </NavbarButton>
               </div>
-              <nav className="flex flex-col gap-5">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="text-base font-medium text-gray-700 hover:text-[#0F2244] transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                {session && (
-                  <Link
-                    href="/dashboard/new"
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-center gap-2 text-base font-medium text-[#0F2244]"
-                  >
-                    <PlusSquare className="h-4 w-4" />
-                    List a Property
-                  </Link>
-                )}
-                {!session && (
-                  <div className="flex flex-col gap-3 pt-4 border-t">
-                    <Link href="/login" onClick={() => setMobileOpen(false)}>
-                      <Button variant="outline" className="w-full">Sign In</Button>
-                    </Link>
-                    <Link href="/register" onClick={() => setMobileOpen(false)}>
-                      <Button className="w-full bg-[#0F2244] hover:bg-[#0F2244]/90 text-white">
-                        Get Started
-                      </Button>
-                    </Link>
-                  </div>
-                )}
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
-    </header>
+            )}
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
+    </>
+  );
+}
+
+/* ─── MobileNavLink helper ────────────────────────────────────────────────── */
+function MobileNavLink({
+  href,
+  onClick,
+  children,
+}: {
+  href: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  const { scrolled } = useNavbar();
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className="block px-1 py-3 text-sm font-medium transition-colors duration-200 border-b"
+      style={{
+        color: scrolled ? "rgba(255,255,255,0.8)" : "#1A1A1A",
+        borderColor: scrolled
+          ? "rgba(255,255,255,0.08)"
+          : "rgba(26,26,26,0.07)",
+      }}
+    >
+      {children}
+    </Link>
   );
 }

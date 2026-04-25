@@ -3,39 +3,50 @@ import { SITE_NAME } from "@/lib/constants";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0F2244] text-white">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <div className="mb-4">
-              <span className="font-bold text-2xl text-white">
-                Hiranandani<span className="text-[#C9A96E]">Homes</span>
+    <footer className="bg-[#111111] text-white">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-16 sm:py-20">
+
+        {/* Main grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-12">
+
+          {/* Brand — full width on mobile, 2 cols on md+ */}
+          <div className="sm:col-span-2">
+            <Link href="/" className="inline-flex items-center gap-1.5 group mb-5">
+              <span className="font-bold text-xl tracking-tight text-white">
+                Hiranandani<span className="text-white/60">Properties</span>
               </span>
-            </div>
-            <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-              Your trusted Real Estate Advisors — exclusively serving Hiranandani Estate, Thane.
-              Completely free for owners and seekers alike. Zero brokerage.
+              <span className="h-1.5 w-1.5 rounded-full bg-white/40 mt-1 group-hover:scale-125 transition-transform duration-300" />
+            </Link>
+            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
+              Exclusively serving Hiranandani Estate, Thane. Completely free for
+              owners and seekers alike. Zero brokerage, no middlemen.
             </p>
             <div className="flex items-center gap-3 mt-6">
-              <div className="h-px w-8 bg-[#C9A96E]" />
-              <span className="text-[#C9A96E] text-xs tracking-widest uppercase">Hiranandani Estate, Thane</span>
+              <div className="h-px w-6 bg-white/20" />
+              <span className="text-white/30 text-[10px] tracking-[0.14em] uppercase font-medium">
+                Hiranandani Estate, Thane
+              </span>
             </div>
           </div>
 
           {/* Explore */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-[#C9A96E] mb-5">Explore</h4>
-            <ul className="space-y-3 text-sm text-white/50">
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/35 mb-5">
+              Explore
+            </h4>
+            <ul className="space-y-3">
               {[
                 { href: "/listings?listingType=RENT", label: "Properties for Rent" },
                 { href: "/listings?listingType=SALE", label: "Properties for Sale" },
-                { href: "/listings?type=FLAT", label: "Flats & Apartments" },
-                { href: "/listings?type=VILLA", label: "Villas" },
-                { href: "/listings?type=OFFICE", label: "Office Spaces" },
+                { href: "/listings?type=FLAT",        label: "Flats & Apartments" },
+                { href: "/listings?type=VILLA",       label: "Villas" },
+                { href: "/listings?type=OFFICE",      label: "Office Spaces" },
               ].map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href} className="hover:text-[#C9A96E] transition-colors duration-200">
+                  <Link
+                    href={href}
+                    className="text-sm text-white/45 hover:text-white transition-colors duration-200"
+                  >
                     {label}
                   </Link>
                 </li>
@@ -45,15 +56,20 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-widest text-[#C9A96E] mb-5">Company</h4>
-            <ul className="space-y-3 text-sm text-white/50">
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/35 mb-5">
+              Company
+            </h4>
+            <ul className="space-y-3">
               {[
-                { href: "/how-it-works", label: "How It Works" },
-                { href: "/dashboard/new", label: "List Your Property" },
-                { href: "/listings", label: "Browse All Listings" },
+                { href: "/how-it-works",    label: "How It Works" },
+                { href: "/dashboard/new",   label: "List Your Property" },
+                { href: "/listings",        label: "Browse All Listings" },
               ].map(({ href, label }) => (
                 <li key={href}>
-                  <Link href={href} className="hover:text-[#C9A96E] transition-colors duration-200">
+                  <Link
+                    href={href}
+                    className="text-sm text-white/45 hover:text-white transition-colors duration-200"
+                  >
                     {label}
                   </Link>
                 </li>
@@ -62,14 +78,16 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-white/30">
+        {/* Bottom bar */}
+        <div className="border-t border-white/8 mt-14 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-white/25">
             © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
-          <p className="text-xs text-white/30">
+          <p className="text-xs text-white/25">
             Real Estate Advisors · Zero Broker Commission
           </p>
         </div>
+
       </div>
     </footer>
   );

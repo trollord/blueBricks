@@ -20,7 +20,7 @@ export async function PATCH(
 
   const target = await prisma.user.findUnique({ where: { id }, select: { role: true } });
   if (!target) return NextResponse.json({ error: "User not found" }, { status: 404 });
-  if (["ADMIN", "MANAGER"].includes(target.role)) {
+  if (["ADMIN"].includes(target.role)) {
     return NextResponse.json({ error: "Cannot disable admin or manager accounts" }, { status: 400 });
   }
 

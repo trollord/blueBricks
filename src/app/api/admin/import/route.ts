@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import Papa from "papaparse";
 
-interface CSVRow {
-  propertyId: string;
-  price: string;
-  recordedAt: string;
-  source: string;
+export const dynamic = "force-dynamic";
+
+function parseCSV(csv: string): Record<string, string>[] {
+  const lines = csv.trim().split("\n").filter(Boolean);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(",").map((h) => h.trim());
+  return lines.slice(1).map((line) => {
+    const values = line.split(",").map((v) => v.trim());
+    return Object.fromEntries(headers.map((h, i) => [h, values[i] ?? ""]));
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -23,16 +27,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No CSV data provided" }, { status: 400 });
   }
 
-  const parsed = Papa.parse<CSVRow>(csv.trim(), {
-    header: true,
-    skipEmptyLines: true,
-  });
-
-  if (parsed.errors.length > 0) {
-    return NextResponse.json({ error: "CSV parse error: " + parsed.errors[0].message }, { status: 400 });
-  }
-
-  const rows = parsed.data;
+  const rows = parseCSV(csv);
   let imported = 0;
 
   for (const row of rows) {

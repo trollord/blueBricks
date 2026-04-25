@@ -6,6 +6,10 @@ import { Resend } from "resend";
 
 const getResend = () => new Resend(process.env.RESEND_API_KEY!);
 
+function escapeHtml(str: string): string {
+  return str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+}
+
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -14,7 +18,7 @@ export async function POST(
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  if (!["MANAGER", "ADMIN"].includes(session.user.role)) {
+  if (!["ADMIN"].includes(session.user.role)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
@@ -64,17 +68,17 @@ export async function POST(
   try {
     if (action === "APPROVE") {
       await getResend().emails.send({
-        from: "HiranandaniHomes <noreply@hiranandanihomes.in>",
+        from: "HiranandaniProperties <noreply@hiranandanihomes.in>",
         to: property.owner.email!,
         subject: "Your listing has been approved!",
-        html: `<p>Your listing "<b>${property.title}</b>" is now live on HiranandaniHomes.</p><p><a href="${process.env.NEXTAUTH_URL}/listings/${property.id}">View listing</a></p>`,
+        html: `<p>Your listing "<b>${escapeHtml(property.title)}</b>" is now live on HiranandaniProperties.</p><p><a href="${process.env.NEXTAUTH_URL}/listings/${property.id}">View listing</a></p>`,
       });
     } else {
       await getResend().emails.send({
-        from: "HiranandaniHomes <noreply@hiranandanihomes.in>",
+        from: "HiranandaniProperties <noreply@hiranandanihomes.in>",
         to: property.owner.email!,
         subject: "Update on your listing submission",
-        html: `<p>Your listing "<b>${property.title}</b>" was not approved.</p><p>Reason: ${notes ?? "No reason provided"}</p>`,
+        html: `<p>Your listing "<b>${escapeHtml(property.title)}</b>" was not approved.</p><p>Reason: ${escapeHtml(notes ?? "No reason provided")}</p>`,
       });
     }
   } catch (emailErr) {

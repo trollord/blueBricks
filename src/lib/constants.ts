@@ -1,27 +1,14 @@
 export const PLATFORM_FEE_INR = 9999;
 export const CURRENCY = "INR";
-export const SITE_NAME = "HiranandaniHomes";
+export const SITE_NAME = "HiranandaniProperties";
 export const SITE_TAGLINE = "Your Trusted Real Estate Advisors in Hiranandani Estate";
 
 export const HIRANANDANI_LOCALITIES = [
-  "Panchavati",
-  "Regent Hill",
-  "Estate Garden",
-  "Woodstock",
-  "Highland Park",
-  "Brahmand",
-  "Thakur Village",
-  "Meadows",
-  "Atlantis",
-  "Oyster",
-  "Maple",
-  "Birchwood",
-  "Sycamore",
-  "Chrysalis",
-  "Eldorado",
-  "Avalon",
-  "Tuscany",
-  "Belmondo",
+  "Hiranandani Estate",
+  "Hiranandani Meadows",
+  "Rodas Enclave",
+  "One Hiranandani Park",
+  "Skylark Enclave",
   "Others",
 ] as const;
 

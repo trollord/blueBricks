@@ -1,12 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, BedDouble, Maximize2, Building2 } from "lucide-react";
+
 import { formatPrice, formatArea } from "@/lib/utils/formatters";
-import {
-  PROPERTY_TYPE_LABELS,
-  LISTING_TYPE_LABELS,
-  FURNISHED_LABELS,
-} from "@/lib/constants";
+import { PROPERTY_TYPE_LABELS, LISTING_TYPE_LABELS } from "@/lib/constants";
+import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
+import { ImageOff } from "lucide-react";
 
 interface PropertyImage {
   id: string;
@@ -34,86 +34,112 @@ export default function PropertyCard({ property }: { property: PropertyCardData 
   const isRent = property.listingType === "RENT";
 
   return (
-    <Link href={`/listings/${property.id}`}>
-      <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer hover:-translate-y-1">
-        {/* Image — 60% of card height */}
-        <div className="relative h-56 w-full bg-gray-100 overflow-hidden">
-          {primaryImage ? (
-            <Image
-              src={primaryImage.url}
-              alt={property.title}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          ) : (
-            <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#0F2244]/5 to-[#0F2244]/10">
-              <Building2 className="h-12 w-12 text-[#0F2244]/20" />
-            </div>
-          )}
-          {/* Gold listing type badge */}
-          <div className="absolute top-3 left-3">
-            <span
-              className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-                isRent
-                  ? "bg-[#C9A96E] text-[#0F2244]"
-                  : "bg-[#0F2244] text-[#C9A96E]"
-              }`}
-            >
-              {LISTING_TYPE_LABELS[property.listingType]}
-            </span>
-          </div>
-          {/* Property type badge */}
-          <div className="absolute top-3 right-3">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 text-gray-700">
-              {PROPERTY_TYPE_LABELS[property.type]}
-            </span>
-          </div>
-        </div>
+    <CardContainer containerClassName="w-full h-full">
+      <CardBody className="w-full h-full">
+        <Link href={`/listings/${property.id}`} className="block h-full">
+          <div className="bg-white rounded-xl overflow-visible flex flex-col h-full shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
 
-        {/* Content */}
-        <div className="p-5">
-          {/* Price */}
-          <div className="flex items-baseline gap-1 mb-1">
-            <span className="text-2xl font-bold text-[#0F2244]">{formatPrice(property.price)}</span>
-            {isRent && <span className="text-sm text-gray-400">/month</span>}
-          </div>
-          {isRent && property.deposit && (
-            <p className="text-xs text-gray-400 mb-2">
-              Deposit: {formatPrice(property.deposit)}
-            </p>
-          )}
+            {/* Image — z-0 so content section can stack above it */}
+            <CardItem translateZ={60} className="relative z-0 w-full flex-shrink-0 rounded-t-xl overflow-hidden">
+              <div className="relative h-52 sm:h-60 lg:h-64 w-full">
+                {primaryImage ? (
+                  <Image
+                    src={primaryImage.url}
+                    alt={property.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-zinc-100 flex flex-col items-center justify-center gap-2">
+                    <ImageOff className="w-7 h-7 text-zinc-300" />
+                    <span className="text-xs text-zinc-400 font-medium">No photos</span>
+                  </div>
+                )}
 
-          {/* Title */}
-          <h3 className="font-semibold text-gray-800 text-sm leading-snug mb-2.5 line-clamp-2">
-            {property.title}
-          </h3>
-
-          {/* Location */}
-          <div className="flex items-center gap-1 text-gray-400 text-xs mb-4">
-            <MapPin className="h-3 w-3 flex-shrink-0" />
-            <span className="truncate">{property.building}, {property.locality}</span>
-          </div>
-
-          {/* Separator */}
-          <div className="h-px bg-gray-100 mb-3" />
-
-          {/* Stats */}
-          <div className="flex items-center gap-3 text-xs text-gray-500">
-            {property.bedrooms && (
-              <div className="flex items-center gap-1">
-                <BedDouble className="h-3.5 w-3.5 text-[#C9A96E]" />
-                <span>{property.bedrooms} BHK</span>
+                {/* Badges */}
+                <CardItem translateZ={80} className="absolute top-4 left-4 flex gap-2">
+                  <span className="bg-zinc-900 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                    {LISTING_TYPE_LABELS[property.listingType] ?? property.listingType}
+                  </span>
+                  <span className="bg-white/80 backdrop-blur-md text-zinc-900 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                    {PROPERTY_TYPE_LABELS[property.type] ?? property.type}
+                  </span>
+                </CardItem>
               </div>
-            )}
-            <div className="flex items-center gap-1">
-              <Maximize2 className="h-3.5 w-3.5 text-[#C9A96E]" />
-              <span>{formatArea(property.areaSqft)}</span>
+            </CardItem>
+
+            {/* Content — z-10 so tooltip clears the image above it */}
+            <div className="relative z-10 p-5 sm:p-6 flex flex-col flex-grow overflow-visible">
+
+              {/* Title — 1 line, tooltip on hover */}
+              <CardItem translateZ={40} className="w-full mb-1">
+                <div className="relative group/title">
+                  <h3 className="line-clamp-1 text-base sm:text-lg font-extrabold tracking-tight text-zinc-900 leading-snug cursor-default">
+                    {property.title}
+                  </h3>
+
+                  {/* Tooltip */}
+                  <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-0 z-50 opacity-0 group-hover/title:opacity-100 transition-opacity duration-200">
+                    <div className="bg-zinc-900 text-white text-xs font-semibold px-3 py-2 rounded-lg shadow-xl whitespace-nowrap max-w-[260px] leading-snug break-words">
+                      {property.title}
+                    </div>
+                    {/* Arrow */}
+                    <div className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-zinc-900 ml-3 mt-0" />
+                  </div>
+                </div>
+              </CardItem>
+
+              {/* Location — 1 line */}
+              <CardItem translateZ={30} className="w-full">
+                <p className="flex items-center gap-1 text-zinc-500 text-sm h-[1.375rem] mb-4">
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="truncate">
+                    {property.building ? `${property.building}, ` : ""}
+                    {property.locality}
+                  </span>
+                </p>
+              </CardItem>
+
+              {/* Price + Stats */}
+              <CardItem translateZ={20} className="w-full mt-auto pt-4 border-t border-zinc-50">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg sm:text-xl font-black text-zinc-900 leading-none">
+                    {formatPrice(property.price)}
+                    {isRent && (
+                      <span className="text-sm font-medium text-zinc-400 ml-1">/mo</span>
+                    )}
+                  </span>
+                  <div className="flex gap-3 sm:gap-4 text-xs font-medium text-zinc-500">
+                    {property.bedrooms && (
+                      <span className="flex items-center gap-1">
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                        </svg>
+                        {property.bedrooms}
+                      </span>
+                    )}
+                    <span className="flex items-center gap-1">
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                      </svg>
+                      {formatArea(property.areaSqft)}
+                    </span>
+                  </div>
+                </div>
+              </CardItem>
+
             </div>
-            <span className="ml-auto text-gray-400">{FURNISHED_LABELS[property.furnished]}</span>
           </div>
-        </div>
-      </div>
-    </Link>
+        </Link>
+      </CardBody>
+    </CardContainer>
   );
 }

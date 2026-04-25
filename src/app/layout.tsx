@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { auth } from "@/lib/auth";
 import SessionProvider from "@/components/layout/SessionProvider";
+import WarmDB from "@/components/WarmDB";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const playfair = Playfair_Display({
@@ -14,14 +15,14 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "HiranandaniHomes — Real Estate Advisors",
-    template: "%s | HiranandaniHomes",
+    default: "HiranandaniProperties — Real Estate Advisors",
+    template: "%s | HiranandaniProperties",
   },
   description:
     "Discover exceptional homes in Hiranandani Estate, Thane. Zero brokerage — browse listings and connect directly with verified owners for free.",
   keywords: [
     "Hiranandani Estate",
-    "Hiranandani homes",
+    "Hiranandani properties",
     "Thane real estate",
     "flats for rent Thane",
     "flats for sale Thane",
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://hiranandanihomes.in",
-    siteName: "HiranandaniHomes",
+    siteName: "HiranandaniProperties",
   },
 };
 
@@ -48,6 +49,7 @@ export default async function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         <SessionProvider session={session}>
+          <WarmDB />
           {children}
           <Toaster richColors position="top-right" />
         </SessionProvider>

@@ -5,6 +5,10 @@ import { Resend } from "resend";
 
 const getResend = () => new Resend(process.env.RESEND_API_KEY!);
 
+function escapeHtml(str: string): string {
+  return str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+}
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -65,10 +69,10 @@ export async function PATCH(
     for (const inquiry of pendingInquiries) {
       try {
         await getResend().emails.send({
-          from: "HiranandaniHomes <noreply@hiranandanihomes.in>",
+          from: "HiranandaniProperties <noreply@hiranandanihomes.in>",
           to: inquiry.seeker.email,
-          subject: "Property no longer available — HiranandaniHomes",
-          html: `<p>Hi ${inquiry.seeker.name ?? "there"},</p><p>The property "<b>${property.title}</b>" you expressed interest in has been marked as rented/sold and is no longer available.</p><p>Browse other properties at ${process.env.NEXTAUTH_URL}/listings</p>`,
+          subject: "Property no longer available — HiranandaniProperties",
+          html: `<p>Hi ${escapeHtml(inquiry.seeker.name ?? "there")},</p><p>The property "<b>${escapeHtml(property.title)}</b>" you expressed interest in has been marked as rented/sold and is no longer available.</p><p>Browse other properties at ${process.env.NEXTAUTH_URL}/listings</p>`,
         });
       } catch {
         // Don't fail the request if email fails

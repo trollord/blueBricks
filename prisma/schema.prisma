@@ -7,27 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Enums replaced with String for SQLite compatibility.
-// Valid values documented in comments — enforced at app layer via Zod.
-
 model User {
-  id            String    @id @default(cuid())
+  id            String              @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String              @unique
   password      String?
-  role          String    @default("USER")    // USER | OWNER | MANAGER | ADMIN
-  disabled      Boolean   @default(false)
+  role          String              @default("USER")
+  disabled      Boolean             @default(false)
   phone         String?
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
   accounts      Account[]
-  sessions      Session[]
-  properties    Property[]
-  inquiries     Inquiry[]
   verifications AdminVerification[]
+  inquiries     Inquiry[]
+  properties    Property[]
+  sessions      Session[]
 }
 
 model Account {
@@ -43,8 +39,7 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -66,47 +61,38 @@ model VerificationToken {
 }
 
 model Property {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  type        String   // FLAT | HOUSE | VILLA | OFFICE | SHOP
-  listingType String   // RENT | SALE
-  status      String   @default("PENDING")  // PENDING | ACTIVE | INACTIVE | REJECTED
-
-  ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id])
-
-  // Location — flatNumber is NEVER returned in public or Manager API responses
-  address    String
-  building   String
-  flatNumber String?
-  locality   String
-  latitude   Float?
-  longitude  Float?
-
-  // Details
-  bedrooms    Int?
-  bathrooms   Int?
-  areaSqft    Float
-  floor       Int?
-  totalFloors Int?
-  furnished   String   @default("UNFURNISHED")  // FURNISHED | SEMI_FURNISHED | UNFURNISHED
-  amenities   String   @default("[]")           // JSON array stored as string
-
-  // Pricing
+  id               String              @id @default(cuid())
+  title            String
+  description      String
+  type             String
+  listingType      String
+  status           String              @default("PENDING")
+  ownerId          String
+  address          String
+  building         String
+  flatNumber       String?
+  locality         String
+  latitude         Float?
+  longitude        Float?
+  bedrooms         Int?
+  bathrooms        Int?
+  areaSqft         Float
+  floor            Int?
+  totalFloors      Int?
+  furnished        String              @default("UNFURNISHED")
+  amenities        String              @default("[]")
   price            Float
   deposit          Float?
-  rentNegotiable   Boolean @default(false)
+  rentNegotiable   Boolean             @default(false)
   lockInMonths     Int?
-  lockInNegotiable Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  images        PropertyImage[]
-  priceHistory  PriceHistory[]
-  inquiries     Inquiry[]
-  verifications AdminVerification[]
+  lockInNegotiable Boolean             @default(false)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  verifications    AdminVerification[]
+  inquiries        Inquiry[]
+  priceHistory     PriceHistory[]
+  owner            User                @relation(fields: [ownerId], references: [id])
+  images           PropertyImage[]
 
   @@index([status, listingType, type])
   @@index([ownerId])
@@ -116,33 +102,34 @@ model Property {
 model PropertyImage {
   id         String   @id @default(cuid())
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   url        String
   s3Key      String
   isPrimary  Boolean  @default(false)
   createdAt  DateTime @default(now())
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model PriceHistory {
   id         String   @id @default(cuid())
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
   price      Float
   recordedAt DateTime @default(now())
-  source     String   @default("LISTING")  // LISTING | ADMIN_IMPORT
+  source     String   @default("LISTING")
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 }
 
 model Inquiry {
   id                String   @id @default(cuid())
   propertyId        String
-  property          Property @relation(fields: [propertyId], references: [id])
   seekerId          String
-  seeker            User     @relation(fields: [seekerId], references: [id])
-  status            String   @default("PENDING")  // PENDING | PAID | COMPLETED
+  status            String   @default("PENDING")
+  phone             String?
   razorpayOrderId   String?
   razorpayPaymentId String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  property          Property @relation(fields: [propertyId], references: [id])
+  seeker            User     @relation(fields: [seekerId], references: [id])
 
   @@unique([propertyId, seekerId])
 }
@@ -150,10 +137,10 @@ model Inquiry {
 model AdminVerification {
   id         String   @id @default(cuid())
   propertyId String
-  property   Property @relation(fields: [propertyId], references: [id])
   adminId    String
-  admin      User     @relation(fields: [adminId], references: [id])
-  action     String   // APPROVED | REJECTED
+  action     String
   notes      String?
   createdAt  DateTime @default(now())
+  admin      User     @relation(fields: [adminId], references: [id])
+  property   Property @relation(fields: [propertyId], references: [id])
 }

@@ -108,19 +108,33 @@ export async function DELETE(
 
   const property = await prisma.property.findUnique({
     where: { id },
-    select: { ownerId: true },
+    select: { id: true, ownerId: true, status: true },
   });
 
   if (!property) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (property.ownerId !== session.user.id && session.user.role !== "ADMIN") {
+  // Admin: hard delete immediately (clean up related records first)
+  if (session.user.role === "ADMIN") {
+    await prisma.inquiry.deleteMany({ where: { propertyId: id } });
+    await prisma.adminVerification.deleteMany({ where: { propertyId: id } });
+    await prisma.property.delete({ where: { id } });
+    return NextResponse.json({ deleted: true });
+  }
+
+  // Owner: must own the property
+  if (property.ownerId !== session.user.id) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  if (property.status === "DELETE_REQUESTED") {
+    return NextResponse.json({ error: "Deletion already requested" }, { status: 409 });
+  }
+
+  // Owner cannot delete directly — submit a request for admin approval
   await prisma.property.update({
     where: { id },
-    data: { status: "INACTIVE" },
+    data: { status: "DELETE_REQUESTED" },
   });
 
-  return NextResponse.json({ message: "Property deactivated" });
+  return NextResponse.json({ requested: true });
 }

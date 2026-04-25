@@ -22,7 +22,7 @@ function timeAgo(date: Date | string): string {
 
 export default async function AdminOverviewPage() {
   const session = await auth();
-  if (!session || !["MANAGER", "ADMIN"].includes(session.user.role ?? "")) {
+  if (!session || !["ADMIN"].includes(session.user.role ?? "")) {
     redirect("/login");
   }
 
@@ -61,56 +61,56 @@ export default async function AdminOverviewPage() {
   const maxTypeCount = byType.length > 0 ? Math.max(...byType.map((t) => t._count.id)) : 1;
 
   return (
-    <div className="p-8 bg-[#FAF8F5] min-h-full">
-      <h1 className="text-2xl font-bold text-[#0F2244] mb-8">Overview</h1>
+    <div className="p-4 sm:p-6 lg:p-8 bg-[#FAF8F5] min-h-full">
+      <h1 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] mb-6 sm:mb-8">Overview</h1>
 
       {/* Row 1 — Action needed */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6">
         <Link href="/admin/listings?status=PENDING" className="group">
-          <div className="bg-white rounded-xl border border-amber-200 p-6 hover:shadow-md transition-shadow">
-            <p className="text-xs font-medium text-[#0F2244]/60 uppercase tracking-widest mb-2">Pending Review</p>
-            <p className="text-4xl font-bold text-amber-500 mb-1">{pendingCount}</p>
-            <p className="text-sm text-[#0F2244]/50 group-hover:text-[#C9A96E] transition-colors">View listings →</p>
+          <div className="bg-white rounded-xl border border-amber-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
+            <p className="text-[10px] sm:text-xs font-medium text-[#1A1A1A]/60 uppercase tracking-widest mb-2">Pending Review</p>
+            <p className="text-3xl sm:text-4xl font-bold text-amber-500 mb-1">{pendingCount}</p>
+            <p className="text-sm text-[#1A1A1A]/50 group-hover:text-[#1A1A1A] transition-colors">View listings →</p>
           </div>
         </Link>
-        <div className="bg-white rounded-xl border border-red-200 p-6">
-          <p className="text-xs font-medium text-[#0F2244]/60 uppercase tracking-widest mb-2">Rejected Listings</p>
-          <p className="text-4xl font-bold text-red-500 mb-1">{rejectedCount}</p>
-          <p className="text-sm text-[#0F2244]/50">Total rejected</p>
+        <div className="bg-white rounded-xl border border-red-200 p-4 sm:p-6">
+          <p className="text-[10px] sm:text-xs font-medium text-[#1A1A1A]/60 uppercase tracking-widest mb-2">Rejected Listings</p>
+          <p className="text-3xl sm:text-4xl font-bold text-red-500 mb-1">{rejectedCount}</p>
+          <p className="text-sm text-[#1A1A1A]/50">Total rejected</p>
         </div>
       </div>
 
       {/* Row 2 — Platform health */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {[
           { label: "Active Listings", value: activeCount, color: "text-green-600" },
-          { label: "Total Users", value: totalUsers, color: "text-[#0F2244]" },
-          { label: "Property Owners", value: totalOwners, color: "text-[#C9A96E]" },
+          { label: "Total Users", value: totalUsers, color: "text-[#1A1A1A]" },
+          { label: "Property Owners", value: totalOwners, color: "text-[#1A1A1A]" },
           { label: "Interests Registered", value: totalInterests, color: "text-blue-600" },
         ].map(({ label, value, color }) => (
-          <div key={label} className="bg-white rounded-xl border border-[#0F2244]/8 p-5">
-            <p className={`text-3xl font-bold ${color} mb-1`}>{value}</p>
-            <p className="text-sm text-[#0F2244]/60">{label}</p>
+          <div key={label} className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-5">
+            <p className={`text-2xl sm:text-3xl font-bold ${color} mb-1`}>{value}</p>
+            <p className="text-xs sm:text-sm text-[#1A1A1A]/60">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Row 3 — Breakdowns */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {/* By Property Type */}
-        <div className="bg-white rounded-xl border border-[#0F2244]/8 p-6">
-          <h2 className="text-sm font-semibold text-[#0F2244] uppercase tracking-widest mb-4">By Property Type</h2>
-          {byType.length === 0 && <p className="text-sm text-[#0F2244]/40">No data yet.</p>}
+        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-6">
+          <h2 className="text-xs sm:text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-3 sm:mb-4">By Property Type</h2>
+          {byType.length === 0 && <p className="text-sm text-[#1A1A1A]/40">No data yet.</p>}
           <div className="space-y-3">
             {byType.map((t) => (
               <div key={t.type}>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-[#0F2244]/80">{PROPERTY_TYPE_LABELS[t.type] ?? t.type}</span>
-                  <span className="font-semibold text-[#0F2244]">{t._count.id}</span>
+                  <span className="text-[#1A1A1A]/80">{PROPERTY_TYPE_LABELS[t.type] ?? t.type}</span>
+                  <span className="font-semibold text-[#1A1A1A]">{t._count.id}</span>
                 </div>
-                <div className="h-1.5 rounded-full bg-[#0F2244]/8 overflow-hidden">
+                <div className="h-1.5 rounded-full bg-[#1A1A1A]/8 overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-[#C9A96E]"
+                    className="h-full rounded-full bg-[#1A1A1A]"
                     style={{ width: `${(t._count.id / maxTypeCount) * 100}%` }}
                   />
                 </div>
@@ -120,24 +120,24 @@ export default async function AdminOverviewPage() {
         </div>
 
         {/* Top Localities */}
-        <div className="bg-white rounded-xl border border-[#0F2244]/8 p-6">
-          <h2 className="text-sm font-semibold text-[#0F2244] uppercase tracking-widest mb-4">Top Localities</h2>
-          {byLocality.length === 0 && <p className="text-sm text-[#0F2244]/40">No data yet.</p>}
+        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-6">
+          <h2 className="text-xs sm:text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-3 sm:mb-4">Top Localities</h2>
+          {byLocality.length === 0 && <p className="text-sm text-[#1A1A1A]/40">No data yet.</p>}
           <div className="space-y-3">
             {byLocality.map((l, i) => (
               <div key={l.locality} className="flex items-center gap-3">
-                <span className="text-xs font-bold text-[#C9A96E] w-4">{i + 1}</span>
-                <span className="flex-1 text-sm text-[#0F2244]/80 truncate">{l.locality}</span>
-                <span className="text-sm font-semibold text-[#0F2244]">{l._count.id}</span>
+                <span className="text-xs font-bold text-[#1A1A1A] w-4">{i + 1}</span>
+                <span className="flex-1 text-sm text-[#1A1A1A]/80 truncate">{l.locality}</span>
+                <span className="text-sm font-semibold text-[#1A1A1A]">{l._count.id}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white rounded-xl border border-[#0F2244]/8 p-6">
-          <h2 className="text-sm font-semibold text-[#0F2244] uppercase tracking-widest mb-4">Recent Activity</h2>
-          {recentVerifications.length === 0 && <p className="text-sm text-[#0F2244]/40">No activity yet.</p>}
+        <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-6">
+          <h2 className="text-xs sm:text-sm font-semibold text-[#1A1A1A] uppercase tracking-widest mb-3 sm:mb-4">Recent Activity</h2>
+          {recentVerifications.length === 0 && <p className="text-sm text-[#1A1A1A]/40">No activity yet.</p>}
           <div className="space-y-4">
             {recentVerifications.map((v, i) => (
               <div key={i} className="flex flex-col gap-0.5">
@@ -147,10 +147,10 @@ export default async function AdminOverviewPage() {
                   }`}>
                     {v.action}
                   </span>
-                  <span className="text-xs text-[#0F2244]/40">{timeAgo(v.createdAt)}</span>
+                  <span className="text-xs text-[#1A1A1A]/40">{timeAgo(v.createdAt)}</span>
                 </div>
-                <p className="text-xs text-[#0F2244]/70 truncate">{v.property?.title ?? "Unknown property"}</p>
-                <p className="text-xs text-[#0F2244]/40">by {v.admin?.name ?? "Admin"}</p>
+                <p className="text-xs text-[#1A1A1A]/70 truncate">{v.property?.title ?? "Unknown property"}</p>
+                <p className="text-xs text-[#1A1A1A]/40">by {v.admin?.name ?? "Admin"}</p>
               </div>
             ))}
           </div>

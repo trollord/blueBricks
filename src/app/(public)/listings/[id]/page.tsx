@@ -1,23 +1,23 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import PriceHistoryChart from "@/components/property/PriceHistoryChart";
-import SinglePropertyMap from "@/components/map/SinglePropertyMap";
+import PropertyMapSection from "@/components/map/PropertyMapSection";
 import InquiryButton from "@/components/payment/InquiryButton";
+import PropertyGallery from "@/components/property/PropertyGallery";
 import {
   MapPin,
   BedDouble,
   Bath,
   Maximize2,
   Building2,
-  Calendar,
-  CheckCircle2,
-  ArrowLeft,
+  Wifi,
+  Car,
+  Dumbbell,
+  ShieldCheck,
+  Droplets,
+  Wind,
+  Zap,
+  Trees,
 } from "lucide-react";
 import {
   formatPrice,
@@ -70,7 +70,6 @@ async function getProperty(id: string) {
         orderBy: { recordedAt: "asc" },
       },
       owner: { select: { id: true, name: true, image: true } },
-      _count: { select: { inquiries: true } },
     },
   });
 }
@@ -94,21 +93,58 @@ export async function generateMetadata({
   };
 }
 
+/* ── Amenity icon mapping ── */
+const AMENITY_ICONS: Record<string, React.ElementType> = {
+  "High-speed Wifi": Wifi,
+  "Wi-Fi": Wifi,
+  WiFi: Wifi,
+  "Covered Parking": Car,
+  Parking: Car,
+  "Private Gym": Dumbbell,
+  Gym: Dumbbell,
+  "24x7 Security": ShieldCheck,
+  "24/7 Security": ShieldCheck,
+  Security: ShieldCheck,
+  "Swimming Pool": Droplets,
+  "Infinity Pool": Droplets,
+  Pool: Droplets,
+  "Air Conditioning": Wind,
+  "Laundry Service": Wind,
+  AC: Wind,
+  "Power Backup": Zap,
+  Garden: Trees,
+};
+
+function getAmenityIcon(name: string) {
+  return AMENITY_ICONS[name] ?? ShieldCheck;
+}
+
+/* ── Section label ── */
+function SectionLabel({ title, compact, withLine }: { title: string; compact?: boolean; withLine?: boolean }) {
+  return (
+    <div className={`flex items-center gap-4 mb-5 sm:mb-8 ${compact ? "mt-0" : "mt-10 sm:mt-16"}`}>
+      <p className="text-[11px] sm:text-[13px] font-bold tracking-[0.25em] text-[#1A1A1A]/80 uppercase shrink-0">{title}</p>
+      {withLine && <div className="flex-1 h-px bg-[#1A1A1A]/20" />}
+    </div>
+  );
+}
+
 export default async function PropertyDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ showInterest?: string }>;
 }) {
-  const { id } = await params;
+  const [{ id }, resolvedSearch] = await Promise.all([params, searchParams]);
   const [property, session] = await Promise.all([getProperty(id), auth()]);
 
   if (!property) notFound();
 
   const isRent = property.listingType === "RENT";
-  const primaryImage =
-    property.images.find((i) => i.isPrimary) ?? property.images[0];
 
-  // Check if current user has already registered interest for this property
+  const galleryImages = property.images;
+
   let hasRegistered = false;
   if (session?.user?.id) {
     const inquiry = await prisma.inquiry.findUnique({
@@ -123,272 +159,206 @@ export default async function PropertyDetailPage({
     hasRegistered = inquiry != null;
   }
 
+  const amenities = parseAmenities(property.amenities);
+
+  /* Split title for italic portion after comma */
+  const titleParts = property.title.split(",");
+  const mainTitle = titleParts[0];
+  const italicTitle =
+    titleParts.length > 1 ? ", " + titleParts.slice(1).join(",").trim() : null;
+
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Back */}
-        <Link
-          href="/listings"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-[#0F2244] mb-6 transition-colors duration-200"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to listings
-        </Link>
+    <div className="min-h-screen bg-white">
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* ── LEFT COLUMN ── */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Photo Gallery */}
-            <div className="grid grid-cols-4 grid-rows-2 gap-2 h-72 sm:h-[420px] rounded-2xl overflow-hidden shadow-lg">
-              {primaryImage ? (
-                <>
-                  <div className="col-span-3 row-span-2 relative">
-                    <Image
-                      src={primaryImage.url}
-                      alt={property.title}
-                      fill
-                      className="object-cover"
-                      priority
-                      sizes="(max-width: 1024px) 100vw, 66vw"
-                    />
-                  </div>
-                  <div className="col-span-1 row-span-1 relative">
-                    {property.images[1] ? (
-                      <Image
-                        src={property.images[1].url}
-                        alt={`${property.title} 2`}
-                        fill
-                        className="object-cover"
-                        sizes="25vw"
-                      />
-                    ) : (
-                      <div className="h-full bg-[#0F2244]/10" />
-                    )}
-                  </div>
-                  <div className="col-span-1 row-span-1 relative">
-                    {property.images[2] ? (
-                      <Image
-                        src={property.images[2].url}
-                        alt={`${property.title} 3`}
-                        fill
-                        className="object-cover"
-                        sizes="25vw"
-                      />
-                    ) : (
-                      <div className="h-full bg-[#0F2244]/5" />
-                    )}
-                  </div>
-                </>
-              ) : (
-                <div className="col-span-4 row-span-2 flex items-center justify-center bg-[#0F2244]/5 rounded-2xl">
-                  <Building2 className="h-16 w-16 text-[#0F2244]/20" />
-                </div>
-              )}
-            </div>
+      {/* ── Hero Gallery ──────────────────────────────────────────────────── */}
+      <div className="pt-[72px] sm:pt-[84px] max-w-6xl mx-auto px-3 sm:px-6 lg:px-10">
+        <PropertyGallery images={galleryImages} title={property.title} />
+      </div>
 
-            {/* Title & badges */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm">
-              <div className="flex flex-wrap gap-2 mb-3">
-                <Badge
-                  className={
-                    isRent
-                      ? "bg-[#C9A96E] text-[#0F2244] hover:bg-[#C9A96E]"
-                      : "bg-[#0F2244] text-[#C9A96E] hover:bg-[#0F2244]"
-                  }
-                >
-                  For {LISTING_TYPE_LABELS[property.listingType]}
-                </Badge>
-                <Badge variant="secondary">{PROPERTY_TYPE_LABELS[property.type]}</Badge>
-                <Badge variant="outline">{FURNISHED_LABELS[property.furnished]}</Badge>
-              </div>
-              <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#0F2244] mb-2">
-                {property.title}
-              </h1>
-              <div className="flex items-center gap-1.5 text-gray-400 text-sm">
-                <MapPin className="h-4 w-4 flex-shrink-0 text-[#C9A96E]" />
-                <span>
-                  {property.building}, {property.locality}, Hiranandani Estate, Thane
-                </span>
-              </div>
-            </div>
+      {/* ── Content ───────────────────────────────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10">
 
-            {/* Key stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {/* ── Title row + Price Card ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[7fr_3fr] gap-6 lg:gap-12 items-start mt-6 sm:mt-10">
+
+          {/* Left: Badges + Title + Location */}
+          <div className="min-w-0">
+            <div className="flex flex-wrap gap-2">
               {[
-                {
-                  icon: BedDouble,
-                  label: "Bedrooms",
-                  value: property.bedrooms ? `${property.bedrooms} BHK` : "N/A",
-                },
-                { icon: Bath, label: "Bathrooms", value: property.bathrooms ?? "N/A" },
-                { icon: Maximize2, label: "Area", value: formatArea(property.areaSqft) },
-                {
-                  icon: Building2,
-                  label: "Floor",
-                  value:
-                    property.floor != null
-                      ? `${property.floor}${property.totalFloors ? ` / ${property.totalFloors}` : ""}`
-                      : "N/A",
-                },
-              ].map(({ icon: Icon, label, value }) => (
-                <div
+                `For ${LISTING_TYPE_LABELS[property.listingType]}`,
+                PROPERTY_TYPE_LABELS[property.type],
+                FURNISHED_LABELS[property.furnished],
+              ].map((label) => (
+                <span
                   key={label}
-                  className="bg-white rounded-2xl p-4 text-center shadow-sm border border-[#0F2244]/5"
+                  className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1A1A]/55 border border-gray-200 px-3 py-1 rounded-full"
                 >
-                  <Icon className="h-5 w-5 text-[#C9A96E] mx-auto mb-2" />
-                  <p className="font-semibold text-[#0F2244]">{value}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{label}</p>
-                </div>
+                  {label}
+                </span>
               ))}
             </div>
 
-            {/* Description */}
-            <Card className="border-0 shadow-sm rounded-2xl">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg text-[#0F2244] font-[family-name:var(--font-playfair)]">
-                  About this property
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-                  {property.description}
-                </p>
-              </CardContent>
-            </Card>
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl lg:text-6xl font-bold text-[#0B0B0C] mt-4 sm:mt-5 leading-tight tracking-tight break-words">
+              {mainTitle}
+              {italicTitle && (
+                <span className="italic font-normal text-[#0B0B0C]/80">
+                  {italicTitle}
+                </span>
+              )}
+            </h1>
 
-            {/* Amenities */}
-            {parseAmenities(property.amenities).length > 0 && (
-              <Card className="border-0 shadow-sm rounded-2xl">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-[#0F2244] font-[family-name:var(--font-playfair)]">
-                    Amenities
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {parseAmenities(property.amenities).map((amenity) => (
-                      <div key={amenity} className="flex items-center gap-2 text-sm text-gray-700">
-                        <CheckCircle2 className="h-4 w-4 text-[#C9A96E] shrink-0" />
-                        {amenity}
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Price History */}
-            <Card className="border-0 shadow-sm rounded-2xl">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg text-[#0F2244] font-[family-name:var(--font-playfair)]">
-                  Price History
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <PriceHistoryChart
-                  data={property.priceHistory.map((ph) => ({
-                    ...ph,
-                    recordedAt: ph.recordedAt.toString(),
-                  }))}
-                  listingType={property.listingType}
-                />
-              </CardContent>
-            </Card>
-
-            {/* Map */}
-            {property.latitude && property.longitude && (
-              <Card className="border-0 shadow-sm rounded-2xl">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-lg text-[#0F2244] font-[family-name:var(--font-playfair)]">
-                    Location
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <SinglePropertyMap
-                    lat={property.latitude}
-                    lng={property.longitude}
-                    title={property.title}
-                  />
-                  <p className="text-xs text-gray-400 mt-2">
-                    Exact address revealed after registering interest.
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-
-          {/* ── RIGHT COLUMN — STICKY PRICE CARD ── */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 space-y-4">
-              <Card className="border-0 shadow-lg rounded-2xl overflow-hidden">
-                {/* Gold top bar */}
-                <div className="h-1.5 bg-gradient-to-r from-[#C9A96E] to-[#e8c98a]" />
-                <CardContent className="pt-6 space-y-5">
-                  {/* Price */}
-                  <div>
-                    <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-3xl font-bold text-[#0F2244] font-[family-name:var(--font-playfair)]">
-                        {formatPrice(property.price)}
-                      </span>
-                      {isRent && <span className="text-gray-400">/month</span>}
-                      {property.rentNegotiable && (
-                        <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#C9A96E]/20 text-[#8B6914] border border-[#C9A96E]/40">
-                          Negotiable
-                        </span>
-                      )}
-                    </div>
-                    {isRent && property.deposit && (
-                      <p className="text-sm text-gray-400 mt-1">
-                        Security deposit: {formatPrice(property.deposit)}
-                      </p>
-                    )}
-                    {isRent && property.lockInMonths && property.lockInMonths > 0 && (
-                      <p className="text-sm text-gray-400 mt-1">
-                        Lock-in: {property.lockInMonths} month{property.lockInMonths > 1 ? "s" : ""}
-                        {property.lockInNegotiable ? " (negotiable)" : ""}
-                      </p>
-                    )}
-                  </div>
-
-                  <Separator className="bg-[#0F2244]/5" />
-
-                  {/* Register interest notice */}
-                  <div className="bg-[#0F2244]/5 rounded-xl p-4 space-y-2">
-                    <p className="text-sm font-semibold text-[#0F2244]">
-                      Register Interest — Free
-                    </p>
-                    <p className="text-xs text-[#0F2244]/70 leading-relaxed">
-                      Let the owner know you&apos;re interested. They will review and reach out to you directly.
-                    </p>
-                  </div>
-
-                  <InquiryButton
-                    propertyId={property.id}
-                    hasRegistered={hasRegistered}
-                    isLoggedIn={!!session}
-                  />
-
-                  <p className="text-xs text-center text-gray-400">
-                    Zero brokerage. The owner contacts you — no middlemen.
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Listed by — verified badge only, no name */}
-              <div className="flex items-center gap-2 px-1">
-                <div className="h-2 w-2 rounded-full bg-emerald-500" />
-                <p className="text-xs text-gray-500">Listed by a <span className="font-medium text-emerald-700">Verified Owner</span></p>
-              </div>
-
-              {/* Listed date */}
-              <div className="flex items-center gap-2 text-xs text-gray-400 px-1">
-                <Calendar className="h-3.5 w-3.5" />
-                <span>Listed {formatDate(property.createdAt)}</span>
-                <span>·</span>
-                <span>{property._count.inquiries} inquiries</span>
-              </div>
+            <div className="flex items-start gap-1.5 text-[#1A1A1A]/45 text-[13px] mt-3">
+              <MapPin className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+              <span>
+                {property.building}, {property.locality}, Hiranandani Estate, Thane
+              </span>
             </div>
           </div>
+
+          {/* Right: Price Card — sticky on desktop, inline on mobile */}
+          <div className="lg:sticky lg:top-24">
+            <div className="border border-gray-150 bg-[#fafafa] p-5 sm:p-8 rounded-sm">
+              <p className="text-[9px] tracking-[0.25em] text-[#1A1A1A]/45 uppercase mb-3">
+                {isRent ? "Price Per Month" : "Sale Price"}
+              </p>
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span className="text-3xl sm:text-4xl font-bold text-[#0B0B0C] font-[family-name:var(--font-playfair)]">
+                  {formatPrice(property.price)}
+                </span>
+                {isRent && (
+                  <span className="text-[#1A1A1A]/40 text-sm font-normal">/mo</span>
+                )}
+              </div>
+
+              {property.rentNegotiable && (
+                <span className="inline-block text-[10px] tracking-wide text-gray-400 border border-gray-200 px-2 py-0.5 mb-2">
+                  Negotiable
+                </span>
+              )}
+              {isRent && property.deposit && (
+                <p className="text-xs text-gray-400 mb-1">
+                  Deposit: {formatPrice(property.deposit)}
+                </p>
+              )}
+              {isRent && property.lockInMonths != null && property.lockInMonths > 0 && (
+                <p className="text-xs text-gray-400 mb-1">
+                  Lock-in: {property.lockInMonths} month
+                  {property.lockInMonths > 1 ? "s" : ""}
+                  {property.lockInNegotiable ? " (negotiable)" : ""}
+                </p>
+              )}
+
+              <div className="mt-5">
+                <InquiryButton
+                  propertyId={property.id}
+                  hasRegistered={hasRegistered}
+                  isLoggedIn={!!session}
+                  userName={session?.user?.name ?? ""}
+                  userEmail={session?.user?.email ?? ""}
+                  autoOpen={resolvedSearch?.showInterest === "1" && !!session && !hasRegistered}
+                />
+              </div>
+
+              <p className="text-[10px] text-center text-[#1A1A1A]/40 mt-4 leading-relaxed tracking-wide">
+                No hidden charges &bull; 100% Verified Property
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Key Stats ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 mt-6 sm:mt-10 gap-3">
+          {[
+            {
+              icon: BedDouble,
+              label: "BEDROOM",
+              value: property.bedrooms ? `${property.bedrooms} BHK` : "N/A",
+            },
+            {
+              icon: Bath,
+              label: "BATHROOM",
+              value: property.bathrooms ?? "N/A",
+            },
+            {
+              icon: Maximize2,
+              label: "SQ.FT AREA",
+              value: formatArea(property.areaSqft),
+            },
+            {
+              icon: Building2,
+              label: "FLOOR",
+              value:
+                property.floor != null
+                  ? `${property.floor}${property.totalFloors ? `/${property.totalFloors}` : ""}`
+                  : "N/A",
+            },
+          ].map(({ icon: Icon, label, value }) => (
+            <div
+              key={label}
+              className="flex flex-col items-center py-6 sm:py-9 px-3 sm:px-4 bg-[#f5f5f5] rounded-lg"
+            >
+              <Icon className="h-5 w-5 text-[#0B0B0C]/35 mb-3 sm:mb-4" strokeWidth={1.5} />
+              <p className="font-bold text-[#0B0B0C] text-xl sm:text-2xl leading-none tracking-tight">
+                {value}
+              </p>
+              <p className="text-[9px] tracking-[0.22em] text-[#1A1A1A]/45 mt-2 sm:mt-2.5 uppercase">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* ── About + Amenities ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4 lg:gap-8 items-stretch mt-6 sm:mt-10">
+          {/* Left 60%: About */}
+          <div className="bg-[#fafafa] px-5 sm:px-8 pb-6 sm:pb-8 pt-5 sm:pt-6 rounded-sm">
+            <SectionLabel title="About This Property" compact />
+            <p className="text-[#0B0B0C]/75 leading-[1.85] text-[14px] sm:text-[15px] whitespace-pre-line italic">
+              {property.description}
+            </p>
+          </div>
+
+          {/* Right 40%: Amenities */}
+          {amenities.length > 0 && (
+            <div className="bg-[#fafafa] px-5 sm:px-8 pb-6 sm:pb-8 pt-5 sm:pt-6 rounded-sm">
+              <SectionLabel title="Amenities" compact />
+              <div className="flex flex-wrap gap-6 sm:gap-10">
+                {amenities.map((amenity) => {
+                  const Icon = getAmenityIcon(amenity);
+                  return (
+                    <div key={amenity} className="flex flex-col items-center gap-2">
+                      <Icon className="h-[18px] w-[18px] text-[#0B0B0C]/40" strokeWidth={1.5} />
+                      <span className="text-[11px] text-[#1A1A1A]/55 text-center leading-tight">
+                        {amenity}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ── Location / Map ── */}
+        {property.latitude && property.longitude && (
+          <>
+            <SectionLabel title="Location" withLine />
+            <PropertyMapSection
+              lat={property.latitude}
+              lng={property.longitude}
+              propertyId={property.id}
+              isLoggedIn={!!session}
+            />
+
+          </>
+        )}
+
+
+        {/* ── Footer meta ── */}
+        <div className="flex flex-wrap items-center gap-3 text-[11px] text-[#1A1A1A]/30 mt-10 sm:mt-16 pt-6 pb-16 sm:pb-20 border-t border-gray-100">
+          <span>Listed {formatDate(property.createdAt)}</span>
+          <span>&middot;</span>
+<span className="text-gray-400 font-medium">Verified Owner</span>
         </div>
       </div>
     </div>
