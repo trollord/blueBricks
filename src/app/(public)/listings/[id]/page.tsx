@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
+import { cache } from "react";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import PropertyMapSection from "@/components/map/PropertyMapSection";
 import InquiryButton from "@/components/payment/InquiryButton";
 import PropertyGallery from "@/components/property/PropertyGallery";
+import { WhatsAppShareButton } from "@/components/property/WhatsAppShare";
 import {
   MapPin,
   BedDouble,
@@ -34,7 +36,8 @@ import type { Metadata } from "next";
 
 export const revalidate = 3600;
 
-async function getProperty(id: string) {
+// cache() dedupes the query between generateMetadata and the page render
+const getProperty = cache(async (id: string) => {
   return prisma.property.findUnique({
     where: { id, status: "ACTIVE" },
     select: {
@@ -72,7 +75,7 @@ async function getProperty(id: string) {
       owner: { select: { id: true, name: true, image: true } },
     },
   });
-}
+});
 
 export async function generateMetadata({
   params,
@@ -140,6 +143,11 @@ export default async function PropertyDetailPage({
   const [property, session] = await Promise.all([getProperty(id), auth()]);
 
   if (!property) notFound();
+
+  // Count the view for analytics (never block the page on failure)
+  await prisma.property
+    .update({ where: { id }, data: { views: { increment: 1 } } })
+    .catch(() => {});
 
   const isRent = property.listingType === "RENT";
 
@@ -259,8 +267,27 @@ export default async function PropertyDetailPage({
                 />
               </div>
 
+              <div className="mt-3">
+                <WhatsAppShareButton
+                  property={{
+                    id: property.id,
+                    title: property.title,
+                    type: property.type,
+                    listingType: property.listingType,
+                    building: property.building,
+                    locality: property.locality,
+                    bedrooms: property.bedrooms,
+                    bathrooms: property.bathrooms,
+                    areaSqft: property.areaSqft,
+                    furnished: property.furnished,
+                    price: property.price,
+                    deposit: property.deposit,
+                  }}
+                />
+              </div>
+
               <p className="text-[10px] text-center text-[#1A1A1A]/40 mt-4 leading-relaxed tracking-wide">
-                No hidden charges &bull; 100% Verified Property
+                100% Verified Property
               </p>
             </div>
           </div>

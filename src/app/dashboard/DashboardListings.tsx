@@ -14,9 +14,10 @@ import {
   PROPERTY_TYPE_LABELS,
   LISTING_TYPE_LABELS,
 } from "@/lib/constants";
-import { formatPrice, formatDate } from "@/lib/utils/formatters";
+import { turnaroundDays, formatPrice, formatDate } from "@/lib/utils/formatters";
 import { Building2, PlusCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Modal from "@/components/ui/Modal";
 
 interface PropertyImage {
   url: string;
@@ -38,6 +39,8 @@ interface PropertyWithCount {
   rentNegotiable: boolean;
   lockInMonths: number | null;
   createdAt: Date;
+  activatedAt: Date | null;
+  closedAt: Date | null;
   images: PropertyImage[];
   _count: { inquiries: number };
 }
@@ -88,6 +91,8 @@ export default function DashboardListings({
   const [interestsLoading, setInterestsLoading] = useState(false);
   const [statusLoading, setStatusLoading] = useState<string | null>(null);
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [inactiveConfirmId, setInactiveConfirmId] = useState<string | null>(null);
 
   const counts = {
     ACTIVE: properties.filter((p) => p.status === "ACTIVE").length,
@@ -113,11 +118,6 @@ export default function DashboardListings({
   }
 
   async function requestDelete(propertyId: string) {
-    const confirmed = window.confirm(
-      "Request deletion of this property? An admin will review and confirm before it's permanently removed."
-    );
-    if (!confirmed) return;
-
     setDeleteLoading(propertyId);
     try {
       const res = await fetch(`/api/properties/${propertyId}`, { method: "DELETE" });
@@ -137,13 +137,6 @@ export default function DashboardListings({
   }
 
   async function toggleStatus(propertyId: string, newStatus: "ACTIVE" | "INACTIVE") {
-    if (newStatus === "INACTIVE") {
-      const confirmed = window.confirm(
-        "Are you sure you want to mark this property as rented/sold? All interested seekers will be notified."
-      );
-      if (!confirmed) return;
-    }
-
     setStatusLoading(propertyId);
     try {
       const res = await fetch(`/api/properties/${propertyId}/status`, {
@@ -193,22 +186,24 @@ export default function DashboardListings({
 
   return (
     <>
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
-        {(
-          [
-            { key: "ACTIVE", label: "Active", color: "text-green-700 bg-green-50 border-green-200" },
-            { key: "PENDING", label: "Pending", color: "text-yellow-700 bg-yellow-50 border-yellow-200" },
-            { key: "REJECTED", label: "Rejected", color: "text-red-700 bg-red-50 border-red-200" },
-            { key: "INACTIVE", label: "Inactive", color: "text-gray-700 bg-gray-50 border-gray-200" },
-          ] as const
-        ).map(({ key, label, color }) => (
-          <div key={key} className={`rounded-xl border p-4 ${color}`}>
-            <p className="text-2xl font-bold">{counts[key]}</p>
-            <p className="text-sm font-medium mt-0.5">{label}</p>
-          </div>
-        ))}
-      </div>
+      {/* Stats — only shown when the owner has more than 5 listings */}
+      {properties.length > 5 && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
+          {(
+            [
+              { key: "ACTIVE", label: "Active", color: "text-[#0B0B0C] bg-[#f9f9f9] border-[#e0e0e0]" },
+              { key: "PENDING", label: "Pending", color: "text-[#2d3435] bg-white border-[#d4d4d4]" },
+              { key: "REJECTED", label: "Rejected", color: "text-[#0B0B0C] bg-[#f0f0f0] border-[#c8c8c8]" },
+              { key: "INACTIVE", label: "Inactive", color: "text-[#5a6061] bg-[#fafafa] border-[#e5e5e5]" },
+            ] as const
+          ).map(({ key, label, color }) => (
+            <div key={key} className={`rounded-xl border p-4 ${color}`}>
+              <p className="text-2xl font-bold">{counts[key]}</p>
+              <p className="text-sm font-medium mt-0.5">{label}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Listings */}
       <div className="space-y-4">
@@ -220,10 +215,10 @@ export default function DashboardListings({
           return (
             <div
               key={property.id}
-              className="flex gap-4 bg-white rounded-xl border border-gray-200 p-4 hover:border-blue-300 hover:shadow-sm transition-all"
+              className="flex gap-5 bg-white rounded-xl border border-gray-200 p-5 hover:border-blue-300 hover:shadow-sm transition-all"
             >
               {/* Thumbnail */}
-              <div className="w-24 h-20 rounded-lg bg-gray-100 shrink-0 overflow-hidden">
+              <div className="w-36 h-28 rounded-xl bg-gray-100 shrink-0 overflow-hidden">
                 {thumb ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -233,7 +228,7 @@ export default function DashboardListings({
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <Building2 className="h-8 w-8 text-gray-300" />
+                    <Building2 className="h-9 w-9 text-gray-300" />
                   </div>
                 )}
               </div>
@@ -241,23 +236,24 @@ export default function DashboardListings({
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2 flex-wrap">
-                  <h3 className="text-sm font-semibold text-gray-900 truncate">
+                  <h3 className="text-base font-semibold text-gray-900 truncate">
                     {property.title}
                   </h3>
                   <span
-                    className={`text-xs font-medium px-2 py-0.5 rounded-full border ${badge.className} shrink-0`}
+                    className={`text-xs font-medium px-2.5 py-1 rounded-full border ${badge.className} shrink-0`}
                   >
                     {badge.label}
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 mt-1.5">
                   {PROPERTY_TYPE_LABELS[property.type]} ·{" "}
                   {LISTING_TYPE_LABELS[property.listingType]} ·{" "}
                   {property.locality}
                   {property.bedrooms ? ` · ${property.bedrooms} BHK` : ""}
+                  {property.areaSqft ? ` · ${property.areaSqft.toLocaleString()} sq.ft` : ""}
                 </p>
-                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                  <p className="text-sm font-semibold text-blue-700">
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  <p className="text-base font-bold text-blue-700">
                     {formatPrice(property.price)}
                     {property.listingType === "RENT" ? "/mo" : ""}
                   </p>
@@ -271,10 +267,20 @@ export default function DashboardListings({
                       Lock-in: {property.lockInMonths}m
                     </span>
                   )}
+                  {property.status === "ACTIVE" && turnaroundDays(property.activatedAt) !== null && (
+                    <span className="text-xs font-medium px-1.5 py-0.5 rounded-full bg-green-50 text-green-700 border border-green-200">
+                      Live for {turnaroundDays(property.activatedAt)}d
+                    </span>
+                  )}
+                  {property.status === "INACTIVE" && turnaroundDays(property.activatedAt, property.closedAt) !== null && (
+                    <span className="text-xs font-medium px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                      Closed in {turnaroundDays(property.activatedAt, property.closedAt)}d
+                    </span>
+                  )}
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex flex-wrap gap-2 mt-3">
+                <div className="flex flex-wrap gap-2 mt-3.5">
                   <Button
                     size="sm"
                     variant="outline"
@@ -296,7 +302,7 @@ export default function DashboardListings({
                       size="sm"
                       variant="outline"
                       className="border-red-200 text-red-700 hover:bg-red-50"
-                      onClick={() => toggleStatus(property.id, "INACTIVE")}
+                      onClick={() => setInactiveConfirmId(property.id)}
                       disabled={isLoading}
                     >
                       {isLoading ? (
@@ -324,7 +330,7 @@ export default function DashboardListings({
                       size="sm"
                       variant="outline"
                       className="border-red-200 text-red-600 hover:bg-red-50 mt-1"
-                      onClick={() => requestDelete(property.id)}
+                      onClick={() => setDeleteConfirmId(property.id)}
                       disabled={deleteLoading === property.id}
                     >
                       {deleteLoading === property.id ? (
@@ -394,6 +400,41 @@ export default function DashboardListings({
           )}
         </SheetContent>
       </Sheet>
+
+      {/* Mark as Rented/Sold confirm */}
+      <Modal
+        open={!!inactiveConfirmId}
+        onClose={() => setInactiveConfirmId(null)}
+        title="Mark as Rented / Sold?"
+        description="All interested seekers will be notified. You can reactivate this listing later if needed."
+        confirmLabel="Yes, Mark as Rented/Sold"
+        cancelLabel="Cancel"
+        onConfirm={async () => {
+          if (!inactiveConfirmId) return;
+          const id = inactiveConfirmId;
+          setInactiveConfirmId(null);
+          await toggleStatus(id, "INACTIVE");
+        }}
+        loading={!!statusLoading}
+      />
+
+      {/* Request deletion confirm */}
+      <Modal
+        open={!!deleteConfirmId}
+        onClose={() => setDeleteConfirmId(null)}
+        title="Request Deletion?"
+        description="An admin will review your request before permanently removing this listing."
+        confirmLabel="Request Deletion"
+        cancelLabel="Cancel"
+        onConfirm={async () => {
+          if (!deleteConfirmId) return;
+          const id = deleteConfirmId;
+          setDeleteConfirmId(null);
+          await requestDelete(id);
+        }}
+        danger
+        loading={!!deleteLoading}
+      />
     </>
   );
 }

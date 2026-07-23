@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
+import Image from "next/image";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import PropertyCard from "@/components/property/PropertyCard";
 import {
@@ -11,15 +13,16 @@ import {
   ListChecks,
   Zap,
   ScanEye,
-  Search,
-  Heart,
-  KeyRound,
   ArrowRight,
 } from "lucide-react";
 import StackedCards from "@/components/ui/stacked-cards";
 import ListPropertyCTA from "@/components/property/ListPropertyCTA";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
+import ProcessSection from "@/components/ui/ProcessSection";
 
-async function getHomeData() {
+// Cached across requests — the page still renders per request (session in the
+// root layout), but these 4 DB queries only run once a minute
+const getHomeData = unstable_cache(async () => {
   const [featured, stats] = await Promise.all([
     prisma.property.findMany({
       where: { status: "ACTIVE" },
@@ -52,11 +55,12 @@ async function getHomeData() {
   ]);
 
   return { featured, stats };
-}
+}, ["home-data"], { revalidate: 60 });
 
 export default async function HomePage() {
   const { featured, stats } = await getHomeData();
   const [activeListings, completedDeals, owners] = stats;
+
 
   return (
     <div className="bg-[#f9f9f9] text-[#2d3435]">
@@ -64,14 +68,17 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           HERO
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center px-5 sm:px-8 overflow-hidden">
+      <section className="relative min-h-dvh flex items-center px-5 sm:px-8 overflow-hidden">
 
         {/* Full-bleed background image */}
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=1920&auto=format&fit=crop&q=80"
             alt="Hiranandani Estate architecture"
-            className="w-full h-full object-cover object-center"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
           />
           {/* Dark overlay — full bleed */}
           <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.80)" }} />
@@ -115,7 +122,7 @@ export default async function HomePage() {
             {/* Sub-copy */}
             <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-xl leading-relaxed mb-8 sm:mb-10">
               Browse verified listings, register interest for free, and connect
-              directly with owners. No broker fees. No commissions. Completely free.
+              directly with owners. No commissions. Completely free.
             </p>
 
             {/* CTA */}
@@ -150,8 +157,8 @@ export default async function HomePage() {
             },
             {
               icon: Ban,
-              title: "No Brokers. Ever.",
-              desc: "We strictly prohibit agents, ensuring you never pay a rupee in brokerage or commissions.",
+              title: "Zero Brokerage.",
+              desc: "Deal directly with verified owners — you never pay a rupee in brokerage or commissions.",
             },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="bg-[#1c1c1c] p-7 sm:p-10 rounded-xl">
@@ -171,20 +178,18 @@ export default async function HomePage() {
           STATS BAR
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-12 sm:py-16 bg-[#f9f9f9] px-5 sm:px-8">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="max-w-[1440px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {[
-            { value: `${activeListings}+`, label: "Active Listings" },
-            { value: `${completedDeals}+`, label: "Deals Closed" },
-            { value: `${owners}+`,         label: "Verified Owners" },
-            { value: "Always",             label: "Free" },
-          ].map(({ value, label }) => (
-            <div key={label} className="text-center md:text-left">
-              <div className="text-3xl sm:text-4xl font-black text-[#0B0B0C] tracking-tighter mb-1">
-                {value}
-              </div>
-              <div className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#5a6061]">
-                {label}
-              </div>
+            <AnimatedCounter key="listings" end={activeListings} suffix="+" label="Active Listings" dark />,
+            <AnimatedCounter key="deals" end={completedDeals} suffix="+" label="Deals Closed" dark />,
+            <AnimatedCounter key="owners" end={owners} suffix="+" label="Verified Owners" dark />,
+            <div key="free">
+              <div className="text-3xl sm:text-4xl font-black text-white tracking-tighter mb-1">Always</div>
+              <div className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white/45">Free</div>
+            </div>,
+          ].map((child, i) => (
+            <div key={i} className="bg-[#1c1c1c] rounded-lg p-6 sm:p-8">
+              {child}
             </div>
           ))}
         </div>
@@ -203,10 +208,10 @@ export default async function HomePage() {
             </h2>
             <div className="space-y-6 sm:space-y-8">
               {[
-                { icon: PiggyBank,   title: "Completely Free",     desc: "Zero subscription fees or platform costs for tenants and buyers." },
-                { icon: ListChecks,  title: "Verified Listings",   desc: "Say goodbye to bait-and-switch. Every photo and detail is real." },
-                { icon: Zap,         title: "Instant Access",       desc: "Direct contact lines with owners for immediate viewings." },
-                { icon: ScanEye,     title: "Price Transparency",   desc: "View the true market rates without agent markups." },
+                { icon: PiggyBank, title: "Completely Free", desc: "Zero subscription fees or platform costs for tenants and buyers." },
+                { icon: ListChecks, title: "Verified Listings", desc: "Say goodbye to bait-and-switch. Every photo and detail is real." },
+                { icon: Zap, title: "Instant Access", desc: "Direct contact lines with owners for immediate viewings." },
+                { icon: ScanEye, title: "Price Transparency", desc: "View true market rates with complete price history." },
               ].map(({ icon: Icon, title, desc }) => (
                 <div key={title} className="flex gap-4 sm:gap-6">
                   <div
@@ -225,7 +230,7 @@ export default async function HomePage() {
           </div>
 
           {/* ── Right: stacked card scroll ── */}
-          <div className="w-full lg:w-[55%] hidden lg:block">
+          <div className="w-full lg:w-[55%]">
             <StackedCards
               cards={[
                 {
@@ -242,13 +247,13 @@ export default async function HomePage() {
                 },
                 {
                   label: "Direct Access",
-                  title: "Owner Contact.\nNo Middlemen.",
+                  title: "Owner Contact.\nDirect Connect.",
                   description:
                     "Connect directly with property owners for immediate viewings and honest conversations about your future home.",
                 },
                 {
                   label: "Market Insight",
-                  title: "True Prices.\nNo Agent Markups.",
+                  title: "True Prices.\nFull Transparency.",
                   description:
                     "View real market rates with full price history so you can make informed decisions without inflated numbers.",
                 },
@@ -256,7 +261,7 @@ export default async function HomePage() {
                   label: "Always Free",
                   title: "No Fees.\nNo Subscriptions.",
                   description:
-                    "Our platform is completely free for tenants and buyers. No hidden charges, no platform costs, no surprises.",
+                    "Our platform is completely free for tenants and buyers. No platform costs, no surprises.",
                 },
               ]}
             />
@@ -305,66 +310,29 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           SIMPLE PROCESS
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 sm:py-32 px-5 sm:px-8 max-w-[1440px] mx-auto">
-        <h2 className="text-center text-3xl sm:text-4xl font-bold tracking-tighter text-[#0B0B0C] mb-12 sm:mb-20">
-          Simple Process
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12 relative">
-          {/* Horizontal connector line — desktop only */}
-          <div className="hidden md:block absolute top-12 left-0 w-full h-px bg-[#dde4e5] z-0" />
-
-          {[
-            {
-              icon: Search,
-              title: "Browse & Find",
-              desc: "Explore verified properties with high-resolution imagery and accurate descriptions.",
-            },
-            {
-              icon: Heart,
-              title: "Register Interest — Free",
-              desc: "Save your favorites and notify owners without paying a single rupee upfront.",
-            },
-            {
-              icon: KeyRound,
-              title: "Visit & Move In",
-              desc: "Schedule a viewing directly with the owner and finalise your dream home.",
-            },
-          ].map(({ icon: Icon, title, desc }) => (
-            <div
-              key={title}
-              className="relative z-10 flex flex-col items-center text-center"
-            >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-4 border-[#f9f9f9] flex items-center justify-center mb-5 sm:mb-8 shadow-sm">
-                <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-[#0B0B0C]" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-[#0B0B0C] mb-3 sm:mb-4">{title}</h3>
-              <p className="text-sm sm:text-base text-[#5a6061] max-w-xs leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ProcessSection />
 
       {/* ══════════════════════════════════════════════════════════════════
           OWNER CTA  (dark split card)
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="py-12 sm:py-24 px-5 sm:px-8 max-w-[1440px] mx-auto">
+      <section className="py-8 sm:py-24 px-4 sm:px-8 max-w-[1440px] mx-auto">
         <div className="bg-[#0B0B0C] rounded-xl overflow-hidden flex flex-col md:flex-row items-center">
 
           {/* Text side */}
-          <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-20">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tighter mb-4 sm:mb-6 leading-tight">
+          <div className="w-full md:w-1/2 p-6 sm:p-12 lg:p-20">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tighter mb-3 sm:mb-6 leading-tight">
               Own a Property in Hiranandani?
             </h2>
-            <p className="text-[#adb3b4] text-base sm:text-lg mb-8 sm:mb-10 leading-relaxed max-w-md">
+            <p className="text-[#adb3b4] text-sm sm:text-lg mb-6 sm:mb-10 leading-relaxed max-w-md">
               List it for free and reach thousands of verified seekers directly.
               We help you find the best tenants or buyers without commissions.
             </p>
-            <ListPropertyCTA />
+            <div className="flex justify-center md:justify-start">
+              <ListPropertyCTA />
+            </div>
           </div>
-
           {/* Image side */}
-          <div className="w-full md:w-1/2 h-52 sm:h-64 md:h-auto self-stretch">
+          <div className="w-full md:w-1/2 h-40 sm:h-64 md:h-auto self-stretch">
             <img
               src="/images/hiranandanilol.jpeg"
               alt="Hiranandani Estate"

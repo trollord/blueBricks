@@ -27,9 +27,21 @@ export const useNavbar = () => useContext(NavbarContext);
 // At top + menu open → #F5F5F5 fill, rounded card, so menu items are readable
 // Scrolled          → #111111 floating capsule
 
-export function Navbar({ children, forceScrolled = false }: { children: React.ReactNode; forceScrolled?: boolean }) {
+export function Navbar({
+  children,
+  forceScrolled = false,
+  mobileOpen: mobileOpenProp,
+  onMobileOpenChange,
+}: {
+  children: React.ReactNode;
+  forceScrolled?: boolean;
+  mobileOpen?: boolean;
+  onMobileOpenChange?: (v: boolean) => void;
+}) {
   const [scrolled, setScrolled] = useState(forceScrolled);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [internalMobileOpen, setInternalMobileOpen] = useState(false);
+  const mobileOpen = mobileOpenProp ?? internalMobileOpen;
+  const setMobileOpen = onMobileOpenChange ?? setInternalMobileOpen;
   const pathname = usePathname();
 
   // Only the landing page has a dark hero where white text is readable
@@ -55,19 +67,22 @@ export function Navbar({ children, forceScrolled = false }: { children: React.Re
         style={{
           padding: scrolled
             ? "clamp(8px,1.5vw,12px) clamp(12px,3vw,20px) 0"
+            : mobileOpen
+            ? "8px 12px 0"
             : "0",
         }}
       >
         <div
           className="w-full transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
           style={{
-            maxWidth: scrolled ? "min(900px, calc(100vw - 32px))" : "100%",
+            maxWidth: scrolled ? "min(900px, calc(100vw - 32px))" : mobileOpen ? "calc(100vw - 24px)" : "100%",
             borderRadius: scrolled ? "2rem" : mobileOpen ? "1.25rem" : "0",
             background: scrolled
               ? "#111111"
               : mobileOpen
               ? "#F5F5F5"
               : "transparent",
+            border: scrolled ? "1px solid rgba(255,255,255,0.10)" : "none",
             boxShadow: active
               ? "0 8px 40px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.10)"
               : "none",
@@ -238,15 +253,20 @@ export function MobileNavToggle({
   isOpen: boolean;
   onClick: () => void;
 }) {
-  const { scrolled, mobileOpen, darkHero } = useNavbar();
-  // scrolled → white lines, mobileOpen → dark lines, at top on light page → dark lines, at top on dark hero → white lines
-  const lineColor = scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
+  const { scrolled, darkHero } = useNavbar();
+  const lineColor = scrolled ? "#ffffff" : isOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
+
+  // When the menu just opens on a dark-hero page the container background is
+  // still mid-transition from transparent → #F5F5F5 (500 ms). Give the button
+  // an immediate solid background so the dark X is visible right away.
+  const buttonBg = isOpen && !scrolled ? "#F5F5F5" : "transparent";
 
   return (
     <button
       onClick={onClick}
       aria-label="Toggle menu"
-      className="p-2 rounded-lg transition-colors duration-200 focus:outline-none"
+      className="p-1.5 rounded-md transition-colors duration-200 focus:outline-none"
+      style={{ background: buttonBg, transition: "background 0s" }}
     >
       <div className="w-5 h-4 flex flex-col justify-between">
         <span
@@ -293,7 +313,7 @@ export function MobileNavMenu({
       style={{ maxHeight: isOpen ? "480px" : "0", opacity: isOpen ? 1 : 0 }}
     >
       <div
-        className="flex flex-col gap-0.5 px-5 pb-6 pt-2"
+        className="flex flex-col gap-0.5 px-5 pb-4 pt-2"
         style={{
           borderTop: `1px solid ${
             scrolled ? "rgba(255,255,255,0.08)" : "rgba(26,26,26,0.08)"

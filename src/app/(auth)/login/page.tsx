@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
@@ -37,6 +37,11 @@ function LoginForm() {
     setLoading(false);
 
     if (result?.error) {
+      if (result.code === "email_not_verified") {
+        toast.info("Please verify your email to continue");
+        window.location.href = `/verify-email?email=${encodeURIComponent(data.email)}`;
+        return;
+      }
       toast.error("Invalid email or password");
     } else {
       toast.success("Welcome back!");
@@ -45,17 +50,7 @@ function LoginForm() {
     }
   };
 
-  // Auto-trigger Google if they last signed in that way
-  useEffect(() => {
-    if (typeof window !== "undefined" && localStorage.getItem("hp_last_provider") === "google") {
-      setGoogleLoading(true);
-      signIn("google", { callbackUrl });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleGoogle = async () => {
-    localStorage.setItem("hp_last_provider", "google");
     setGoogleLoading(true);
     await signIn("google", { callbackUrl });
   };
@@ -112,7 +107,15 @@ function LoginForm() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="password" className="text-[#1A1A1A] font-medium">Password</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password" className="text-[#1A1A1A] font-medium">Password</Label>
+            <Link
+              href="/forgot-password"
+              className="text-xs text-gray-500 hover:text-[#1A1A1A] hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
           <div className="relative">
             <Input
               id="password"
