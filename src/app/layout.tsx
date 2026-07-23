@@ -25,8 +25,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "HiranandaniProperties — Real Estate Advisors",
-    template: "%s | HiranandaniProperties",
+    default: "BlueBricks — Real Estate Advisors",
+    template: "%s | BlueBricks",
   },
   description:
     "Discover exceptional homes in Hiranandani Estate, Thane. Zero brokerage — browse listings and connect directly with verified owners for free.",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://www.hiranandaniproperties.in",
-    siteName: "HiranandaniProperties",
+    siteName: "BlueBricks",
   },
 };
 

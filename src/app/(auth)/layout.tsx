@@ -15,7 +15,7 @@ export default function AuthLayout({
 
           <Link href="/" className="relative z-10">
             <span className="font-bold text-2xl text-white">
-              HiranandaniProperties
+              BlueBricks
             </span>
           </Link>
 
@@ -51,7 +51,7 @@ export default function AuthLayout({
           <div className="lg:hidden p-5">
             <Link href="/" className="flex items-center gap-2">
               <span className="font-bold text-xl text-[#1A1A1A]">
-                HiranandaniProperties
+                BlueBricks
               </span>
             </Link>
           </div>

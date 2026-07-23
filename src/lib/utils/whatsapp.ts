@@ -46,7 +46,7 @@ export function buildWhatsAppMessage(p: ShareableProperty, propertyUrl: string):
     `✨ View photos & full details:`,
     propertyUrl,
     ``,
-    `_Listed on HiranandaniProperties — zero brokerage, 100% verified._`,
+    `_Listed on BlueBricks — zero brokerage, 100% verified._`,
   ];
 
   return lines.join("\n");

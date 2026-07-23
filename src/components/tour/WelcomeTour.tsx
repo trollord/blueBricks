@@ -4,7 +4,7 @@ import GuidedTour, { type TourStep } from "./GuidedTour";
 
 const STEPS: TourStep[] = [
   {
-    title: "Welcome to HiranandaniProperties 👋",
+    title: "Welcome to BlueBricks 👋",
     body: "Your zero-brokerage home search for Hiranandani Estate, Thane. Here's a quick 30-second tour of how everything works.",
   },
   {

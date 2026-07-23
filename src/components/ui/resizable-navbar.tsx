@@ -123,8 +123,8 @@ export function NavbarLogo() {
         className="font-bold text-xl tracking-tight transition-colors duration-300"
         style={{ color: textColor }}
       >
-        Hiranandani
-        <span style={{ color: subtleColor }}>Properties</span>
+        Blue
+        <span style={{ color: subtleColor }}>Bricks</span>
       </span>
       <span
         className="h-1.5 w-1.5 rounded-full mt-1 group-hover:scale-125 transition-transform duration-300"
