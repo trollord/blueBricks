@@ -31,7 +31,7 @@ const nextConfig = {
   },
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3000", "hiranandani-homes.vercel.app", "hiranandaniproperties-puce.vercel.app"],
+      allowedOrigins: ["localhost:3000", "hiranandani-homes.vercel.app", "hiranandaniproperties-puce.vercel.app", "blue-bricks-nine.vercel.app", "www.hiranandaniproperties.in", "hiranandaniproperties.in"],
     },
   },
   outputFileTracingExcludes: {
