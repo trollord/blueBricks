@@ -29,6 +29,18 @@ export const propertyStep3Schema = z.object({
   rentNegotiable: z.boolean().default(false),
   lockInMonths: z.coerce.number().int().min(0).max(60).optional(),
   lockInNegotiable: z.boolean().default(false),
+  // "IMMEDIATE", a "YYYY-MM-DD" date, or null/"" for not specified
+  availableFrom: z
+    .preprocess(
+      (v) => (v === "" || v == null ? null : v),
+      z
+        .union([
+          z.literal("IMMEDIATE"),
+          z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Pick a valid availability date"),
+        ])
+        .nullable()
+    )
+    .optional(),
 });
 
 export const propertyImageSchema = z.object({

@@ -889,6 +889,51 @@ function Step3({
         </Label>
       </div>
 
+      {/* Available From (optional) */}
+      <div className="space-y-1.5">
+        <Label>
+          Available From <span className="text-gray-400 font-normal">(optional)</span>
+        </Label>
+        <Controller
+          control={control}
+          name="availableFrom"
+          render={({ field }) => {
+            const value = field.value ?? "";
+            const mode = value === "" ? "NONE" : value === "IMMEDIATE" ? "IMMEDIATE" : "DATE";
+            return (
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Select
+                  value={mode}
+                  onValueChange={(m) =>
+                    field.onChange(
+                      m === "NONE" ? "" : m === "IMMEDIATE" ? "IMMEDIATE" : new Date().toISOString().slice(0, 10)
+                    )
+                  }
+                >
+                  <SelectTrigger className="w-full sm:w-64">
+                    <SelectValue placeholder="Not specified" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="NONE">Not specified</SelectItem>
+                    <SelectItem value="IMMEDIATE">Immediate</SelectItem>
+                    <SelectItem value="DATE">From a specific date</SelectItem>
+                  </SelectContent>
+                </Select>
+                {mode === "DATE" && (
+                  <Input
+                    type="date"
+                    className="w-full sm:w-48"
+                    value={value}
+                    min={new Date().toISOString().slice(0, 10)}
+                    onChange={(e) => field.onChange(e.target.value)}
+                  />
+                )}
+              </div>
+            );
+          }}
+        />
+      </div>
+
       {/* Lock-in (rent only) */}
       {isRent && (
         <>
@@ -993,6 +1038,12 @@ function Step4({
     ...(step1.listingType === "RENT" && lockInLabel
       ? [["Lock-in", `${lockInLabel}${step3.lockInNegotiable ? " (Negotiable)" : ""}`] as [string, string]]
       : []),
+    ["Available From",
+      step3.availableFrom === "IMMEDIATE"
+        ? "Immediate"
+        : step3.availableFrom
+        ? new Date(`${step3.availableFrom}T00:00:00`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+        : "Not specified"],
   ];
 
   return (

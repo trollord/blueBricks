@@ -30,6 +30,7 @@ const PUBLIC_PROPERTY_SELECT = {
   rentNegotiable: true,
   lockInMonths: true,
   lockInNegotiable: true,
+  availableFrom: true,
   latitude: true,
   longitude: true,
   createdAt: true,
@@ -57,6 +58,7 @@ export async function GET(req: NextRequest) {
   const maxPrice = searchParams.get("maxPrice");
   const furnished = searchParams.get("furnished");
   const sort = searchParams.get("sort");
+  const availability = searchParams.get("availability"); // "now" | "30d"
   const page = Math.max(1, parseInt(searchParams.get("page") ?? "1"));
   const take = Math.min(50, Math.max(1, parseInt(searchParams.get("take") ?? String(PAGE_SIZE))));
   const skip = searchParams.has("skip") ? Math.max(0, parseInt(searchParams.get("skip")!)) : (page - 1) * take;
@@ -73,6 +75,21 @@ export async function GET(req: NextRequest) {
         ...(minPrice && { gte: parseFloat(minPrice) }),
         ...(maxPrice && { lte: parseFloat(maxPrice) }),
       },
+    }),
+    // Availability: unspecified (null) listings always match. ISO date strings
+    // compare correctly as strings; "IMMEDIATE" is matched explicitly.
+    ...((availability === "now" || availability === "30d") && {
+      OR: [
+        { availableFrom: null },
+        { availableFrom: "IMMEDIATE" },
+        {
+          availableFrom: {
+            lte: new Date(Date.now() + (availability === "30d" ? 30 : 0) * 86_400_000)
+              .toISOString()
+              .slice(0, 10),
+          },
+        },
+      ],
     }),
   };
 

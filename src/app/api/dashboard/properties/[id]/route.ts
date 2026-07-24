@@ -39,6 +39,7 @@ export async function GET(
       deposit: true,
       rentNegotiable: true,
       lockInMonths: true,
+      availableFrom: true,
       lockInNegotiable: true,
       ownerId: true,
       images: {

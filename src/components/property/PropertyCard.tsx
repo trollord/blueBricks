@@ -26,6 +26,7 @@ interface PropertyCardData {
   furnished: string;
   price: number;
   deposit: number | null;
+  availableFrom?: string | null;
   images: PropertyImage[];
 }
 
@@ -37,6 +38,12 @@ interface Props {
 export default function PropertyCard({ property, variant = "grid" }: Props) {
   const primaryImage = property.images.find((i) => i.isPrimary) ?? property.images[0];
   const isRent = property.listingType === "RENT";
+  const availabilityLabel =
+    property.availableFrom === "IMMEDIATE"
+      ? "Ready to Move"
+      : property.availableFrom
+      ? `From ${new Date(`${property.availableFrom}T00:00:00`).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}`
+      : null;
 
   if (variant === "list") {
     return (
@@ -58,9 +65,16 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
                 <ImageOff className="w-5 h-5 text-zinc-300" />
               </div>
             )}
-            <span className="absolute top-2 left-2 bg-zinc-900 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest">
-              {LISTING_TYPE_LABELS[property.listingType] ?? property.listingType}
-            </span>
+            <div className="absolute top-2 left-2 flex flex-wrap gap-1">
+              <span className="bg-zinc-900 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest">
+                {LISTING_TYPE_LABELS[property.listingType] ?? property.listingType}
+              </span>
+              {availabilityLabel && (
+                <span className="bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest">
+                  {availabilityLabel}
+                </span>
+              )}
+            </div>
           </div>
 
           {/* Info — compact two-row layout */}
@@ -145,6 +159,11 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
                   <span className="bg-white/80 backdrop-blur-md text-zinc-900 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
                     {PROPERTY_TYPE_LABELS[property.type] ?? property.type}
                   </span>
+                  {availabilityLabel && (
+                    <span className="bg-emerald-600/90 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                      {availabilityLabel}
+                    </span>
+                  )}
                 </CardItem>
               </div>
             </CardItem>

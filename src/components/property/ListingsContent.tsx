@@ -40,6 +40,7 @@ interface PropertyCardData {
   furnished: string;
   price: number;
   deposit: number | null;
+  availableFrom: string | null;
   latitude: number | null;
   longitude: number | null;
   images: { id: string; url: string; isPrimary: boolean }[];

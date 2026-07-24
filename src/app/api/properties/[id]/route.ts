@@ -28,6 +28,7 @@ export async function GET(
       floor: true,
       totalFloors: true,
       furnished: true,
+      availableFrom: true,
       amenities: true,
       price: true,
       deposit: true,

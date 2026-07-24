@@ -20,6 +20,7 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
   const locality = searchParams.get("locality") || "";
   const bedrooms = searchParams.get("bedrooms") || "";
   const minPrice = searchParams.get("minPrice") || "";
+  const availability = searchParams.get("availability") || "";
   const maxPrice = searchParams.get("maxPrice") || "";
 
   const priceRanges = listingType === "SALE" ? PRICE_RANGES_SALE : PRICE_RANGES_RENT;
@@ -134,6 +135,34 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
             </button>
           ))}
         </div>
+      </div>
+
+      {/* Availability */}
+      <div>
+        <label className="text-[10px] uppercase tracking-wider font-bold text-zinc-500 block mb-2">
+          Availability
+        </label>
+        <div className="flex flex-wrap gap-1.5">
+          {[
+            { value: "now", label: "Ready to Move" },
+            { value: "30d", label: "Within 30 Days" },
+          ].map(({ value, label }) => (
+            <button
+              key={value}
+              onClick={() => apply({ availability: availability === value ? "" : value })}
+              className={`px-3 py-1.5 rounded-full text-xs transition-all ${
+                availability === value
+                  ? "bg-zinc-900 text-white font-bold"
+                  : "bg-[#f2f4f4] text-zinc-900 font-medium hover:bg-[#e4e9ea]"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <p className="text-[10px] text-zinc-400 mt-1.5">
+          Listings without an availability date are always included.
+        </p>
       </div>
 
       {/* Budget Range */}

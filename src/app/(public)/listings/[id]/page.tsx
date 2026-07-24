@@ -61,6 +61,7 @@ const getProperty = cache(async (id: string) => {
       rentNegotiable: true,
       lockInMonths: true,
       lockInNegotiable: true,
+      availableFrom: true,
       latitude: true,
       longitude: true,
       createdAt: true,
@@ -255,6 +256,14 @@ export default async function PropertyDetailPage({
                   {property.lockInNegotiable ? " (negotiable)" : ""}
                 </p>
               )}
+              <p className="text-xs text-gray-400 mb-1">
+                Available:{" "}
+                {property.availableFrom === "IMMEDIATE"
+                  ? "Immediately"
+                  : property.availableFrom
+                  ? `from ${new Date(`${property.availableFrom}T00:00:00`).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}`
+                  : "Not specified"}
+              </p>
 
               <div className="mt-5">
                 <InquiryButton

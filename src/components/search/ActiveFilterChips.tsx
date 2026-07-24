@@ -11,7 +11,7 @@ interface Chip {
   params: string[];
 }
 
-const FILTER_PARAMS = ["listingType", "type", "locality", "bedrooms", "minPrice", "maxPrice"];
+const FILTER_PARAMS = ["listingType", "type", "locality", "bedrooms", "minPrice", "maxPrice", "availability"];
 
 export default function ActiveFilterChips() {
   const router = useRouter();
@@ -23,6 +23,7 @@ export default function ActiveFilterChips() {
   const bedrooms = searchParams.get("bedrooms");
   const minPrice = searchParams.get("minPrice");
   const maxPrice = searchParams.get("maxPrice");
+  const availability = searchParams.get("availability");
 
   const chips: Chip[] = [];
   if (listingType) {
@@ -36,6 +37,12 @@ export default function ActiveFilterChips() {
   }
   if (bedrooms) {
     chips.push({ label: `${bedrooms} BHK`, params: ["bedrooms"] });
+  }
+  if (availability === "now" || availability === "30d") {
+    chips.push({
+      label: availability === "now" ? "Ready to Move" : "Within 30 Days",
+      params: ["availability"],
+    });
   }
   if (minPrice || maxPrice) {
     const min = minPrice ? formatPrice(parseFloat(minPrice)) : null;
