@@ -23,6 +23,7 @@ import {
 
 const navItems = [
   { name: "Explore Homes", link: "/listings" },
+  { name: "Community", link: "/community" },
   { name: "How It Works", link: "/how-it-works" },
   { name: "Blog", link: "/blog" },
 ];
