@@ -9,7 +9,7 @@ export default function MobileFilterToggle() {
 
   return (
     <>
-      {/* Toggle button — only visible on mobile */}
+      {/* Toggle button - only visible on mobile */}
       <button
         onClick={() => setOpen(true)}
         data-tour="filters-mobile"

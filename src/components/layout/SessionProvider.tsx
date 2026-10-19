@@ -15,7 +15,7 @@ export default function SessionProvider({
       session={session}
       // Re-check session when window regains focus (catches expired tokens silently)
       refetchOnWindowFocus={true}
-      // Don't poll — rely on JWT expiry and window focus re-checks
+      // Don't poll - rely on JWT expiry and window focus re-checks
       refetchInterval={0}
     >
       {children}

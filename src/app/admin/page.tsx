@@ -64,7 +64,7 @@ export default async function AdminOverviewPage() {
     <div className="p-4 sm:p-6 lg:p-8 bg-[#FAF8F5] min-h-full">
       <h1 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] mb-6 sm:mb-8">Overview</h1>
 
-      {/* Row 1 — Action needed */}
+      {/* Row 1 - Action needed */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6">
         <Link href="/admin/listings?status=PENDING" className="group">
           <div className="bg-white rounded-xl border border-amber-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
@@ -80,7 +80,7 @@ export default async function AdminOverviewPage() {
         </div>
       </div>
 
-      {/* Row 2 — Platform health */}
+      {/* Row 2 - Platform health */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {[
           { label: "Active Listings", value: activeCount, color: "text-green-600" },
@@ -95,7 +95,7 @@ export default async function AdminOverviewPage() {
         ))}
       </div>
 
-      {/* Row 3 — Breakdowns */}
+      {/* Row 3 - Breakdowns */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         {/* By Property Type */}
         <div className="bg-white rounded-xl border border-[#1A1A1A]/8 p-4 sm:p-6">

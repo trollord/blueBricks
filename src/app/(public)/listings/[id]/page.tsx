@@ -197,7 +197,7 @@ export default async function PropertyDetailPage({
   }
 
   // View counter (public views of live listings only) + registration check,
-  // in parallel — and a failed count never blocks the page
+  // in parallel - and a failed count never blocks the page
   const [inquiry] = await Promise.all([
     session?.user?.id
       ? prisma.inquiry.findUnique({
@@ -222,8 +222,8 @@ export default async function PropertyDetailPage({
       ? {
           cls: "bg-amber-50 border-amber-200 text-amber-800",
           text: isAdmin && !isOwner
-            ? "This listing is pending review — it is not publicly visible yet."
-            : "Your listing is under review. Only you can see this page — it goes live once our team approves it.",
+            ? "This listing is pending review - it is not publicly visible yet."
+            : "Your listing is under review. Only you can see this page - it goes live once our team approves it.",
         }
       : property.status === "REJECTED"
       ? {
@@ -362,7 +362,7 @@ export default async function PropertyDetailPage({
               </span>
             </div>
 
-            {/* About — fills the column beside the price card */}
+            {/* About - fills the column beside the price card */}
             <div className="mt-7 sm:mt-9 pt-7 sm:pt-9 border-t border-gray-100">
               <SectionLabel title="About This Property" compact />
               <p className="text-[#0B0B0C]/70 leading-[1.85] text-[14px] sm:text-[15px] whitespace-pre-line">
@@ -394,7 +394,7 @@ export default async function PropertyDetailPage({
             )}
           </div>
 
-          {/* Right: Price Card — sticky on desktop, inline on mobile */}
+          {/* Right: Price Card - sticky on desktop, inline on mobile */}
           <div className="lg:sticky lg:top-24">
             <div className="bg-white border border-gray-200 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.08)] overflow-hidden">
 
@@ -485,19 +485,19 @@ export default async function PropertyDetailPage({
           </div>
         </div>
 
-        {/* ── Key Stats — dark band ── */}
+        {/* ── Key Stats - dark band ── */}
         <div className="bg-[#111111] rounded-2xl p-3 mt-8 sm:mt-10">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
             {[
               {
                 icon: BedDouble,
                 label: "Bedrooms",
-                value: property.bedrooms ? `${property.bedrooms} BHK` : "—",
+                value: property.bedrooms ? `${property.bedrooms} BHK` : "-",
               },
               {
                 icon: Bath,
                 label: "Bathrooms",
-                value: property.bathrooms ?? "—",
+                value: property.bathrooms ?? "-",
               },
               {
                 icon: Maximize2,
@@ -510,7 +510,7 @@ export default async function PropertyDetailPage({
                 value:
                   property.floor != null
                     ? `${property.floor}${property.totalFloors ? ` of ${property.totalFloors}` : ""}`
-                    : "—",
+                    : "-",
               },
               {
                 icon: CalendarClock,

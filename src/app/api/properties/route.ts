@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
         deposit: deposit ?? null,
         lockInMonths: lockInMonths && lockInMonths > 0 ? lockInMonths : null,
         ownerId: session.user.id,
-        // Admin listings skip the review queue — the admin is the reviewer
+        // Admin listings skip the review queue - the admin is the reviewer
         status: session.user.role === "ADMIN" ? "ACTIVE" : "PENDING",
         ...(session.user.role === "ADMIN" && { activatedAt: new Date() }),
         amenities: stringifyAmenities(rest.amenities ?? []),
@@ -177,7 +177,7 @@ export async function POST(req: NextRequest) {
       });
     } catch {}
 
-    // Admin listings go live immediately — refresh the public pages
+    // Admin listings go live immediately - refresh the public pages
     if (property.status === "ACTIVE") {
       revalidatePath("/listings");
     }

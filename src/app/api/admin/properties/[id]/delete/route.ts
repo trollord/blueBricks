@@ -29,14 +29,14 @@ export async function POST(
   }
 
   if (action === "APPROVE") {
-    // Hard delete — clean up relations without cascade first
+    // Hard delete - clean up relations without cascade first
     await prisma.inquiry.deleteMany({ where: { propertyId: id } });
     await prisma.adminVerification.deleteMany({ where: { propertyId: id } });
     await prisma.property.delete({ where: { id } });
     return NextResponse.json({ deleted: true });
   }
 
-  // REJECT — revert to INACTIVE
+  // REJECT - revert to INACTIVE
   await prisma.property.update({
     where: { id },
     data: { status: "INACTIVE" },

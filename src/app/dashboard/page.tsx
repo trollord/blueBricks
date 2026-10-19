@@ -10,7 +10,7 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session) redirect("/login");
 
-  // Plain users have no listings — send them to their interests page
+  // Plain users have no listings - send them to their interests page
   if (!["OWNER", "ADMIN"].includes(session.user.role)) {
     redirect("/dashboard/interests");
   }
@@ -51,7 +51,7 @@ export default async function DashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">My Listings</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Manage your property listings on BlueBricks
+            Manage your property listings on Sanatani Community
           </p>
         </div>
         <Link href="/dashboard/new">

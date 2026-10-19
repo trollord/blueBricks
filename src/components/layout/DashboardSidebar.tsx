@@ -8,12 +8,14 @@ import {
   MessageSquare,
   Heart,
   ArrowLeft,
+  Package,
 } from "lucide-react";
 import ListPropertyButton from "@/components/dashboard/ListPropertyButton";
 
 const ownerNavItems = [
   { href: "/dashboard",           label: "My Listings", icon: LayoutDashboard },
   { href: "/dashboard/new",       label: "Add Listing",  icon: PlusCircle },
+  { href: "/dashboard/items",     label: "My Items",    icon: Package },
   { href: "/dashboard/inquiries", label: "Inquiries",    icon: MessageSquare },
 ];
 
@@ -40,7 +42,7 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
   const initial  = (name ?? email ?? "U").charAt(0).toUpperCase();
 
   return (
-    <aside className="hidden md:flex w-64 shrink-0 bg-white border-r border-gray-100 flex-col sticky top-[60px] h-[calc(100vh-60px)] overflow-y-auto">
+    <aside className="hidden md:flex w-64 shrink-0 bg-white border-r border-gray-100 flex-col fixed top-0 left-0 h-screen overflow-y-auto">
 
       {/* User section */}
       <div className="px-6 py-7 border-b border-gray-100">
@@ -89,7 +91,7 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
           </div>
         )}
 
-        {/* Back to site — inside nav, above footer */}
+        {/* Back to site - inside nav, above footer */}
         <div className="pt-4 mt-2 border-t border-gray-100">
           <Link
             href="/"

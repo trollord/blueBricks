@@ -130,7 +130,7 @@ export default async function AdminAnalyticsPage() {
     { label: "Property Views", value: a.totalViews, sub: "across all listings", icon: Eye },
     { label: "Interests Captured", value: a.inquiriesTotal, sub: `+${a.inquiries30} in 30 days`, icon: MessageSquare },
     { label: "Deals Completed", value: a.completedDeals, sub: `${a.closedListings} listings closed`, icon: CheckCircle2 },
-    { label: "Avg Turnaround", value: a.avgTurnaround !== null ? `${a.avgTurnaround}d` : "—", sub: "live → booked/sold", icon: Timer },
+    { label: "Avg Turnaround", value: a.avgTurnaround !== null ? `${a.avgTurnaround}d` : "-", sub: "live → booked/sold", icon: Timer },
   ];
 
   return (
@@ -194,7 +194,7 @@ export default async function AdminAnalyticsPage() {
                       ? `Live ${turnaroundDays(p.activatedAt)}d`
                       : p.closedAt && turnaroundDays(p.activatedAt, p.closedAt) !== null
                       ? `Closed in ${turnaroundDays(p.activatedAt, p.closedAt)}d`
-                      : "—"}
+                      : "-"}
                   </td>
                   <td className="px-4 py-3 text-gray-400 hidden lg:table-cell whitespace-nowrap">{formatDate(p.createdAt)}</td>
                   <td className="px-4 py-3">

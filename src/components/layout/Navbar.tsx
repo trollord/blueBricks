@@ -23,9 +23,12 @@ import {
 
 const navItems = [
   { name: "Explore Homes", link: "/listings" },
+  { name: "Marketplace", link: "/marketplace" },
   { name: "Community", link: "/community" },
-  { name: "How It Works", link: "/how-it-works" },
-  { name: "Blog", link: "/blog" },
+  // { name: "How It Works", link: "/how-it-works" },
+  // { name: "Blog", link: "/blog" },
+  { name: "Latest News", link: "/newspaper" },
+  { name: "Contact", link: "/contact" },
 ];
 
 /* ─── Avatar menu (FloatingActionMenu) ────────────────────────────────────── */
@@ -148,10 +151,12 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
           <div className="flex items-center gap-3">
             {session ? (
               <>
-                <NavbarButton variant="primary" onClick={handleListProperty}>
-                  <PlusSquare className="h-4 w-4 mr-1.5" />
-                  List Property
-                </NavbarButton>
+                {false && (
+                  <NavbarButton variant="primary" onClick={handleListProperty}>
+                    <PlusSquare className="h-4 w-4 mr-1.5" />
+                    List Property
+                  </NavbarButton>
+                )}
                 <UserMenu />
               </>
             ) : (
@@ -159,9 +164,11 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
                 <NavbarButton variant="secondary" href="/login">
                   Sign In
                 </NavbarButton>
-                <NavbarButton variant="primary" href="/register">
-                  List Property
-                </NavbarButton>
+                {false && (
+                  <NavbarButton variant="primary" href="/register">
+                    List Property
+                  </NavbarButton>
+                )}
               </>
             )}
           </div>
@@ -201,13 +208,15 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
                     Admin Panel
                   </MobileNavLink>
                 )}
-                <MobileActionButton
-                  onClick={() => { setMobileOpen(false); handleListProperty(); }}
-                  icon={<PlusSquare className="h-4 w-4" />}
-                  bordered
-                >
-                  List a Property
-                </MobileActionButton>
+                {false && (
+                  <MobileActionButton
+                    onClick={() => { setMobileOpen(false); handleListProperty(); }}
+                    icon={<PlusSquare className="h-4 w-4" />}
+                    bordered
+                  >
+                    List a Property
+                  </MobileActionButton>
+                )}
                 <MobileActionButton
                   onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}
                   icon={<LogOut className="h-4 w-4" />}
@@ -226,14 +235,16 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
                 >
                   Sign In
                 </NavbarButton>
-                <NavbarButton
-                  variant="primary"
-                  href="/register"
-                  className="w-full"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  List Property
-                </NavbarButton>
+                {false && (
+                  <NavbarButton
+                    variant="primary"
+                    href="/register"
+                    className="w-full"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    List Property
+                  </NavbarButton>
+                )}
               </div>
             )}
           </MobileNavMenu>

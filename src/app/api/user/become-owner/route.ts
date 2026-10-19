@@ -18,7 +18,7 @@ export async function POST() {
       data: { role: "OWNER" },
     });
 
-    // Role is TTL-cached — flush it so the upgrade applies on the next request
+    // Role is TTL-cached - flush it so the upgrade applies on the next request
     invalidateUserAccess(session.user.id);
 
     return NextResponse.json({ message: "Role updated to OWNER" });

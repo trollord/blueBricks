@@ -22,7 +22,7 @@ const STAIRCASE_TOP = 20;
 const DEPTH_SCALE = 0.08;
 const DARKEN_PER_DEPTH = 0.25;
 
-// Easing: makes scroll feel snappy — resists in the middle, snaps at the end
+// Easing: makes scroll feel snappy - resists in the middle, snaps at the end
 function easeOutBack(x: number): number {
   const c1 = 1.4;
   const c3 = c1 + 1;
@@ -67,7 +67,7 @@ export default function StackedCards({ cards }: StackedCardsProps) {
       className="relative w-full"
       style={{ height: `${scrollHeight}px` }}
     >
-      {/* perspective wrapper — removed overflow:hidden so staircase peeks are visible */}
+      {/* perspective wrapper - removed overflow:hidden so staircase peeks are visible */}
       <div
         className="sticky top-32 w-full"
         style={{
@@ -111,7 +111,7 @@ export default function StackedCards({ cards }: StackedCardsProps) {
             ? `0 -8px 20px rgba(0,0,0,0.35)`
             : "none";
 
-          // Bottom ambient shadow — lighter
+          // Bottom ambient shadow - lighter
           const bottomShadow = isStacked
             ? `0 ${4 + depth * 2}px ${10 + depth * 4}px rgba(0,0,0,${0.15 + depth * 0.05})`
             : i === activeIndex
@@ -143,7 +143,7 @@ export default function StackedCards({ cards }: StackedCardsProps) {
                   boxShadow: `${topShadow}${topShadow !== "none" ? ", " : ""}${bottomShadow}`,
                 }}
               >
-                {/* Top edge highlight — 1px light catch on card edge */}
+                {/* Top edge highlight - 1px light catch on card edge */}
                 <div
                   className="absolute top-0 left-0 right-0 h-px"
                   style={{

@@ -1,6 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
 
-// Edge-safe auth config — no Prisma, no Node.js-only modules.
+// Edge-safe auth config - no Prisma, no Node.js-only modules.
 // Used by middleware (Edge Runtime) and extended by auth.ts (Node.js).
 export const authConfig: NextAuthConfig = {
   pages: {

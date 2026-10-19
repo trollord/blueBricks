@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   }
   const email = parsed.data.email.toLowerCase();
 
-  // Generic response regardless of whether the account exists — no enumeration
+  // Generic response regardless of whether the account exists - no enumeration
   const genericOk = NextResponse.json({
     ok: true,
     message: "If an account exists for this email, a reset code has been sent.",

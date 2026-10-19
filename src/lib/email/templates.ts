@@ -1,5 +1,5 @@
 /** Single source of truth for the transactional from-address. */
-export const EMAIL_FROM = "BlueBricks <noreply@bluebrics.com>";
+export const EMAIL_FROM = "Sanatani Community <noreply@bluebrics.com>";
 
 // Branded HTML email templates. Email clients need inline styles and
 // table-based layout; fonts fall back to Georgia (serif headings, matching
@@ -44,7 +44,7 @@ function shell(content: string): string {
             <tr>
               <td style="padding:20px 24px 0;">
                 <p style="font-family:${sans};font-size:11px;color:#9a9a9a;margin:0;">
-                  &copy; ${new Date().getFullYear()} BlueBricks &middot; Powered by ByteLights
+                  &copy; ${new Date().getFullYear()} Sanatani Community &middot; Powered by ByteLights
                 </p>
               </td>
             </tr>
@@ -64,7 +64,7 @@ export function emailVerificationEmail(opts: {
   const name = escapeHtml(opts.name ?? "there");
   const otp = escapeHtml(opts.otp);
 
-  const subject = `${opts.otp} is your BlueBricks verification code`;
+  const subject = `${opts.otp} is your Sanatani Community verification code`;
 
   const content = `
     <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a;margin:0 0 14px;">
@@ -74,12 +74,12 @@ export function emailVerificationEmail(opts: {
       Confirm your email address
     </h1>
     <p style="font-family:${sans};font-size:14px;line-height:1.7;color:#555555;margin:0 0 24px;">
-      Hi ${name}, welcome to BlueBricks! Use the code below to verify
+      Hi ${name}, welcome to Sanatani Community! Use the code below to verify
       your email and activate your account. Tap and hold the code to copy it on
       your phone.
     </p>
 
-    <!-- OTP — plain selectable text so it can be copied on iOS & Android -->
+    <!-- OTP - plain selectable text so it can be copied on iOS & Android -->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #eeeeee;border-radius:10px;">
       <tr>
         <td align="center" style="padding:22px;">
@@ -105,8 +105,8 @@ export function passwordResetEmail(opts: {
   const name = escapeHtml(opts.name ?? "there");
   const otp = escapeHtml(opts.otp);
 
-  // Code in the subject too — helps iOS/Android surface it as a copyable code
-  const subject = `${opts.otp} is your BlueBricks password reset code`;
+  // Code in the subject too - helps iOS/Android surface it as a copyable code
+  const subject = `${opts.otp} is your Sanatani Community password reset code`;
 
   const content = `
     <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a;margin:0 0 14px;">
@@ -116,11 +116,11 @@ export function passwordResetEmail(opts: {
       Your verification code
     </h1>
     <p style="font-family:${sans};font-size:14px;line-height:1.7;color:#555555;margin:0 0 24px;">
-      Hi ${name}, use the code below to reset your BlueBricks password.
+      Hi ${name}, use the code below to reset your Sanatani Community password.
       Tap and hold the code to copy it on your phone.
     </p>
 
-    <!-- OTP — plain selectable text so it can be copied on iOS & Android -->
+    <!-- OTP - plain selectable text so it can be copied on iOS & Android -->
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #eeeeee;border-radius:10px;">
       <tr>
         <td align="center" style="padding:22px;">
@@ -133,7 +133,7 @@ export function passwordResetEmail(opts: {
       This code expires in <b>10 minutes</b> and can be used only once.
     </p>
     <p style="font-family:${sans};font-size:12px;line-height:1.6;color:#9a9a9a;margin:14px 0 0;">
-      If you didn't request a password reset, you can safely ignore this email —
+      If you didn't request a password reset, you can safely ignore this email -
       your password will remain unchanged.
     </p>`;
 
@@ -153,7 +153,7 @@ export function newInquiryEmail(opts: {
   const phone = escapeHtml(opts.seekerPhone);
   const dashboardUrl = `${opts.baseUrl}/dashboard/inquiries`;
 
-  const subject = `New lead — ${opts.seekerName ?? "a seeker"} is interested in "${opts.propertyTitle}"`;
+  const subject = `New lead - ${opts.seekerName ?? "a seeker"} is interested in "${opts.propertyTitle}"`;
 
   const content = `
     <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a;margin:0 0 14px;">
@@ -201,7 +201,7 @@ export function newInquiryEmail(opts: {
     </table>
 
     <p style="font-family:${sans};font-size:12px;line-height:1.6;color:#9a9a9a;margin:26px 0 0;">
-      Tip: leads move fast — reaching out within a few hours greatly improves your chances of closing.
+      Tip: leads move fast - reaching out within a few hours greatly improves your chances of closing.
     </p>`;
 
   return { subject, html: shell(content) };

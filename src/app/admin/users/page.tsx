@@ -122,7 +122,7 @@ export default function AdminUsersPage() {
           <div key={u.id} className="bg-white rounded-xl border border-gray-200 p-4">
             <div className="flex items-start justify-between gap-2 mb-2">
               <div className="min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">{u.name ?? "—"}</p>
+                <p className="text-sm font-medium text-gray-900 truncate">{u.name ?? "-"}</p>
                 <p className="text-xs text-gray-500 truncate">{u.email}</p>
               </div>
               <div className="flex gap-1.5 shrink-0">
@@ -203,7 +203,7 @@ export default function AdminUsersPage() {
             <tbody className="divide-y divide-gray-100">
               {filteredUsers.map((u) => (
                 <tr key={u.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">{u.name ?? "—"}</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">{u.name ?? "-"}</td>
                   <td className="px-4 py-3 text-gray-500 max-w-[180px] truncate">{u.email}</td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 
 const rateMap = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 10;   // details calls are more expensive — tighter limit
+const RATE_LIMIT = 10;   // details calls are more expensive - tighter limit
 const WINDOW_MS  = 60_000;
 
 function isAllowed(ip: string): boolean {

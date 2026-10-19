@@ -9,7 +9,7 @@ const MAX_IMAGE_BYTES = 2 * 1024 * 1024;   // 2 MB
 const MAX_VIDEO_BYTES = 50 * 1024 * 1024;  // 50 MB
 const MAX_UPLOADS_PER_DAY = 20;
 
-// In-memory rate limiter — resets on server restart (fine for single-server)
+// In-memory rate limiter - resets on server restart (fine for single-server)
 const uploadCounts = new Map<string, { count: number; date: string }>();
 
 function todayUTC() {
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // Sanitise extension — only allow safe media extensions
+  // Sanitise extension - only allow safe media extensions
   const rawExt = filename.split(".").pop()?.toLowerCase() ?? "jpg";
   const safeExt = ["jpg", "jpeg", "png", "webp", "heic", "mp4", "webm", "mov"].includes(rawExt)
     ? rawExt
@@ -80,7 +80,8 @@ export async function GET(req: NextRequest) {
   const s3Key = `properties/${session.user.id}/${randomUUID()}.${safeExt}`;
 
   const presignedUrl = await getPresignedUploadUrl(s3Key, contentType);
-  const publicUrl = `${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL}/${s3Key}`;
+  const base = (process.env.NEXT_PUBLIC_AWS_S3_BUCKET_URL ?? "").replace(/\/$/, "");
+  const publicUrl = `${base}/${s3Key}`;
 
   return NextResponse.json({ presignedUrl, s3Key, publicUrl });
 }

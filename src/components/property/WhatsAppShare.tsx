@@ -40,10 +40,10 @@ export function WhatsAppShareModal({
     try {
       await navigator.clipboard.writeText(message);
       setCopied(true);
-      toast.success("Message copied — paste it anywhere!");
+      toast.success("Message copied - paste it anywhere!");
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      toast.error("Couldn't copy — please select and copy manually");
+      toast.error("Couldn't copy - please select and copy manually");
     }
   }
 

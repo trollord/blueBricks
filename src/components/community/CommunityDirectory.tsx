@@ -34,6 +34,8 @@ import {
   COMMUNITY_LOCALITIES,
   CATEGORY_COUNTS,
   type CommunityContact,
+  type DbCommunityContact,
+  toDisplayContact,
 } from "@/lib/community";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -53,30 +55,47 @@ const ICONS: Record<string, LucideIcon> = {
   Leaf,
 };
 
-/** Everything a contact can be matched on, lower-cased once per record. */
-const SEARCH_INDEX: Record<string, string> = Object.fromEntries(
-  COMMUNITY_CONTACTS.map((c) => {
-    const label =
-      COMMUNITY_CATEGORIES.find((cat) => cat.key === c.category)?.label ?? "";
-    return [
-      c.id,
-      [
-        c.name,
-        c.contactPerson ?? "",
-        c.service,
-        label,
-        c.locality,
-        c.address,
-        c.phone,
-        ...c.tags,
-      ]
-        .join(" ")
-        .toLowerCase(),
-    ];
-  })
-);
+function buildSearchIndex(contacts: CommunityContact[]): Record<string, string> {
+  return Object.fromEntries(
+    contacts.map((c) => {
+      const label =
+        COMMUNITY_CATEGORIES.find((cat) => cat.key === c.category)?.label ?? "";
+      return [
+        c.id,
+        [c.name, c.contactPerson ?? "", c.service, label, c.locality, c.address, c.phone, ...c.tags]
+          .join(" ")
+          .toLowerCase(),
+      ];
+    })
+  );
+}
 
-export default function CommunityDirectory() {
+export default function CommunityDirectory({
+  dbContacts,
+}: {
+  dbContacts: DbCommunityContact[];
+}) {
+  const contacts: CommunityContact[] = useMemo(
+    () =>
+      dbContacts.length > 0
+        ? dbContacts.map(toDisplayContact)
+        : COMMUNITY_CONTACTS,
+    [dbContacts]
+  );
+
+  const searchIndex = useMemo(() => buildSearchIndex(contacts), [contacts]);
+
+  const categoryCounts = useMemo(
+    () =>
+      Object.fromEntries(
+        COMMUNITY_CATEGORIES.map((cat) => [
+          cat.key,
+          contacts.filter((c) => c.category === cat.key).length,
+        ])
+      ),
+    [contacts]
+  );
+
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("all");
   const [locality, setLocality] = useState<string>("all");
@@ -84,14 +103,14 @@ export default function CommunityDirectory() {
   const results = useMemo(() => {
     const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
-    return COMMUNITY_CONTACTS.filter((c) => {
+    return contacts.filter((c) => {
       if (category !== "all" && c.category !== category) return false;
       if (locality !== "all" && c.locality !== locality) return false;
       if (terms.length === 0) return true;
-      const haystack = SEARCH_INDEX[c.id];
+      const haystack = searchIndex[c.id];
       return terms.every((t) => haystack.includes(t));
     });
-  }, [query, category, locality]);
+  }, [query, category, locality, contacts, searchIndex]);
 
   const hasFilters = query.trim() !== "" || category !== "all" || locality !== "all";
 
@@ -159,7 +178,7 @@ export default function CommunityDirectory() {
           onClick={() => setCategory("all")}
           Icon={Users}
           label="All"
-          count={COMMUNITY_CONTACTS.length}
+          count={contacts.length}
         />
         {COMMUNITY_CATEGORIES.map((c) => (
           <CategoryPill
@@ -168,7 +187,7 @@ export default function CommunityDirectory() {
             onClick={() => setCategory(c.key)}
             Icon={ICONS[c.icon]}
             label={c.label}
-            count={CATEGORY_COUNTS[c.key] ?? 0}
+            count={categoryCounts[c.key] ?? 0}
           />
         ))}
       </div>
@@ -266,7 +285,7 @@ function ContactCard({ contact: c }: { contact: CommunityContact }) {
             </h3>
             {c.verified && (
               <span
-                title="Verified by BlueBricks"
+                title="Verified by Sanatani Community"
                 className="inline-flex items-center gap-1 shrink-0 mt-0.5 px-2 py-0.5 rounded-full bg-[#EBEBEB] text-[9px] font-bold uppercase tracking-[0.1em] text-[#1A1A1A]/55"
               >
                 <BadgeCheck className="w-3 h-3" />
@@ -339,7 +358,7 @@ function ContactCard({ contact: c }: { contact: CommunityContact }) {
           <a
             href={whatsAppContactUrl(
               c.phone,
-              `Hi ${c.contactPerson ?? c.name}, I found you on the BlueBricks community directory for Hiranandani Estate.`
+              `Hi ${c.contactPerson ?? c.name}, I found you on the Sanatani Community community directory for Hiranandani Estate.`
             )}
             target="_blank"
             rel="noopener noreferrer"

@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   // IP rate limit
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (!isAllowed(ip)) {
-    return NextResponse.json({ error: "Too many requests — please slow down" }, { status: 429 });
+    return NextResponse.json({ error: "Too many requests - please slow down" }, { status: 429 });
   }
 
   let input: string, sessionToken: string;

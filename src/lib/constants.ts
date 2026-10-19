@@ -1,6 +1,6 @@
 export const PLATFORM_FEE_INR = 9999;
 export const CURRENCY = "INR";
-export const SITE_NAME = "BlueBricks";
+export const SITE_NAME = "Sanatani Community";
 export const SITE_URL = process.env.NEXTAUTH_URL ?? "https://www.bluebrics.com";
 export const SITE_TAGLINE = "Your Trusted Real Estate Advisors in Hiranandani Estate";
 
@@ -83,3 +83,41 @@ export const LOCK_IN_OPTIONS = [
   { label: "2 years", value: 24 },
   { label: "3 years", value: 36 },
 ] as const;
+
+/* ─── Marketplace (used items) ───────────────────────────────────────────── */
+
+export const ITEM_CATEGORY_LABELS: Record<string, string> = {
+  OFFICE_FURNITURE: "Office Furniture",
+  HOME_FURNITURE: "Home Furniture",
+  ELECTRONICS: "Electrical / Electronics",
+  COMPUTERS: "Computers",
+  VEHICLES: "Vehicles",
+  OTHERS: "Others",
+};
+
+export const ITEM_CATEGORIES = Object.keys(ITEM_CATEGORY_LABELS) as (keyof typeof ITEM_CATEGORY_LABELS)[];
+
+export const VEHICLE_TYPE_LABELS: Record<string, string> = {
+  CAR: "Car",
+  TWO_WHEELER: "Two-Wheeler",
+  CYCLE: "Cycle",
+};
+
+export const VEHICLE_TYPES = Object.keys(VEHICLE_TYPE_LABELS);
+
+export const ITEM_CONDITION_LABELS: Record<string, string> = {
+  NEW: "New (sealed)",
+  LIKE_NEW: "Like New",
+  GOOD: "Good",
+  FAIR: "Fair",
+};
+
+export const ITEM_CONDITIONS = Object.keys(ITEM_CONDITION_LABELS);
+
+export const ITEM_PRICE_RANGES = [
+  { label: "Under ₹5k", min: 0, max: 5000 },
+  { label: "₹5k – ₹25k", min: 5000, max: 25000 },
+  { label: "₹25k – ₹75k", min: 25000, max: 75000 },
+  { label: "₹75k – ₹2L", min: 75000, max: 200000 },
+  { label: "Above ₹2L", min: 200000, max: Infinity },
+];

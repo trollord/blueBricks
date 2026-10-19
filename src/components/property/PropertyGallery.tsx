@@ -83,7 +83,7 @@ function ImageSlide({
 
   return (
     <div className="grid grid-cols-5 gap-1 w-full h-full">
-      {/* Primary — 60% */}
+      {/* Primary - 60% */}
       <div className={`col-span-3 relative overflow-hidden ${cls}`}>
         {a ? (
           <GalleryMedia url={a.url} alt={`${title} ${startIndex + 1}`} sizes="60vw" priority={startIndex === 0} interactive />
@@ -92,7 +92,7 @@ function ImageSlide({
         )}
       </div>
 
-      {/* Right stack — 40% */}
+      {/* Right stack - 40% */}
       <div className="col-span-2 grid grid-rows-2 gap-1">
         <div className={`relative overflow-hidden ${cls}`}>
           {b ? (

@@ -1,5 +1,5 @@
 /**
- * Community Directory — local vendors, shopkeepers and service providers
+ * Community Directory - local vendors, shopkeepers and service providers
  * serving Hiranandani Estate, Thane.
  *
  * Static/dummy dataset for now. Phone numbers are placeholders and must be
@@ -41,14 +41,57 @@ export interface CommunityContact {
   /** Shop number / building / landmark */
   address: string;
   hours: string;
-  /** Searchable keywords — also rendered as chips on the card */
+  /** Searchable keywords - also rendered as chips on the card */
   tags: string[];
   rating: number;
   reviews: number;
-  /** Physically verified by the BlueBricks team */
+  /** Physically verified by the Sanatani Community team */
   verified: boolean;
   /** Year they started serving the estate */
   since: number;
+}
+
+/** Shape returned by Prisma / GET /api/community/contacts */
+export interface DbCommunityContact {
+  id: string;
+  name: string;
+  contactPerson: string | null;
+  category: string;
+  service: string;
+  phone: string;
+  whatsapp: boolean;
+  locality: string;
+  address: string;
+  hours: string;
+  tags: string; // JSON-encoded string[]
+  verified: boolean;
+  createdAt: Date | string;
+}
+
+export function toDisplayContact(c: DbCommunityContact): CommunityContact {
+  let tags: string[] = [];
+  try {
+    tags = JSON.parse(c.tags);
+  } catch {
+    tags = [];
+  }
+  return {
+    id: c.id,
+    name: c.name,
+    contactPerson: c.contactPerson ?? undefined,
+    category: c.category as CommunityCategory,
+    service: c.service,
+    phone: c.phone,
+    whatsapp: c.whatsapp,
+    locality: c.locality,
+    address: c.address,
+    hours: c.hours,
+    tags,
+    rating: 0,
+    reviews: 0,
+    verified: c.verified,
+    since: new Date(c.createdAt).getFullYear(),
+  };
 }
 
 export const COMMUNITY_CONTACTS: CommunityContact[] = [
@@ -368,7 +411,7 @@ export const COMMUNITY_CONTACTS: CommunityContact[] = [
   },
   {
     id: "he-002",
-    name: "Dr. Kavita Rao — Family Clinic",
+    name: "Dr. Kavita Rao - Family Clinic",
     category: "health",
     service: "General physician · Walk-in & home visits",
     phone: "+91 90000 10092",
@@ -586,7 +629,7 @@ export const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   COMMUNITY_CATEGORIES.map((c) => [c.key, c.label])
 );
 
-/** How many listings sit in each category — used for the filter pill counts. */
+/** How many listings sit in each category - used for the filter pill counts. */
 export const CATEGORY_COUNTS: Record<string, number> = COMMUNITY_CONTACTS.reduce(
   (acc, c) => {
     acc[c.category] = (acc[c.category] ?? 0) + 1;

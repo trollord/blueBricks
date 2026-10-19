@@ -9,7 +9,7 @@ import {
   PRICE_RANGES_SALE,
 } from "@/lib/constants";
 
-// Filters apply instantly on change — no "Apply" button. Values live in the
+// Filters apply instantly on change - no "Apply" button. Values live in the
 // URL so chips, results and the panel always stay in sync.
 export default function FilterPanel({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
@@ -208,7 +208,7 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
         </ul>
       </div>
 
-      {/* Mobile sheet: filters are already applied — this just closes the sheet */}
+      {/* Mobile sheet: filters are already applied - this just closes the sheet */}
       {onClose && (
         <button
           onClick={onClose}

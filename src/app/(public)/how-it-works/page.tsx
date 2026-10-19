@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "How It Works",
   description:
-    "A simple, transparent process — completely free, with direct owner access and zero commissions.",
+    "A simple, transparent process - completely free, with direct owner access and zero commissions.",
 };
 
 /* ─── tiny reusable pill ───────────────────────────────────────────────────── */
@@ -37,11 +37,11 @@ export default function HowItWorksPage() {
           </span>
 
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-extrabold tracking-tighter text-[#1A1A1A] max-w-4xl leading-[0.92] mb-8">
-            How BlueBricks Works
+            How Sanatani Community Works
           </h1>
 
           <p className="text-[#1A1A1A]/55 text-base sm:text-lg md:text-xl max-w-2xl font-medium leading-relaxed mb-12">
-            A simple, transparent process — direct owner access, zero commissions.
+            A simple, transparent process - direct owner access, zero commissions.
             Completely free. Direct access. Zero commissions.
           </p>
 
@@ -60,7 +60,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* ── STEP 01 — Browse ──────────────────────────────────────────────── */}
+      {/* ── STEP 01 - Browse ──────────────────────────────────────────────── */}
       <section id="steps" className="bg-white py-24 sm:py-32 px-6 sm:px-8">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 lg:gap-24 items-center">
 
@@ -71,7 +71,7 @@ export default function HowItWorksPage() {
               Browse Verified Listings
             </h2>
             <p className="text-[#1A1A1A]/55 text-lg leading-relaxed">
-              Every property listed on BlueBricks undergoes a rigorous
+              Every property listed on Sanatani Community undergoes a rigorous
               internal verification. High-resolution imagery, accurate square
               footage, and verified legal status come standard.
             </p>
@@ -92,7 +92,7 @@ export default function HowItWorksPage() {
                 className="w-full h-full object-cover"
               />
             </div>
-            {/* Floating card — hidden on xs, shown sm+ */}
+            {/* Floating card - hidden on xs, shown sm+ */}
             <div
               className="hidden sm:block absolute -bottom-8 -left-8 lg:-bottom-10 lg:-left-10 bg-white p-5 rounded-xl max-w-[220px] lg:max-w-[240px]"
               style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
@@ -109,11 +109,11 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* ── STEP 02 — Register Interest ───────────────────────────────────── */}
+      {/* ── STEP 02 - Register Interest ───────────────────────────────────── */}
       <section className="bg-[#111111] py-24 sm:py-32 px-6 sm:px-8">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 lg:gap-24 items-center">
 
-          {/* Glass mockup — left on desktop, bottom on mobile */}
+          {/* Glass mockup - left on desktop, bottom on mobile */}
           <div className="relative order-2 md:order-1">
             <div
               className="p-8 sm:p-10 rounded-2xl space-y-5 border border-white/10"
@@ -146,7 +146,7 @@ export default function HowItWorksPage() {
           <div className="order-1 md:order-2 space-y-7">
             <StepBadge label="Step 02" dark />
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-white">
-              Register Interest — Free
+              Register Interest - Free
             </h2>
             <p className="text-white/55 text-lg leading-relaxed">
               Found your dream home? Simply register your interest with a single
@@ -234,7 +234,7 @@ export default function HowItWorksPage() {
                 iconBg: "rgba(52,211,153,0.15)",
                 iconColor: "#34D399",
                 title: "You save lakhs",
-                desc: "Property deals typically involve a 1–2% commission on the total value. On a 2 Cr apartment, that's up to ₹4 Lakhs. With us, that money stays with you — in your new home.",
+                desc: "Property deals typically involve a 1–2% commission on the total value. On a 2 Cr apartment, that's up to ₹4 Lakhs. With us, that money stays with you - in your new home.",
               },
               {
                 icon: ShieldCheck,

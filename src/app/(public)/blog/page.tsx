@@ -4,9 +4,9 @@ import { ArrowRight } from "lucide-react";
 import { BLOG_POSTS } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Blog — Homes, Renting & Buying in Hiranandani Estate, Thane",
+  title: "Blog - Homes, Renting & Buying in Hiranandani Estate, Thane",
   description:
-    "Guides and insights on renting, buying and saving on brokerage for houses and flats in Hiranandani Estate, Thane — from the BlueBricks team.",
+    "Guides and insights on renting, buying and saving on brokerage for houses and flats in Hiranandani Estate, Thane - from the Sanatani Community team.",
   alternates: { canonical: "/blog" },
 };
 
@@ -26,11 +26,11 @@ export default function BlogIndexPage() {
           Insights
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#0B0B0C] mb-4">
-          The BlueBricks Blog
+          The Sanatani Community Blog
         </h1>
         <p className="text-[#1A1A1A]/55 text-sm sm:text-base leading-relaxed max-w-2xl mb-10 sm:mb-14">
           Practical guides on renting, buying and saving on brokerage in
-          Hiranandani Estate, Thane — written by the team that verifies every
+          Hiranandani Estate, Thane - written by the team that verifies every
           listing on the platform.
         </p>
 

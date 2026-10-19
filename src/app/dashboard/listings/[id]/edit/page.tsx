@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, use } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -363,7 +363,7 @@ function Step2({
       const uploadPromises = newImages.map(async (img, idx) => {
         try {
           const res = await fetch(
-            `/api/upload?filename=${encodeURIComponent(img.file!.name)}&contentType=${encodeURIComponent(img.file!.type)}`
+            `/api/upload?filename=${encodeURIComponent(img.file!.name)}&contentType=${encodeURIComponent(img.file!.type)}&fileSize=${img.file!.size}`
           );
           if (!res.ok) {
             const err = await res.json().catch(() => ({}));
@@ -686,19 +686,19 @@ function Step4({
     ["Listing", LISTING_TYPE_LABELS[step1.listingType ?? ""] ?? step1.listingType],
     ["Locality", step1.locality],
     ["Building", step1.building],
-    ["Flat No.", step1.flatNumber ?? "—"],
+    ["Flat No.", step1.flatNumber ?? "-"],
     ["Address", step1.address],
-    ["Bedrooms", step1.bedrooms ? `${step1.bedrooms} BHK` : "—"],
-    ["Bathrooms", step1.bathrooms ?? "—"],
-    ["Area", step1.areaSqft ? `${step1.areaSqft} sq.ft` : "—"],
-    ["Floor", step1.floor !== undefined ? step1.floor : "—"],
-    ["Total Floors", step1.totalFloors ?? "—"],
+    ["Bedrooms", step1.bedrooms ? `${step1.bedrooms} BHK` : "-"],
+    ["Bathrooms", step1.bathrooms ?? "-"],
+    ["Area", step1.areaSqft ? `${step1.areaSqft} sq.ft` : "-"],
+    ["Floor", step1.floor !== undefined ? step1.floor : "-"],
+    ["Total Floors", step1.totalFloors ?? "-"],
     ["Furnished", FURNISHED_LABELS[step1.furnished ?? ""] ?? step1.furnished],
     ["Price", step3.price
       ? `₹${Number(step3.price).toLocaleString("en-IN")}${step3.rentNegotiable ? " (Negotiable)" : ""}`
-      : "—"],
+      : "-"],
     ...(step1.listingType === "RENT"
-      ? [["Deposit", step3.deposit ? `₹${Number(step3.deposit).toLocaleString("en-IN")}` : "—"] as [string, string]]
+      ? [["Deposit", step3.deposit ? `₹${Number(step3.deposit).toLocaleString("en-IN")}` : "-"] as [string, string]]
       : []),
     ...(step1.listingType === "RENT" && lockInLabel
       ? [["Lock-in", `${lockInLabel}${step3.lockInNegotiable ? " (Negotiable)" : ""}`] as [string, string]]
@@ -728,7 +728,7 @@ function Step4({
           {rows.map(([label, value]) => (
             <div key={label} className="flex gap-2 text-sm">
               <span className="text-gray-500 min-w-[90px] shrink-0">{label}:</span>
-              <span className="font-medium text-gray-900">{String(value ?? "—")}</span>
+              <span className="font-medium text-gray-900">{String(value ?? "-")}</span>
             </div>
           ))}
         </div>
@@ -779,9 +779,9 @@ function Step4({
 export default function EditListingPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id: propertyId } = use(params);
+  const { id: propertyId } = params;
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -920,7 +920,7 @@ export default function EditListingPage({
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Edit Listing</h1>
         <p className="text-sm text-gray-500 mt-1">
-          Update your property details on BlueBricks
+          Update your property details on Sanatani Community
         </p>
       </div>
 

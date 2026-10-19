@@ -73,7 +73,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Property not found" }, { status: 404 });
   }
 
-  // Hard delete — clean up relations without cascade first
+  // Hard delete - clean up relations without cascade first
   await prisma.inquiry.deleteMany({ where: { propertyId: id } });
   await prisma.adminVerification.deleteMany({ where: { propertyId: id } });
   await prisma.priceHistory.deleteMany({ where: { propertyId: id } });

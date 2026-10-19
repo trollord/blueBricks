@@ -100,7 +100,7 @@ export function CardBody({
 }
 
 /* ─── CardItem ────────────────────────────────────────────────────────────── */
-// Always renders a <div>. No dynamic tag / no index signature — avoids the
+// Always renders a <div>. No dynamic tag / no index signature - avoids the
 // webpack module-resolution error caused by the [key: string]: unknown pattern.
 
 export function CardItem({

@@ -51,7 +51,7 @@ export default async function InterestsPage() {
         </p>
       </div>
 
-      {/* Seller path — seekers otherwise have no route to listing a property */}
+      {/* Seller path - seekers otherwise have no route to listing a property */}
       {session.user.role === "USER" && (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0B0B0C] rounded-xl px-5 sm:px-6 py-4 sm:py-5 mb-8">
           <div>
@@ -59,7 +59,7 @@ export default async function InterestsPage() {
               Own a property in Hiranandani Estate?
             </p>
             <p className="text-white/50 text-xs sm:text-[13px] mt-0.5">
-              List it for free and connect directly with verified seekers — zero brokerage.
+              List it for free and connect directly with verified seekers - zero brokerage.
             </p>
           </div>
           <Link

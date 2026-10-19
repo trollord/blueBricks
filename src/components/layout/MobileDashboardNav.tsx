@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, PlusCircle, MessageSquare, Heart, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, PlusCircle, MessageSquare, Heart, ArrowLeft, Package } from "lucide-react";
 
 const ownerItems = [
   { href: "/dashboard",           label: "Listings",   icon: LayoutDashboard },
+  { href: "/dashboard/items",     label: "Items",      icon: Package },
   { href: "/dashboard/new",       label: "Add",        icon: PlusCircle },
   { href: "/dashboard/inquiries", label: "Inquiries",  icon: MessageSquare },
   { href: "/",                    label: "Back",        icon: ArrowLeft },

@@ -14,12 +14,18 @@ import {
   Menu,
   X,
   BarChart3,
+  Package,
+  BookUser,
+  Newspaper,
 } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/admin/listings", label: "Listings Queue", icon: ListChecks },
+  { href: "/admin/items", label: "Marketplace", icon: Package },
+  { href: "/admin/community", label: "Community", icon: BookUser },
+  { href: "/admin/newsletter", label: "Newspaper", icon: Newspaper },
   { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/import", label: "Import Prices", icon: Upload },

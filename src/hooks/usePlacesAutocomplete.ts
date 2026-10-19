@@ -10,7 +10,7 @@ export interface PlacePrediction {
   mainText: string;
   secondaryText: string;
   matches: Array<{ startOffset: number; endOffset: number }>;
-  /** Present on local results — selecting them needs no Google call at all */
+  /** Present on local results - selecting them needs no Google call at all */
   lat?: number;
   lng?: number;
 }
@@ -110,7 +110,7 @@ export function usePlacesAutocomplete() {
         }
       }
     } catch {
-      // index unavailable — fall through to Google
+      // index unavailable - fall through to Google
     }
     if (reqId !== reqIdRef.current) return;
 
@@ -163,7 +163,7 @@ export function usePlacesAutocomplete() {
 
   const selectPrediction = useCallback(
     async (prediction: PlacePrediction): Promise<SelectedPlace | null> => {
-      // Local result: coordinates are already known — zero Google calls.
+      // Local result: coordinates are already known - zero Google calls.
       // Bump its popularity in the background.
       if (prediction.source === "local" && prediction.lat != null && prediction.lng != null) {
         setQuery(prediction.mainText);

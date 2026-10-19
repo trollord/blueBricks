@@ -21,7 +21,7 @@ export default function BecomeOwnerPage() {
         return;
       }
       // update() pushes the new role into the JWT cookie so the middleware
-      // sees OWNER on the very next request — no sign-out required
+      // sees OWNER on the very next request - no sign-out required
       await update({ role: "OWNER" });
       window.location.href = "/dashboard";
     } catch {
@@ -74,7 +74,7 @@ export default function BecomeOwnerPage() {
               disabled={loading}
               className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2 py-5"
             >
-              {loading ? "Activating…" : "Activate Owner Account — Free"}
+              {loading ? "Activating…" : "Activate Owner Account - Free"}
               {!loading && <ArrowRight className="h-4 w-4" />}
             </Button>
 

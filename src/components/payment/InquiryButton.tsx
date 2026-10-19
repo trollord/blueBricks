@@ -38,7 +38,7 @@ export default function InquiryButton({
       <Link href={`/login?callbackUrl=/listings/${propertyId}%3FshowInterest%3D1`}>
         <Button className="w-full rounded-full bg-[#0B0B0C] hover:bg-[#0B0B0C]/90 text-white gap-2 py-5 text-sm font-medium tracking-wide transition-all duration-300">
           <LogIn className="h-4 w-4" />
-          Register Interest — Free
+          Register Interest - Free
         </Button>
       </Link>
     );
@@ -67,7 +67,7 @@ export default function InquiryButton({
         onClick={() => setShowModal(true)}
       >
         <Heart className="h-4 w-4" />
-        Register Interest — Free
+        Register Interest - Free
       </Button>
 
       {showModal && (

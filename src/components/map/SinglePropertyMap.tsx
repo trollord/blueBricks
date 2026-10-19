@@ -46,7 +46,7 @@ export default function SinglePropertyMap({ lat, lng, title }: Props) {
     return (
       <div className="flex items-center justify-center h-64 bg-gray-50 rounded-xl border text-sm text-gray-400 gap-2">
         <MapPin className="h-4 w-4" />
-        Map not available — add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to .env
+        Map not available - add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to .env
       </div>
     );
   }

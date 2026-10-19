@@ -54,7 +54,7 @@ export default function Modal({
             className="relative z-10 w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-100 px-5 pt-6 pb-8 sm:p-8 max-h-[92dvh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Drag handle — mobile only */}
+            {/* Drag handle - mobile only */}
             <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5 sm:hidden" />
 
             {/* Close */}

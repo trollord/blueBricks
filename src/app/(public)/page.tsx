@@ -20,7 +20,7 @@ import ListPropertyCTA from "@/components/property/ListPropertyCTA";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import ProcessSection from "@/components/ui/ProcessSection";
 
-// Cached across requests — the page still renders per request (session in the
+// Cached across requests - the page still renders per request (session in the
 // root layout), but these 4 DB queries only run once a minute
 const getHomeData = unstable_cache(async () => {
   const [featured, stats] = await Promise.all([
@@ -80,7 +80,7 @@ export default async function HomePage() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          {/* Dark overlay — full bleed */}
+          {/* Dark overlay - full bleed */}
           <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.80)" }} />
           {/* Top + bottom vignette */}
           <div
@@ -140,7 +140,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          FEATURE HIGHLIGHTS  (bento grid) — dark bg
+          FEATURE HIGHLIGHTS  (bento grid) - dark bg
       ══════════════════════════════════════════════════════════════════ */}
       <section className="bg-[#111111] py-16 sm:py-24 px-5 sm:px-8">
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
@@ -158,7 +158,7 @@ export default async function HomePage() {
             {
               icon: Ban,
               title: "Zero Brokerage.",
-              desc: "Deal directly with verified owners — you never pay a rupee in brokerage or commissions.",
+              desc: "Deal directly with verified owners - you never pay a rupee in brokerage or commissions.",
             },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="bg-[#1c1c1c] p-7 sm:p-10 rounded-xl">
@@ -271,7 +271,7 @@ export default async function HomePage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════
-          LATEST LISTINGS  — dark bg, white heading
+          LATEST LISTINGS  - dark bg, white heading
       ══════════════════════════════════════════════════════════════════ */}
       {featured.length > 0 && (
         <section className="py-16 sm:py-24 bg-[#111111] px-5 sm:px-8">

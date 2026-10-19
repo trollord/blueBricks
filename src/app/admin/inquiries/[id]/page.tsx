@@ -159,8 +159,8 @@ export default function AdminInquiryDetailPage() {
             </h2>
           </div>
           <div className="space-y-3">
-            <InfoRow label="Name" value={inquiry.seeker.name ?? "—"} />
-            <InfoRow label="Email" value={inquiry.seeker.email ?? "—"} />
+            <InfoRow label="Name" value={inquiry.seeker.name ?? "-"} />
+            <InfoRow label="Email" value={inquiry.seeker.email ?? "-"} />
             <InfoRow
               label="Phone"
               value={contactPhone ?? "Not provided"}
@@ -179,8 +179,8 @@ export default function AdminInquiryDetailPage() {
             </h2>
           </div>
           <div className="space-y-3">
-            <InfoRow label="Name" value={inquiry.property.owner.name ?? "—"} />
-            <InfoRow label="Email" value={inquiry.property.owner.email ?? "—"} />
+            <InfoRow label="Name" value={inquiry.property.owner.name ?? "-"} />
+            <InfoRow label="Email" value={inquiry.property.owner.email ?? "-"} />
             <InfoRow
               label="Phone"
               value={inquiry.property.owner.phone ?? "Not provided"}

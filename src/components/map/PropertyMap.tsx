@@ -143,7 +143,7 @@ export default function PropertyMap({ lat, lng, propertyId, activeAmenity }: Pro
 
       mapRef.current = map;
 
-      // Styled persistent property marker — black, house icon
+      // Styled persistent property marker - black, house icon
       new AdvancedMarkerRef.current({
         map,
         position: { lat, lng },
@@ -260,7 +260,7 @@ export default function PropertyMap({ lat, lng, propertyId, activeAmenity }: Pro
     return (
       <div className="flex items-center justify-center h-72 bg-gray-50 rounded-xl border text-sm text-gray-400 gap-2">
         <MapPin className="h-4 w-4" />
-        Map not available — add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        Map not available - add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       </div>
     );
   }

@@ -20,7 +20,7 @@ const STEPS = [
   },
   {
     icon: Heart,
-    title: "Register Interest — Free",
+    title: "Register Interest - Free",
     desc: "Save your favorites and notify owners without paying a single rupee upfront.",
   },
   {
@@ -123,7 +123,7 @@ function PinnedProcessSection() {
           </h2>
 
           <div className="grid grid-cols-3 gap-12 relative">
-            {/* Horizontal connector line — draws in from the right */}
+            {/* Horizontal connector line - draws in from the right */}
             <div className="absolute top-10 left-[16.67%] w-[66.67%] h-px bg-[#dde4e5] z-0">
               <motion.div
                 className="w-full h-full bg-[#0B0B0C]"

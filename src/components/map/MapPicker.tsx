@@ -94,7 +94,7 @@ export default function MapPicker({ value, onChange }: Props) {
     return (
       <div className="flex items-center justify-center h-52 bg-gray-50 rounded-xl border text-sm text-gray-400 gap-2">
         <MapPin className="h-4 w-4" />
-        Map not available — add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        Map not available - add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       </div>
     );
   }

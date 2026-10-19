@@ -17,7 +17,7 @@ export default auth((req) => {
   }
 
   // Dashboard: any logged-in user (USER sees interests, OWNER+ sees listings)
-  // No role gate here — role-based content is handled inside the dashboard itself
+  // No role gate here - role-based content is handled inside the dashboard itself
 
   // Admin role is NOT checked here: the edge token can hold a stale role
   // (e.g. right after a promotion). The admin layout and every /api/admin

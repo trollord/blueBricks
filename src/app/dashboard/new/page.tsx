@@ -571,7 +571,7 @@ function Step2({
       }));
 
       // Mark the first *photo* as primary if nothing is primary yet
-      // (videos can't be primary — listing cards need a still thumbnail)
+      // (videos can't be primary - listing cards need a still thumbnail)
       if (!images.some((i) => i.isPrimary)) {
         const firstPhoto = newImages.find((m) => !m.file?.type.startsWith("video/"));
         if (firstPhoto) firstPhoto.isPrimary = true;
@@ -681,7 +681,7 @@ function Step2({
       <div className="flex items-start gap-3 bg-[#1A1A1A]/10 border border-[#1A1A1A]/30 rounded-xl px-4 py-3">
         <Camera className="h-4 w-4 text-[#1A1A1A] mt-0.5 shrink-0" />
         <p className="text-sm text-[#555555] leading-relaxed">
-          <span className="font-semibold">Photos are optional</span> — but listings with photos get significantly more attention. Adding clear photos helps serious buyers and tenants find you faster.
+          <span className="font-semibold">Photos are optional</span> - but listings with photos get significantly more attention. Adding clear photos helps serious buyers and tenants find you faster.
         </p>
       </div>
 
@@ -1048,19 +1048,19 @@ function Step4({
     ["Listing", LISTING_TYPE_LABELS[step1.listingType ?? ""] ?? step1.listingType],
     ["Locality", step1.locality],
     ["Building", step1.building],
-    ["Flat No.", step1.flatNumber ?? "—"],
+    ["Flat No.", step1.flatNumber ?? "-"],
     ["Address", step1.address],
-    ["Bedrooms", step1.bedrooms ? `${step1.bedrooms} BHK` : "—"],
-    ["Bathrooms", step1.bathrooms ?? "—"],
-    ["Area", step1.areaSqft ? `${step1.areaSqft} sq.ft` : "—"],
-    ["Floor", step1.floor !== undefined ? step1.floor : "—"],
-    ["Total Floors", step1.totalFloors ?? "—"],
+    ["Bedrooms", step1.bedrooms ? `${step1.bedrooms} BHK` : "-"],
+    ["Bathrooms", step1.bathrooms ?? "-"],
+    ["Area", step1.areaSqft ? `${step1.areaSqft} sq.ft` : "-"],
+    ["Floor", step1.floor !== undefined ? step1.floor : "-"],
+    ["Total Floors", step1.totalFloors ?? "-"],
     ["Furnished", FURNISHED_LABELS[step1.furnished ?? ""] ?? step1.furnished],
     ["Price", step3.price
       ? `₹${Number(step3.price).toLocaleString("en-IN")}${step3.rentNegotiable ? " (Negotiable)" : ""}`
-      : "—"],
+      : "-"],
     ...(step1.listingType === "RENT"
-      ? [["Deposit", step3.deposit ? `₹${Number(step3.deposit).toLocaleString("en-IN")}` : "—"] as [string, string]]
+      ? [["Deposit", step3.deposit ? `₹${Number(step3.deposit).toLocaleString("en-IN")}` : "-"] as [string, string]]
       : []),
     ...(step1.listingType === "RENT" && lockInLabel
       ? [["Lock-in", `${lockInLabel}${step3.lockInNegotiable ? " (Negotiable)" : ""}`] as [string, string]]
@@ -1083,7 +1083,7 @@ function Step4({
           {rows.map(([label, value]) => (
             <div key={label} className="flex gap-2 text-sm">
               <span className="text-gray-500 min-w-[90px] shrink-0">{label}:</span>
-              <span className="font-medium text-gray-900">{String(value ?? "—")}</span>
+              <span className="font-medium text-gray-900">{String(value ?? "-")}</span>
             </div>
           ))}
         </div>

@@ -26,11 +26,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL ?? "https://www.bluebrics.com"),
   title: {
-    default: "BlueBricks — Houses & Flats in Hiranandani Estate, Thane | Zero Brokerage",
-    template: "%s | BlueBricks",
+    default: "Sanatani Community - Houses & Flats in Hiranandani Estate, Thane | Zero Brokerage",
+    template: "%s | Sanatani Community",
   },
   description:
-    "Find verified houses and flats for rent and sale in Hiranandani Estate, Thane. Connect directly with owners — zero brokerage, free to browse and register interest.",
+    "Find verified houses and flats for rent and sale in Hiranandani Estate, Thane. Connect directly with owners - zero brokerage, free to browse and register interest.",
   keywords: [
     "houses in Hiranandani Estate",
     "flats in Hiranandani Estate Thane",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "/",
-    siteName: "BlueBricks",
+    siteName: "Sanatani Community",
   },
 };
 
@@ -58,7 +58,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch session on server so SessionProvider hydrates instantly —
+  // Fetch session on server so SessionProvider hydrates instantly -
   // no loading flash, no stale state when navigating between route groups
   const session = await auth();
 
@@ -73,7 +73,7 @@ export default async function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                name: "BlueBricks",
+                name: "Sanatani Community",
                 url: process.env.NEXTAUTH_URL ?? "https://www.bluebrics.com",
                 description:
                   "Independent zero-brokerage property listing platform for Hiranandani Estate, Thane.",
@@ -82,7 +82,7 @@ export default async function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                name: "BlueBricks",
+                name: "Sanatani Community",
                 url: process.env.NEXTAUTH_URL ?? "https://www.bluebrics.com",
               },
             ]),

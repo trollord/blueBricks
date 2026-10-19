@@ -177,13 +177,13 @@ export default function AdminListingDetailPage() {
         <Card>
           <CardHeader className="pb-2"><CardTitle className="text-base">Owner Information</CardTitle></CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <Row label="Name" value={property.owner.name ?? "—"} />
+            <Row label="Name" value={property.owner.name ?? "-"} />
             {isAdmin ? (
               <>
-                <Row label="Email" value={property.owner.email ?? "—"} />
-                <Row label="Phone" value={property.owner.phone ?? "—"} />
-                <Row label="Flat Number" value={property.flatNumber ?? "—"} />
-                <Row label="Address" value={property.address ?? "—"} />
+                <Row label="Email" value={property.owner.email ?? "-"} />
+                <Row label="Phone" value={property.owner.phone ?? "-"} />
+                <Row label="Flat Number" value={property.flatNumber ?? "-"} />
+                <Row label="Address" value={property.address ?? "-"} />
               </>
             ) : (
               <p className="text-gray-400 text-xs italic">Contact details hidden (Manager view)</p>
@@ -236,8 +236,8 @@ export default function AdminListingDetailPage() {
                   const contactPhone = inquiry.phone ?? inquiry.seeker.phone;
                   return (
                     <div key={inquiry.id} className="border border-gray-100 rounded-lg p-3 space-y-1">
-                      <p className="text-sm font-medium text-gray-900">{inquiry.seeker.name ?? "—"}</p>
-                      <p className="text-xs text-gray-600">{inquiry.seeker.email ?? "—"}</p>
+                      <p className="text-sm font-medium text-gray-900">{inquiry.seeker.name ?? "-"}</p>
+                      <p className="text-xs text-gray-600">{inquiry.seeker.email ?? "-"}</p>
                       <p className="text-xs text-gray-600">{contactPhone ?? <span className="text-gray-400 italic">Phone not provided</span>}</p>
                       <p className="text-xs text-gray-400">{formatDate(new Date(inquiry.createdAt))}</p>
                     </div>
@@ -261,8 +261,8 @@ export default function AdminListingDetailPage() {
                       const contactPhone = inquiry.phone ?? inquiry.seeker.phone;
                       return (
                         <tr key={inquiry.id} className="hover:bg-gray-50">
-                          <td className="py-2 pr-4 text-gray-900">{inquiry.seeker.name ?? "—"}</td>
-                          <td className="py-2 pr-4 text-gray-700">{inquiry.seeker.email ?? "—"}</td>
+                          <td className="py-2 pr-4 text-gray-900">{inquiry.seeker.name ?? "-"}</td>
+                          <td className="py-2 pr-4 text-gray-700">{inquiry.seeker.email ?? "-"}</td>
                           <td className="py-2 pr-4 text-gray-700">{contactPhone ?? <span className="text-gray-400 italic">Not provided</span>}</td>
                           <td className="py-2 text-gray-400 whitespace-nowrap">{formatDate(new Date(inquiry.createdAt))}</td>
                         </tr>
@@ -276,7 +276,7 @@ export default function AdminListingDetailPage() {
         </CardContent>
       </Card>
 
-      {/* Actions — only for PENDING */}
+      {/* Actions - only for PENDING */}
       {/* Approve/Reject listing (PENDING) */}
       {property.status === "PENDING" && (
         <div className="mt-8 space-y-4">
@@ -351,7 +351,7 @@ export default function AdminListingDetailPage() {
                     body: JSON.stringify({ action: "REJECT" }),
                   });
                   if (!res.ok) { toast.error("Failed"); return; }
-                  toast.success("Deletion request rejected — property set to Inactive");
+                  toast.success("Deletion request rejected - property set to Inactive");
                   router.push("/admin/listings");
                 } catch { toast.error("Failed"); }
                 finally { setSubmitting(false); }

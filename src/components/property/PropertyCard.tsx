@@ -51,7 +51,7 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
       <Link href={`/listings/${property.id}`} className="block group">
         <div className="bg-white rounded-xl overflow-hidden flex flex-row shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.09)] transition-shadow duration-200 border border-zinc-100">
 
-          {/* Thumbnail — fixed small */}
+          {/* Thumbnail - fixed small */}
           <div className="relative w-[110px] sm:w-[160px] h-[90px] sm:h-[110px] flex-shrink-0 self-stretch">
             {primaryImage ? (
               <Image
@@ -78,7 +78,7 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
             </div>
           </div>
 
-          {/* Info — compact two-row layout */}
+          {/* Info - compact two-row layout */}
           <div className="flex flex-col justify-center flex-1 px-3 sm:px-4 py-2.5 min-w-0 gap-1">
 
             {/* Row 1: title + price */}

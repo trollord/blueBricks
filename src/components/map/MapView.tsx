@@ -14,7 +14,7 @@ interface PropertyPin {
   longitude: number | null;
 }
 
-// Hiranandani Estate, Thane — default centre
+// Hiranandani Estate, Thane - default centre
 const DEFAULT_CENTER = { lat: 19.2700, lng: 72.9675 };
 
 function formatPrice(price: number, listingType: string): string {
@@ -216,13 +216,13 @@ export default function MapView({ properties }: { properties: PropertyPin[] }) {
       (p) => p.latitude !== null && p.longitude !== null
     );
 
-    // Cheap change detection — skip if the set of ids hasn't changed
+    // Cheap change detection - skip if the set of ids hasn't changed
     const ids = withCoords.map((p) => p.id).sort().join(",");
     if (ids === prevIdsRef.current) return;
     prevIdsRef.current = ids;
 
     if (!readyRef.current || !mapRef.current) {
-      // Map not ready yet — store for after init
+      // Map not ready yet - store for after init
       pendingRef.current = withCoords;
       return;
     }
@@ -237,7 +237,7 @@ export default function MapView({ properties }: { properties: PropertyPin[] }) {
     return (
       <div className="flex items-center justify-center h-[65dvh] sm:h-[600px] bg-gray-50 rounded-xl border text-sm text-gray-400 gap-2">
         <MapPin className="h-4 w-4" />
-        Map not available — add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        Map not available - add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       </div>
     );
   }

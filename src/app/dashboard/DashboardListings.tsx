@@ -172,7 +172,7 @@ export default function DashboardListings({
         </div>
         <h2 className="text-xl font-bold text-[#1A1A1A] mb-2">No properties listed yet</h2>
         <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
-          You haven&apos;t listed any properties yet. Start listing now and connect with serious buyers and tenants in Hiranandani Estate — completely free.
+          You haven&apos;t listed any properties yet. Start listing now and connect with serious buyers and tenants in Hiranandani Estate - completely free.
         </p>
         <Link href="/dashboard/new">
           <Button className="bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2 px-6 py-5 text-base">
@@ -186,7 +186,7 @@ export default function DashboardListings({
 
   return (
     <>
-      {/* Stats — only shown when the owner has more than 5 listings */}
+      {/* Stats - only shown when the owner has more than 5 listings */}
       {properties.length > 5 && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {(
@@ -383,7 +383,7 @@ export default function DashboardListings({
                   {interests.map((inquiry) => (
                     <tr key={inquiry.id} className="border-b last:border-0">
                       <td className="py-2 pr-2 font-medium text-gray-900">
-                        {inquiry.seeker.name ?? "—"}
+                        {inquiry.seeker.name ?? "-"}
                       </td>
                       <td className="py-2 pr-2 text-gray-600">
                         <a href={`mailto:${inquiry.seeker.email}`} className="hover:underline">
@@ -395,7 +395,7 @@ export default function DashboardListings({
                           <a href={`tel:${inquiry.seeker.phone}`} className="hover:underline">
                             {inquiry.seeker.phone}
                           </a>
-                        ) : "—"}
+                        ) : "-"}
                       </td>
                       <td className="py-2 text-gray-400 text-xs">
                         {formatDate(inquiry.createdAt)}

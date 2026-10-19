@@ -64,7 +64,7 @@ export default function InterestModal({
       description="The owner will use these details to reach out to you directly."
     >
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name — read-only */}
+        {/* Name - read-only */}
         <div>
           <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-[#1A1A1A]/45 mb-1.5">
             Full Name
@@ -77,7 +77,7 @@ export default function InterestModal({
           />
         </div>
 
-        {/* Email — read-only */}
+        {/* Email - read-only */}
         <div>
           <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-[#1A1A1A]/45 mb-1.5">
             Email Address
@@ -90,7 +90,7 @@ export default function InterestModal({
           />
         </div>
 
-        {/* Phone — required */}
+        {/* Phone - required */}
         <div>
           <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-[#1A1A1A]/45 mb-1.5">
             Contact Number{" "}

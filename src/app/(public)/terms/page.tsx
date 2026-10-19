@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
-    "Terms and conditions for using BlueBricks — an independent property listing platform for Hiranandani Estate, Thane.",
+    "Terms and conditions for using Sanatani Community - an independent property listing platform for Hiranandani Estate, Thane.",
 };
 
 const LAST_UPDATED = "19 July 2026";
@@ -34,7 +34,7 @@ export default function TermsPage() {
 
         <Section title="1. Acceptance of These Terms">
           <p>
-            By accessing or using BlueBricks, accessible at hiranandaniproperties.in (the &ldquo;Platform&rdquo;), you agree
+            By accessing or using Sanatani Community, accessible at hiranandaniproperties.in (the &ldquo;Platform&rdquo;), you agree
             to be bound by these Terms &amp; Conditions. If you do not agree with any part of
             these terms, please do not use the Platform.
           </p>
@@ -42,7 +42,7 @@ export default function TermsPage() {
 
         <Section title="2. About the Platform">
           <p>
-            BlueBricks is an independent online property listing platform that
+            Sanatani Community is an independent online property listing platform that
             helps property seekers discover residential and commercial properties located in
             the Hiranandani Estate locality of Thane, Maharashtra, and connect directly with
             the owners of those properties. The Platform is a product of <b>ByteLights</b>.
@@ -54,8 +54,8 @@ export default function TermsPage() {
             The Platform is <b>not affiliated with, endorsed by, sponsored by, or in any way
             connected to the Hiranandani Group</b>, House of Hiranandani, or any of their group
             companies, subsidiaries, or promoters. The word &ldquo;Hiranandani&rdquo; is used on
-            this Platform solely to describe the geographic locality — Hiranandani Estate,
-            Thane — in which the listed properties are situated.
+            this Platform solely to describe the geographic locality - Hiranandani Estate,
+            Thane - in which the listed properties are situated.
           </p>
           <p>
             <b>The Hiranandani Group is not the seller, lessor, or listing party</b> of any
@@ -82,9 +82,9 @@ export default function TermsPage() {
             listing. Property details, prices, and availability may change without notice.
           </p>
           <p>
-            You are solely responsible for carrying out your own due diligence — including
+            You are solely responsible for carrying out your own due diligence - including
             title verification, legal checks, physical inspection, and independent legal or
-            financial advice — before entering into any transaction.
+            financial advice - before entering into any transaction.
           </p>
         </Section>
 

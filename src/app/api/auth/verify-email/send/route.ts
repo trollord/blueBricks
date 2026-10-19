@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   }
   const email = parsed.data.email.toLowerCase();
 
-  // Generic response — no account enumeration
+  // Generic response - no account enumeration
   const genericOk = NextResponse.json({
     ok: true,
     message: "If this email needs verification, a code has been sent.",

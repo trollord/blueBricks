@@ -210,7 +210,7 @@ export default function ListingsContent() {
             </svg>
           </div>
 
-          {/* View switch — labeled segmented control */}
+          {/* View switch - labeled segmented control */}
           <div className="flex bg-white border border-[#e4e9ea] rounded-full p-1">
             {(
               [
@@ -301,7 +301,7 @@ export default function ListingsContent() {
               )}
           </div>
 
-          {/* Infinite-scroll sentinel — triggers the next batch automatically */}
+          {/* Infinite-scroll sentinel - triggers the next batch automatically */}
           {hasMore && <div ref={sentinelRef} className="h-1" aria-hidden />}
 
           <div className="mt-10 sm:mt-16 flex justify-center">

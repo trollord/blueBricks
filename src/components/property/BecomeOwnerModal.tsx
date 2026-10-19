@@ -71,7 +71,7 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
           disabled={loading}
           className="w-full rounded-full bg-[#0B0B0C] hover:bg-[#0B0B0C]/90 text-white gap-2 py-5 text-sm font-medium tracking-wide"
         >
-          {loading ? "Activating…" : "Activate Owner Account — Free"}
+          {loading ? "Activating…" : "Activate Owner Account - Free"}
           {!loading && <ArrowRight className="h-4 w-4" />}
         </Button>
 

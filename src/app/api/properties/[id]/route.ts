@@ -47,7 +47,7 @@ export async function GET(
       },
       owner: {
         select: { id: true, name: true, image: true },
-        // phone/email excluded — only returned after payment
+        // phone/email excluded - only returned after payment
       },
       _count: { select: { inquiries: true } },
     },
@@ -147,7 +147,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Deletion already requested" }, { status: 409 });
   }
 
-  // Owner cannot delete directly — submit a request for admin approval
+  // Owner cannot delete directly - submit a request for admin approval
   await prisma.property.update({
     where: { id },
     data: { status: "DELETE_REQUESTED" },

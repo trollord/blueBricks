@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch {
-    // Unique races are harmless — the index is best-effort
+    // Unique races are harmless - the index is best-effort
   }
 
   return NextResponse.json({ ok: true });

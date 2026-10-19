@@ -95,7 +95,7 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
                     {PROPERTY_TYPE_LABELS[p.type] ?? p.type} · {LISTING_TYPE_LABELS[p.listingType] ?? p.listingType}
                   </p>
                   <p className="text-xs text-gray-400 mb-2">
-                    {p.locality} · {p.owner.name ?? "—"}
+                    {p.locality} · {p.owner.name ?? "-"}
                     {p.status === "ACTIVE" && turnaroundDays(p.activatedAt) !== null && ` · Live ${turnaroundDays(p.activatedAt)}d`}
                     {p.closedAt && turnaroundDays(p.activatedAt, p.closedAt) !== null && ` · Closed in ${turnaroundDays(p.activatedAt, p.closedAt)}d`}
                   </p>
@@ -141,14 +141,14 @@ export default async function AdminListingsPage({ searchParams }: PageProps) {
                       </td>
                       <td className="px-4 py-3 text-gray-500 hidden md:table-cell">{p.locality}</td>
                       <td className="px-4 py-3 text-gray-700">{formatPrice(p.price)}</td>
-                      <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">{p.owner.name ?? "—"}</td>
+                      <td className="px-4 py-3 text-gray-500 hidden lg:table-cell">{p.owner.name ?? "-"}</td>
                       <td className="px-4 py-3 text-gray-400 hidden lg:table-cell">{formatDate(p.createdAt)}</td>
                       <td className="px-4 py-3 text-xs text-gray-500 hidden xl:table-cell whitespace-nowrap">
                         {p.status === "ACTIVE" && turnaroundDays(p.activatedAt) !== null
                           ? `Live ${turnaroundDays(p.activatedAt)}d`
                           : p.closedAt && turnaroundDays(p.activatedAt, p.closedAt) !== null
                           ? `Closed in ${turnaroundDays(p.activatedAt, p.closedAt)}d`
-                          : "—"}
+                          : "-"}
                       </td>
                       <td className="px-4 py-3">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[p.status] ?? ""}`}>

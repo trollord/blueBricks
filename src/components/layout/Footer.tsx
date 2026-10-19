@@ -23,7 +23,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Links — 2 columns side by side on mobile */}
+          {/* Links - 2 columns side by side on mobile */}
           <div className="grid grid-cols-2 gap-6 sm:gap-8 md:contents">
 
             {/* Explore */}
@@ -60,9 +60,11 @@ export default function Footer() {
                 {[
                   { href: "/how-it-works",    label: "How It Works" },
                   { href: "/community",       label: "Community Directory" },
+                  { href: "/marketplace",     label: "Marketplace" },
                   { href: "/blog",            label: "Blog" },
                   { href: "/dashboard/new",   label: "List Property" },
                   { href: "/listings",        label: "All Listings" },
+                  { href: "/contact",         label: "Contact Us" },
                   { href: "/terms",           label: "Terms & Conditions" },
                 ].map(({ href, label }) => (
                   <li key={href}>
@@ -82,7 +84,7 @@ export default function Footer() {
 
         {/* Independent-platform disclaimer */}
         <p className="text-[10px] sm:text-xs text-white/25 leading-relaxed mt-8 sm:mt-14 max-w-3xl">
-          Disclaimer: BlueBricks (hiranandaniproperties.in) is an independent property
+          Disclaimer: Sanatani Community (hiranandaniproperties.in) is an independent property
           listing platform and is not affiliated with, endorsed by, or
           connected to the Hiranandani Group or any of its companies. The name
           &ldquo;Hiranandani&rdquo; refers solely to the Hiranandani Estate

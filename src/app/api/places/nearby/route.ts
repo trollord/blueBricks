@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   // Rate limit
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
   if (!isAllowed(ip)) {
-    return NextResponse.json({ error: "Too many requests — please slow down" }, { status: 429 });
+    return NextResponse.json({ error: "Too many requests - please slow down" }, { status: 429 });
   }
 
   const { searchParams } = new URL(req.url);

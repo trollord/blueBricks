@@ -7,7 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <div className="min-h-screen flex">
-        {/* Left panel — dark navy */}
+        {/* Left panel - dark navy */}
         <div className="hidden lg:flex lg:w-1/2 bg-[#1A1A1A] flex-col justify-between p-12 relative overflow-hidden">
           {/* Decorative circles */}
           <div className="absolute top-0 right-0 h-64 w-64 bg-white/5 rounded-full translate-x-1/3 -translate-y-1/3" />
@@ -15,7 +15,7 @@ export default function AuthLayout({
 
           <Link href="/" className="relative z-10">
             <span className="font-bold text-2xl text-white">
-              BlueBricks
+              Sanatani Community
             </span>
           </Link>
 
@@ -26,7 +26,7 @@ export default function AuthLayout({
               <span className="text-white/70">Living in Hiranandani</span>
             </h2>
             <p className="text-white/60 leading-relaxed max-w-sm">
-              Browse verified listings and connect directly with owners — completely free.
+              Browse verified listings and connect directly with owners - completely free.
               Zero brokerage. Zero commissions.
             </p>
           </div>
@@ -45,13 +45,13 @@ export default function AuthLayout({
           </div>
         </div>
 
-        {/* Right panel — form */}
+        {/* Right panel - form */}
         <div className="flex-1 flex flex-col bg-[#FAF8F5]">
           {/* Mobile logo */}
           <div className="lg:hidden p-5">
             <Link href="/" className="flex items-center gap-2">
               <span className="font-bold text-xl text-[#1A1A1A]">
-                BlueBricks
+                Sanatani Community
               </span>
             </Link>
           </div>

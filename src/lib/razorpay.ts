@@ -13,7 +13,7 @@ export function getRazorpay(): Razorpay {
   return _razorpay;
 }
 
-/** @deprecated Use getRazorpay() instead — kept for backwards compatibility */
+/** @deprecated Use getRazorpay() instead - kept for backwards compatibility */
 export const razorpay = {
   get orders() {
     return getRazorpay().orders;

@@ -88,7 +88,7 @@ export default function LocationPicker({ value, onChange }: Props) {
     return (
       <div className="flex items-center justify-center h-52 bg-gray-50 rounded-xl border text-sm text-gray-400 gap-2">
         <MapPin className="h-4 w-4" />
-        Map not available — add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        Map not available - add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       </div>
     );
   }
@@ -100,7 +100,7 @@ export default function LocationPicker({ value, onChange }: Props) {
         className="h-52 w-full rounded-xl overflow-hidden border border-gray-200 cursor-crosshair"
       />
       {value ? (
-        <p className="text-xs text-gray-500">Location set — click the map to adjust if needed</p>
+        <p className="text-xs text-gray-500">Location set - click the map to adjust if needed</p>
       ) : (
         <p className="text-xs text-gray-400">Click the map to pin the location manually</p>
       )}

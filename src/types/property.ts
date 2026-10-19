@@ -6,7 +6,7 @@ import type {
   Inquiry,
 } from "@prisma/client";
 
-// Public property — flatNumber, owner contact stripped
+// Public property - flatNumber, owner contact stripped
 export type PropertyPublic = Omit<Property, "flatNumber"> & {
   images: PropertyImage[];
   _count?: { inquiries: number };
@@ -31,13 +31,13 @@ export type PropertyCard = Pick<
   images: PropertyImage[];
 };
 
-// Full detail — includes price history, no private fields
+// Full detail - includes price history, no private fields
 export type PropertyDetail = PropertyPublic & {
   priceHistory: PriceHistory[];
   owner: Pick<User, "id" | "name" | "image">;
 };
 
-// Admin/Manager view — includes flatNumber but NOT owner contact (handled at API layer)
+// Admin/Manager view - includes flatNumber but NOT owner contact (handled at API layer)
 export type PropertyAdmin = Property & {
   images: PropertyImage[];
   owner: Pick<User, "id" | "name" | "email" | "phone">;
