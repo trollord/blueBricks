@@ -166,16 +166,16 @@ export default function DashboardListings({
 
   if (properties.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-[#1A1A1A]/20 text-center">
-        <div className="inline-flex p-5 rounded-full bg-[#1A1A1A]/5 mb-6">
-          <Building2 className="h-10 w-10 text-[#1A1A1A]" />
+      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-[#FF5F15]/20 text-center">
+        <div className="inline-flex p-5 rounded-full bg-[#FF5F15]/5 mb-6">
+          <Building2 className="h-10 w-10 text-[#FF5F15]" />
         </div>
-        <h2 className="text-xl font-bold text-[#1A1A1A] mb-2">No properties listed yet</h2>
+        <h2 className="text-xl font-bold text-[#FF5F15] mb-2">No properties listed yet</h2>
         <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
           You haven&apos;t listed any properties yet. Start listing now and connect with serious buyers and tenants in Hiranandani Estate - completely free.
         </p>
         <Link href="/dashboard/new">
-          <Button className="bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2 px-6 py-5 text-base">
+          <Button className="bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white gap-2 px-6 py-5 text-base">
             <PlusCircle className="h-5 w-5" />
             Start Listing Now
           </Button>
@@ -191,9 +191,9 @@ export default function DashboardListings({
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {(
             [
-              { key: "ACTIVE", label: "Active", color: "text-[#0B0B0C] bg-[#f9f9f9] border-[#e0e0e0]" },
+              { key: "ACTIVE", label: "Active", color: "text-[#FF5F15] bg-[#f9f9f9] border-[#e0e0e0]" },
               { key: "PENDING", label: "Pending", color: "text-[#2d3435] bg-white border-[#d4d4d4]" },
-              { key: "REJECTED", label: "Rejected", color: "text-[#0B0B0C] bg-[#f0f0f0] border-[#c8c8c8]" },
+              { key: "REJECTED", label: "Rejected", color: "text-[#FF5F15] bg-[#f0f0f0] border-[#c8c8c8]" },
               { key: "INACTIVE", label: "Inactive", color: "text-[#5a6061] bg-[#fafafa] border-[#e5e5e5]" },
             ] as const
           ).map(({ key, label, color }) => (

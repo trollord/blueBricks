@@ -54,23 +54,23 @@ export default function DashboardNavbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 h-[60px] flex items-center justify-between px-6 lg:px-8">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-1.5 group shrink-0">
-        <span className="font-bold text-xl tracking-tight text-[#1A1A1A]">
-          Blue<span className="text-[#1A1A1A]">Bricks</span>
+        <span className="font-bold text-xl tracking-tight text-[#FF5F15]">
+          Blue<span className="text-[#FF5F15]">Bricks</span>
         </span>
-        <span className="h-1.5 w-1.5 rounded-full mt-1 bg-[#1A1A1A] group-hover:scale-125 transition-transform duration-300" />
+        <span className="h-1.5 w-1.5 rounded-full mt-1 bg-[#FF5F15] group-hover:scale-125 transition-transform duration-300" />
       </Link>
 
       {/* Nav links */}
       <nav className="hidden md:flex items-center gap-6">
         <Link
           href="/listings"
-          className="text-sm font-medium text-gray-500 hover:text-[#1A1A1A] transition-colors"
+          className="text-sm font-medium text-gray-500 hover:text-[#FF5F15] transition-colors"
         >
           Listings
         </Link>
         <Link
           href="/how-it-works"
-          className="text-sm font-medium text-gray-500 hover:text-[#1A1A1A] transition-colors"
+          className="text-sm font-medium text-gray-500 hover:text-[#FF5F15] transition-colors"
         >
           How It Works
         </Link>
@@ -85,10 +85,10 @@ export default function DashboardNavbar() {
             onToggle={() => setMenuOpen((v) => !v)}
             direction="down"
             trigger={
-              <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#1A1A1A]/50">
+              <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#FF5F15]/50">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={session.user?.image ?? undefined} />
-                  <AvatarFallback className="text-xs font-semibold bg-gray-100 text-[#1A1A1A]">
+                  <AvatarFallback className="text-xs font-semibold bg-gray-100 text-[#FF5F15]">
                     {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
                   </AvatarFallback>
                 </Avatar>

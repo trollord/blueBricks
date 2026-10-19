@@ -86,14 +86,14 @@ function UserMenu() {
         onToggle={() => setMenuOpen((v) => !v)}
         direction="down"
         trigger={
-          <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#1A1A1A]/50">
+          <button className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#FF5F15]/50">
             <Avatar className="h-8 w-8">
               <AvatarImage src={session.user?.image ?? undefined} />
               <AvatarFallback
                 className="text-xs font-semibold"
                 style={{
-                  background: scrolled ? "rgba(255,255,255,0.12)" : darkHero ? "rgba(255,255,255,0.15)" : "rgba(26,26,26,0.08)",
-                  color: scrolled ? "#ffffff" : darkHero ? "#ffffff" : "#1A1A1A",
+                  background: scrolled ? "rgba(255,255,255,0.12)" : darkHero ? "rgba(255,255,255,0.15)" : "rgba(255,95,21,0.08)",
+                  color: scrolled ? "#ffffff" : darkHero ? "#ffffff" : "#FF5F15",
                 }}
               >
                 {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
@@ -271,10 +271,10 @@ function MobileNavLink({
       onClick={onClick}
       className="block px-1 py-3 text-sm font-medium transition-colors duration-200 border-b"
       style={{
-        color: scrolled ? "rgba(255,255,255,0.8)" : "#1A1A1A",
+        color: scrolled ? "rgba(255,255,255,0.8)" : "#FF5F15",
         borderColor: scrolled
           ? "rgba(255,255,255,0.08)"
-          : "rgba(26,26,26,0.07)",
+          : "rgba(255,95,21,0.07)",
       }}
     >
       {children}
@@ -299,8 +299,8 @@ function MobileActionButton({
   const { scrolled } = useNavbar();
   const color = danger
     ? scrolled ? "rgba(255,120,120,1)" : "rgb(239,68,68)"
-    : scrolled ? "rgba(255,255,255,0.85)" : "#1A1A1A";
-  const borderColor = scrolled ? "rgba(255,255,255,0.08)" : "rgba(26,26,26,0.07)";
+    : scrolled ? "rgba(255,255,255,0.85)" : "#FF5F15";
+  const borderColor = scrolled ? "rgba(255,255,255,0.08)" : "rgba(255,95,21,0.07)";
   return (
     <button
       onClick={onClick}

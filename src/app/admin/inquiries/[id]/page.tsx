@@ -112,7 +112,7 @@ export default function AdminInquiryDetailPage() {
             <button
               onClick={markAsSeen}
               disabled={updating}
-              className="flex items-center gap-1.5 text-xs sm:text-sm bg-gray-900 text-white px-3 sm:px-4 py-1.5 rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 text-xs sm:text-sm bg-[#FF5F15] text-white px-3 sm:px-4 py-1.5 rounded-lg hover:bg-[#E84A00] transition-colors disabled:opacity-50"
             >
               {updating ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />

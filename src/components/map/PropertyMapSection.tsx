@@ -49,8 +49,8 @@ export default function PropertyMapSection({ lat, lng, propertyId, isLoggedIn }:
             onClick={() => toggle(type)}
             className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-colors duration-150 ${
               activeAmenity === type
-                ? "bg-[#1A1A1A] text-white border-[#1A1A1A]"
-                : "bg-white text-[#1A1A1A]/60 border-gray-200 hover:border-[#1A1A1A]/30 hover:text-[#1A1A1A]"
+                ? "bg-[#FF5F15] text-white border-[#FF5F15]"
+                : "bg-white text-[#FF5F15]/60 border-gray-200 hover:border-[#FF5F15]/30 hover:text-[#FF5F15]"
             }`}
           >
             <Icon className="h-3.5 w-3.5" />

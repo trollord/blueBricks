@@ -73,7 +73,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1A1A1A] mb-2">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
           {step === "email" ? "Forgot password?" : "Check your email"}
         </h1>
         <p className="text-gray-500">
@@ -81,7 +81,7 @@ export default function ForgotPasswordPage() {
             ? "Enter your account email and we'll send you a 6-digit reset code."
             : (
               <>
-                We sent a code to <b className="text-[#1A1A1A]">{email.trim()}</b>.
+                We sent a code to <b className="text-[#FF5F15]">{email.trim()}</b>.
                 Enter it below with your new password.
               </>
             )}
@@ -94,7 +94,7 @@ export default function ForgotPasswordPage() {
           className="space-y-4"
         >
           <div className="space-y-1.5">
-            <Label htmlFor="email" className="text-[#1A1A1A] font-medium">Email</Label>
+            <Label htmlFor="email" className="text-[#FF5F15] font-medium">Email</Label>
             <Input
               id="email"
               type="email"
@@ -102,13 +102,13 @@ export default function ForgotPasswordPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoFocus
-              className="bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20"
+              className="bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20"
             />
           </div>
           <Button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white transition-all duration-300 py-5"
+            className="w-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white transition-all duration-300 py-5"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Send Reset Code"}
           </Button>
@@ -116,7 +116,7 @@ export default function ForgotPasswordPage() {
       ) : (
         <form onSubmit={resetPassword} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="otp" className="text-[#1A1A1A] font-medium">6-digit code</Label>
+            <Label htmlFor="otp" className="text-[#FF5F15] font-medium">6-digit code</Label>
             <Input
               id="otp"
               type="text"
@@ -131,12 +131,12 @@ export default function ForgotPasswordPage() {
                 e.preventDefault();
                 setOtp(e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6));
               }}
-              className="bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 text-center text-2xl tracking-[0.5em] font-semibold py-6"
+              className="bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 text-center text-2xl tracking-[0.5em] font-semibold py-6"
             />
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="password" className="text-[#1A1A1A] font-medium">New password</Label>
+            <Label htmlFor="password" className="text-[#FF5F15] font-medium">New password</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -144,7 +144,7 @@ export default function ForgotPasswordPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 pr-10"
+                className="bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 pr-10"
               />
               <button
                 type="button"
@@ -162,7 +162,7 @@ export default function ForgotPasswordPage() {
           <Button
             type="submit"
             disabled={loading || otp.length !== 6}
-            className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white transition-all duration-300 py-5"
+            className="w-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white transition-all duration-300 py-5"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Reset Password"}
           </Button>
@@ -172,7 +172,7 @@ export default function ForgotPasswordPage() {
               type="button"
               onClick={() => requestCode(true)}
               disabled={resending}
-              className="text-gray-500 hover:text-[#1A1A1A] inline-flex items-center gap-1.5 disabled:opacity-50"
+              className="text-gray-500 hover:text-[#FF5F15] inline-flex items-center gap-1.5 disabled:opacity-50"
             >
               {resending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <MailCheck className="h-3.5 w-3.5" />}
               Resend code
@@ -180,7 +180,7 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               onClick={() => { setStep("email"); setOtp(""); setPassword(""); }}
-              className="text-gray-500 hover:text-[#1A1A1A]"
+              className="text-gray-500 hover:text-[#FF5F15]"
             >
               Change email
             </button>
@@ -190,7 +190,7 @@ export default function ForgotPasswordPage() {
 
       <p className="text-center text-sm text-gray-500 mt-6">
         Remembered it?{" "}
-        <Link href="/login" className="text-[#1A1A1A] font-medium hover:underline">
+        <Link href="/login" className="text-[#FF5F15] font-medium hover:underline">
           Back to Sign In
         </Link>
       </p>

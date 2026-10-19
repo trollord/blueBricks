@@ -12,8 +12,8 @@ const LAST_UPDATED = "19 July 2026";
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mb-10">
-      <h2 className="text-lg sm:text-xl font-bold text-[#1A1A1A] mb-3">{title}</h2>
-      <div className="text-sm sm:text-[15px] text-[#1A1A1A]/60 leading-relaxed space-y-3">
+      <h2 className="text-lg sm:text-xl font-bold text-[#FF5F15] mb-3">{title}</h2>
+      <div className="text-sm sm:text-[15px] text-[#FF5F15]/60 leading-relaxed space-y-3">
         {children}
       </div>
     </section>
@@ -24,13 +24,13 @@ export default function TermsPage() {
   return (
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8">
       <div className="max-w-3xl mx-auto">
-        <p className="text-[10px] font-semibold tracking-[0.25em] text-[#1A1A1A]/45 uppercase mb-3">
+        <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-3">
           Legal
         </p>
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#0B0B0C] mb-3">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] mb-3">
           Terms &amp; Conditions
         </h1>
-        <p className="text-sm text-[#1A1A1A]/40 mb-10 sm:mb-14">Last updated: {LAST_UPDATED}</p>
+        <p className="text-sm text-[#FF5F15]/40 mb-10 sm:mb-14">Last updated: {LAST_UPDATED}</p>
 
         <Section title="1. Acceptance of These Terms">
           <p>
@@ -185,7 +185,7 @@ export default function TermsPage() {
         </Section>
 
         <div className="mt-12 pt-8 border-t border-gray-100">
-          <Link href="/" className="text-sm font-medium text-[#1A1A1A] hover:underline">
+          <Link href="/" className="text-sm font-medium text-[#FF5F15] hover:underline">
             ← Back to Home
           </Link>
         </div>

@@ -84,7 +84,7 @@ export default function AdminShell({ userName, userRole, children }: Props) {
   return (
     <div className="min-h-screen flex">
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex w-56 shrink-0 bg-[#1A1A1A] text-white flex-col">
+      <aside className="hidden lg:flex w-56 shrink-0 bg-[#FF5F15] text-white flex-col">
         {sidebar}
       </aside>
 
@@ -98,7 +98,7 @@ export default function AdminShell({ userName, userRole, children }: Props) {
 
       {/* Mobile sidebar drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#1A1A1A] text-white flex flex-col transition-transform duration-300 lg:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#FF5F15] text-white flex flex-col transition-transform duration-300 lg:hidden ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

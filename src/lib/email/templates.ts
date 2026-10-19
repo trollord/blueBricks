@@ -26,7 +26,7 @@ function shell(content: string): string {
 
             <!-- Header -->
             <tr>
-              <td style="background-color:#0B0B0C;border-radius:14px 14px 0 0;padding:22px 32px;">
+              <td style="background-color:#FF5F15;border-radius:14px 14px 0 0;padding:22px 32px;">
                 <span style="font-family:${sans};font-size:17px;font-weight:700;color:#ffffff;letter-spacing:-0.3px;">
                   Blue<span style="color:rgba(255,255,255,0.6);">Bricks</span>
                 </span>
@@ -70,7 +70,7 @@ export function emailVerificationEmail(opts: {
     <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a;margin:0 0 14px;">
       Email Verification
     </p>
-    <h1 style="font-family:${serif};font-size:26px;line-height:1.25;font-weight:700;color:#0B0B0C;margin:0 0 18px;">
+    <h1 style="font-family:${serif};font-size:26px;line-height:1.25;font-weight:700;color:#FF5F15;margin:0 0 18px;">
       Confirm your email address
     </h1>
     <p style="font-family:${sans};font-size:14px;line-height:1.7;color:#555555;margin:0 0 24px;">
@@ -83,7 +83,7 @@ export function emailVerificationEmail(opts: {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #eeeeee;border-radius:10px;">
       <tr>
         <td align="center" style="padding:22px;">
-          <p style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:10px;color:#0B0B0C;margin:0;user-select:all;-webkit-user-select:all;">${otp}</p>
+          <p style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:10px;color:#FF5F15;margin:0;user-select:all;-webkit-user-select:all;">${otp}</p>
         </td>
       </tr>
     </table>
@@ -112,7 +112,7 @@ export function passwordResetEmail(opts: {
     <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a;margin:0 0 14px;">
       Password Reset
     </p>
-    <h1 style="font-family:${serif};font-size:26px;line-height:1.25;font-weight:700;color:#0B0B0C;margin:0 0 18px;">
+    <h1 style="font-family:${serif};font-size:26px;line-height:1.25;font-weight:700;color:#FF5F15;margin:0 0 18px;">
       Your verification code
     </h1>
     <p style="font-family:${sans};font-size:14px;line-height:1.7;color:#555555;margin:0 0 24px;">
@@ -124,7 +124,7 @@ export function passwordResetEmail(opts: {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #eeeeee;border-radius:10px;">
       <tr>
         <td align="center" style="padding:22px;">
-          <p style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:10px;color:#0B0B0C;margin:0;user-select:all;-webkit-user-select:all;">${otp}</p>
+          <p style="font-family:'SF Mono',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:10px;color:#FF5F15;margin:0;user-select:all;-webkit-user-select:all;">${otp}</p>
         </td>
       </tr>
     </table>
@@ -159,12 +159,12 @@ export function newInquiryEmail(opts: {
     <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a;margin:0 0 14px;">
       New Lead Received
     </p>
-    <h1 style="font-family:${serif};font-size:26px;line-height:1.25;font-weight:700;color:#0B0B0C;margin:0 0 18px;">
+    <h1 style="font-family:${serif};font-size:26px;line-height:1.25;font-weight:700;color:#FF5F15;margin:0 0 18px;">
       Someone is interested in your&nbsp;property
     </h1>
     <p style="font-family:${sans};font-size:14px;line-height:1.7;color:#555555;margin:0 0 24px;">
       Hi ${owner}, you have a new inquiry on
-      <b style="color:#0B0B0C;">&ldquo;${title}&rdquo;</b>.
+      <b style="color:#FF5F15;">&ldquo;${title}&rdquo;</b>.
     </p>
 
     <!-- Lead card -->
@@ -174,7 +174,7 @@ export function newInquiryEmail(opts: {
           <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin:0 0 6px;">
             Interested Seeker
           </p>
-          <p style="font-family:${sans};font-size:15px;font-weight:600;color:#0B0B0C;margin:0 0 3px;">
+          <p style="font-family:${sans};font-size:15px;font-weight:600;color:#FF5F15;margin:0 0 3px;">
             ${seeker}
           </p>
           <p style="font-family:${sans};font-size:13px;color:#555555;margin:0;">
@@ -191,7 +191,7 @@ export function newInquiryEmail(opts: {
     <!-- CTA -->
     <table role="presentation" cellpadding="0" cellspacing="0">
       <tr>
-        <td style="background-color:#0B0B0C;border-radius:999px;">
+        <td style="background-color:#FF5F15;border-radius:999px;">
           <a href="${dashboardUrl}"
              style="display:inline-block;font-family:${sans};font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;padding:13px 34px;border-radius:999px;">
             View Lead in Dashboard

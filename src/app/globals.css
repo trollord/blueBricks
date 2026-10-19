@@ -52,19 +52,19 @@
     --card-foreground: oklch(0.1 0.02 250);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.1 0.02 250);
-    --primary: oklch(0.2 0.06 255);
-    --primary-foreground: oklch(0.98 0.01 80);
-    --secondary: oklch(0.96 0.005 80);
-    --secondary-foreground: oklch(0.2 0.06 255);
-    --muted: oklch(0.95 0.005 80);
-    --muted-foreground: oklch(0.5 0.02 250);
-    --accent: oklch(0.72 0.12 75);
-    --accent-foreground: oklch(0.15 0.04 255);
+    --primary: oklch(0.62 0.22 38);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.97 0.008 48);
+    --secondary-foreground: oklch(0.62 0.22 38);
+    --muted: oklch(0.96 0.006 48);
+    --muted-foreground: oklch(0.5 0.02 48);
+    --accent: oklch(0.62 0.22 38);
+    --accent-foreground: oklch(1 0 0);
     --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.9 0.005 80);
-    --input: oklch(0.93 0.005 80);
-    --ring: oklch(0.72 0.12 75);
-    --chart-1: oklch(0.72 0.12 75);
+    --border: oklch(0.9 0.008 48);
+    --input: oklch(0.93 0.006 48);
+    --ring: oklch(0.62 0.22 38);
+    --chart-1: oklch(0.62 0.22 38);
     --chart-2: oklch(0.5 0.02 250);
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
@@ -72,14 +72,25 @@
     --radius: 0.5rem;
     --sidebar: oklch(0.985 0 0);
     --sidebar-foreground: oklch(0.1 0.02 250);
-    --sidebar-primary: oklch(0.2 0.06 255);
-    --sidebar-primary-foreground: oklch(0.98 0.01 80);
-    --sidebar-accent: oklch(0.96 0.005 80);
-    --sidebar-accent-foreground: oklch(0.2 0.06 255);
-    --sidebar-border: oklch(0.9 0.005 80);
-    --sidebar-ring: oklch(0.72 0.12 75);
+    --sidebar-primary: oklch(0.62 0.22 38);
+    --sidebar-primary-foreground: oklch(1 0 0);
+    --sidebar-accent: oklch(0.97 0.008 48);
+    --sidebar-accent-foreground: oklch(0.62 0.22 38);
+    --sidebar-border: oklch(0.9 0.008 48);
+    --sidebar-ring: oklch(0.62 0.22 38);
 
-    /* Utility brand tokens */
+    /* Brand orange palette */
+    --brand-50: #FFF4EE;
+    --brand-100: #FFE4CC;
+    --brand-200: #FFBF99;
+    --brand-300: #FF9862;
+    --brand-400: #FF7A35;
+    --brand-500: #FF5F15;
+    --brand-600: #E84A00;
+    --brand-700: #C43E00;
+    --brand-800: #9D3200;
+    --brand-900: #7A2700;
+    --brand-950: #1C0A00;
     --cream: #FAF8F5;
   }
   .dark {

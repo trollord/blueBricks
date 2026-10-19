@@ -67,7 +67,7 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
               </div>
             )}
             <div className="absolute top-2 left-2 flex flex-wrap gap-1">
-              <span className="bg-zinc-900 text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest">
+              <span className="bg-[#FF5F15] text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest">
                 {LISTING_TYPE_LABELS[property.listingType] ?? property.listingType}
               </span>
               {availabilityLabel && (
@@ -154,7 +154,7 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
                 )}
 
                 <CardItem translateZ={80} className="absolute top-4 left-4 flex gap-2">
-                  <span className="bg-zinc-900 text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                  <span className="bg-[#FF5F15] text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
                     {LISTING_TYPE_LABELS[property.listingType] ?? property.listingType}
                   </span>
                   <span className="bg-white/80 backdrop-blur-md text-zinc-900 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
@@ -177,7 +177,7 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
                     {property.title}
                   </h3>
                   <div className="pointer-events-none absolute bottom-[calc(100%+8px)] left-0 z-50 opacity-0 group-hover/title:opacity-100 transition-opacity duration-200">
-                    <div className="bg-zinc-900 text-white text-xs font-semibold px-3 py-2 rounded-lg shadow-xl whitespace-nowrap max-w-[260px] leading-snug break-words">
+                    <div className="bg-[#FF5F15] text-white text-xs font-semibold px-3 py-2 rounded-lg shadow-xl whitespace-nowrap max-w-[260px] leading-snug break-words">
                       {property.title}
                     </div>
                     <div className="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-zinc-900 ml-3 mt-0" />

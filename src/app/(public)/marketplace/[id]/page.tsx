@@ -119,12 +119,12 @@ export default async function ItemDetailPage({
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#1A1A1A]/55 mb-5">
-          <Link href="/marketplace" className="hover:text-[#0B0B0C]">
+        <nav className="text-xs text-[#FF5F15]/55 mb-5">
+          <Link href="/marketplace" className="hover:text-[#FF5F15]">
             Marketplace
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-[#1A1A1A]/75">{categoryLabel}</span>
+          <span className="text-[#FF5F15]/75">{categoryLabel}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
@@ -143,18 +143,18 @@ export default async function ItemDetailPage({
                   {vehicleLabel && <Chip>{vehicleLabel}</Chip>}
                   <Chip>{conditionLabel}</Chip>
                 </div>
-                <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#0B0B0C] leading-tight">
+                <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#FF5F15] leading-tight">
                   {item.title}
                 </h1>
               </div>
 
               {/* Price */}
               <div>
-                <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0B0B0C]">
+                <p className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#FF5F15]">
                   {formatPrice(item.price)}
                 </p>
                 {item.priceNegotiable && (
-                  <p className="text-xs text-[#1A1A1A]/55 mt-1">Negotiable</p>
+                  <p className="text-xs text-[#FF5F15]/55 mt-1">Negotiable</p>
                 )}
               </div>
 
@@ -183,13 +183,13 @@ export default async function ItemDetailPage({
 
               {/* Seller */}
               <div className="pt-4 border-t border-gray-100">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#1A1A1A]/40 mb-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FF5F15]/40 mb-2">
                   Posted by
                 </p>
-                <p className="text-sm font-semibold text-[#0B0B0C]">
+                <p className="text-sm font-semibold text-[#FF5F15]">
                   {sellerName}
                 </p>
-                <p className="text-[11px] text-[#1A1A1A]/50 mt-0.5">
+                <p className="text-[11px] text-[#FF5F15]/50 mt-0.5">
                   Member since {sellerSince}
                 </p>
               </div>
@@ -198,7 +198,7 @@ export default async function ItemDetailPage({
               <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2">
                 <a
                   href={`tel:${sellerPhone.replace(/\s/g, "")}`}
-                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-[#1A1A1A] text-white px-3 py-3 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:opacity-90 transition-opacity"
+                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-[#FF5F15] text-white px-3 py-3 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:opacity-90 transition-opacity"
                 >
                   <Phone className="w-4 h-4" /> Call
                 </a>
@@ -206,14 +206,14 @@ export default async function ItemDetailPage({
                   href={whatsAppContactUrl(sellerPhone || "+91 9000000000", whatsAppMsg)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-white border border-gray-300 text-[#0B0B0C] px-3 py-3 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-gray-400 transition-colors"
+                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-white border border-gray-300 text-[#FF5F15] px-3 py-3 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-gray-400 transition-colors"
                 >
                   <WhatsAppIcon className="w-4 h-4" /> WhatsApp
                 </a>
               </div>
 
               {/* Posted date */}
-              <p className="text-[11px] text-[#1A1A1A]/40 text-center">
+              <p className="text-[11px] text-[#FF5F15]/40 text-center">
                 Posted on {formatDate(item.createdAt)}
               </p>
             </div>
@@ -222,22 +222,22 @@ export default async function ItemDetailPage({
 
         {/* Description */}
         <section className="mt-10 sm:mt-14 max-w-3xl">
-          <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#0B0B0C] mb-4">
+          <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#FF5F15] mb-4">
             About this item
           </h2>
-          <p className="text-sm sm:text-base text-[#1A1A1A]/70 leading-relaxed whitespace-pre-line">
+          <p className="text-sm sm:text-base text-[#FF5F15]/70 leading-relaxed whitespace-pre-line">
             {item.description}
           </p>
         </section>
 
         {/* Trust note */}
         <section className="bg-[#F5F5F5] rounded-2xl p-5 sm:p-6 mt-8 flex items-start gap-3 max-w-3xl">
-          <ShieldCheck className="w-5 h-5 text-[#1A1A1A]/55 shrink-0 mt-0.5" />
+          <ShieldCheck className="w-5 h-5 text-[#FF5F15]/55 shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-semibold text-[#0B0B0C]">
+            <p className="text-sm font-semibold text-[#FF5F15]">
               Transact safely
             </p>
-            <p className="text-xs text-[#1A1A1A]/55 leading-relaxed mt-1">
+            <p className="text-xs text-[#FF5F15]/55 leading-relaxed mt-1">
               Inspect the item in person before paying. Prefer cash or UPI on
               handover. Sanatani Community does not hold funds or guarantee item
               condition.
@@ -249,12 +249,12 @@ export default async function ItemDetailPage({
         {similarCards.length > 0 && (
           <section className="mt-14 sm:mt-20">
             <div className="flex items-end justify-between mb-5">
-              <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#0B0B0C]">
+              <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#FF5F15]">
                 More in {categoryLabel}
               </h2>
               <Link
                 href="/marketplace"
-                className="text-xs font-semibold uppercase tracking-[0.14em] text-[#1A1A1A]/55 hover:text-[#0B0B0C] transition-colors"
+                className="text-xs font-semibold uppercase tracking-[0.14em] text-[#FF5F15]/55 hover:text-[#FF5F15] transition-colors"
               >
                 View all →
               </Link>
@@ -273,7 +273,7 @@ export default async function ItemDetailPage({
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#1A1A1A]/60 bg-[#EBEBEB] px-3 py-1 rounded-full">
+    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FF5F15]/60 bg-[#EBEBEB] px-3 py-1 rounded-full">
       {children}
     </span>
   );
@@ -290,12 +290,12 @@ function MetaRow({
 }) {
   return (
     <div className="flex items-start gap-3 text-sm">
-      <div className="text-[#1A1A1A]/45 mt-0.5">{icon}</div>
+      <div className="text-[#FF5F15]/45 mt-0.5">{icon}</div>
       <div className="min-w-0">
-        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#1A1A1A]/40">
+        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FF5F15]/40">
           {label}
         </p>
-        <p className="text-sm font-medium text-[#0B0B0C] mt-0.5">{value}</p>
+        <p className="text-sm font-medium text-[#FF5F15] mt-0.5">{value}</p>
       </div>
     </div>
   );

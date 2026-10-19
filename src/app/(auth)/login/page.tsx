@@ -58,7 +58,7 @@ function LoginForm() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1A1A1A] mb-2">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
           Welcome back
         </h1>
         <p className="text-gray-500">Sign in to your Sanatani Community account</p>
@@ -67,7 +67,7 @@ function LoginForm() {
       {/* Google OAuth */}
       <Button
         variant="outline"
-        className="w-full gap-2 border-gray-200 hover:border-[#1A1A1A] transition-colors duration-200"
+        className="w-full gap-2 border-gray-200 hover:border-[#FF5F15] transition-colors duration-200"
         onClick={handleGoogle}
         disabled={googleLoading}
       >
@@ -93,13 +93,13 @@ function LoginForm() {
       {/* Email form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-[#1A1A1A] font-medium">Email</Label>
+          <Label htmlFor="email" className="text-[#FF5F15] font-medium">Email</Label>
           <Input
             id="email"
             type="email"
             placeholder="you@example.com"
             {...register("email")}
-            className={`bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 ${errors.email ? "border-red-500" : ""}`}
+            className={`bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 ${errors.email ? "border-red-500" : ""}`}
           />
           {errors.email && (
             <p className="text-xs text-red-500">{errors.email.message}</p>
@@ -108,10 +108,10 @@ function LoginForm() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password" className="text-[#1A1A1A] font-medium">Password</Label>
+            <Label htmlFor="password" className="text-[#FF5F15] font-medium">Password</Label>
             <Link
               href="/forgot-password"
-              className="text-xs text-gray-500 hover:text-[#1A1A1A] hover:underline"
+              className="text-xs text-gray-500 hover:text-[#FF5F15] hover:underline"
             >
               Forgot password?
             </Link>
@@ -122,7 +122,7 @@ function LoginForm() {
               type={showPassword ? "text" : "password"}
               placeholder="••••••••"
               {...register("password")}
-              className={`bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 pr-10 ${errors.password ? "border-red-500" : ""}`}
+              className={`bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 pr-10 ${errors.password ? "border-red-500" : ""}`}
             />
             <button
               type="button"
@@ -139,7 +139,7 @@ function LoginForm() {
 
         <Button
           type="submit"
-          className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white transition-all duration-300 py-5"
+          className="w-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white transition-all duration-300 py-5"
           disabled={loading}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign In"}
@@ -148,7 +148,7 @@ function LoginForm() {
 
       <p className="text-center text-sm text-gray-500 mt-6">
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="text-[#1A1A1A] font-medium hover:underline">
+        <Link href="/register" className="text-[#FF5F15] font-medium hover:underline">
           Create one
         </Link>
       </p>

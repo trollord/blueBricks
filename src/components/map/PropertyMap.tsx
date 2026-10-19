@@ -147,7 +147,7 @@ export default function PropertyMap({ lat, lng, propertyId, activeAmenity }: Pro
       new AdvancedMarkerRef.current({
         map,
         position: { lat, lng },
-        content:  makeIconPin("This Property", "#0B0B0C", HOME_ICON, 38),
+        content:  makeIconPin("This Property", "#FF5F15", HOME_ICON, 38),
         title:    "Property",
         zIndex:   1,
       });

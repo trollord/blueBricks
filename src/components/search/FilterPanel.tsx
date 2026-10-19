@@ -56,7 +56,7 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
               onClick={() => apply({ listingType: t, minPrice: "", maxPrice: "" })}
               className={`flex-1 py-1.5 text-xs rounded-lg transition-all ${
                 listingType === t
-                  ? "bg-zinc-900 text-white font-bold"
+                  ? "bg-[#FF5F15] text-white font-bold"
                   : "text-zinc-500 font-medium hover:text-zinc-700"
               }`}
             >
@@ -127,7 +127,7 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
               onClick={() => apply({ bedrooms: bedrooms === String(n) ? "" : String(n) })}
               className={`px-3 py-1.5 rounded-full text-xs transition-all ${
                 bedrooms === String(n)
-                  ? "bg-zinc-900 text-white font-bold"
+                  ? "bg-[#FF5F15] text-white font-bold"
                   : "bg-[#f2f4f4] text-zinc-900 font-medium hover:bg-[#e4e9ea]"
               }`}
             >
@@ -152,7 +152,7 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
               onClick={() => apply({ availability: availability === value ? "" : value })}
               className={`px-3 py-1.5 rounded-full text-xs transition-all ${
                 availability === value
-                  ? "bg-zinc-900 text-white font-bold"
+                  ? "bg-[#FF5F15] text-white font-bold"
                   : "bg-[#f2f4f4] text-zinc-900 font-medium hover:bg-[#e4e9ea]"
               }`}
             >
@@ -189,7 +189,7 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
                 }}
               >
                 <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
-                  active ? "border-zinc-900 bg-zinc-900" : "border-zinc-300 group-hover:border-zinc-900"
+                  active ? "border-[#FF5F15] bg-[#FF5F15]" : "border-zinc-300 group-hover:border-[#FF5F15]"
                 }`}>
                   {active && (
                     <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -212,7 +212,7 @@ export default function FilterPanel({ onClose }: { onClose?: () => void }) {
       {onClose && (
         <button
           onClick={onClose}
-          className="w-full py-3 bg-zinc-900 text-white rounded-xl font-bold tracking-tight hover:opacity-90 transition-all text-sm lg:hidden"
+          className="w-full py-3 bg-[#FF5F15] text-white rounded-xl font-bold tracking-tight hover:opacity-90 transition-all text-sm lg:hidden"
         >
           View Results
         </button>

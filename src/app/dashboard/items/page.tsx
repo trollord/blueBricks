@@ -101,7 +101,7 @@ export default async function MyItemsPage() {
                       className="object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-[10px] uppercase tracking-widest text-[#1A1A1A]/35">
+                    <div className="w-full h-full flex items-center justify-center text-[10px] uppercase tracking-widest text-[#FF5F15]/35">
                       No photo
                     </div>
                   )}
@@ -185,7 +185,7 @@ export default async function MyItemsPage() {
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#1A1A1A]/55 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
+    <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#FF5F15]/55 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
       {children}
     </span>
   );

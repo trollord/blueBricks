@@ -87,12 +87,12 @@ export default function ContactForm() {
     return (
       <div className="bg-white border border-gray-200 rounded-2xl p-8 sm:p-10 text-center">
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#EBEBEB] mb-5">
-          <CheckCircle2 className="w-6 h-6 text-[#1A1A1A]" />
+          <CheckCircle2 className="w-6 h-6 text-[#FF5F15]" />
         </div>
-        <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#0B0B0C] mb-2">
+        <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#FF5F15] mb-2">
           Message received
         </h3>
-        <p className="text-[#1A1A1A]/55 text-sm leading-relaxed max-w-sm mx-auto mb-6">
+        <p className="text-[#FF5F15]/55 text-sm leading-relaxed max-w-sm mx-auto mb-6">
           Thanks for reaching out. We&apos;ll reply to the email you provided within
           24 hours.
         </p>
@@ -204,7 +204,7 @@ export default function ContactForm() {
       </div>
 
       <div className="flex items-center justify-between pt-2">
-        <p className="text-[11px] text-[#1A1A1A]/40">
+        <p className="text-[11px] text-[#FF5F15]/40">
           We&apos;ll never share your details.
         </p>
         <Button

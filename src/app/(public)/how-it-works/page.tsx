@@ -32,27 +32,27 @@ export default function HowItWorksPage() {
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section className="bg-[#F5F5F5] px-6 sm:px-8 py-28 md:py-40">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[#EBEBEB] text-[10px] uppercase tracking-[0.12em] font-bold text-[#1A1A1A]/55 mb-8">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[#EBEBEB] text-[10px] uppercase tracking-[0.12em] font-bold text-[#FF5F15]/55 mb-8">
             Process Redefined
           </span>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-extrabold tracking-tighter text-[#1A1A1A] max-w-4xl leading-[0.92] mb-8">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-extrabold tracking-tighter text-[#FF5F15] max-w-4xl leading-[0.92] mb-8">
             How Sanatani Community Works
           </h1>
 
-          <p className="text-[#1A1A1A]/55 text-base sm:text-lg md:text-xl max-w-2xl font-medium leading-relaxed mb-12">
+          <p className="text-[#FF5F15]/55 text-base sm:text-lg md:text-xl max-w-2xl font-medium leading-relaxed mb-12">
             A simple, transparent process - direct owner access, zero commissions.
             Completely free. Direct access. Zero commissions.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <Link href="/listings" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto bg-[#1A1A1A] text-white px-10 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-opacity">
+              <button className="w-full sm:w-auto bg-[#FF5F15] text-white px-10 py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-opacity">
                 Browse Listings
               </button>
             </Link>
             <Link href="#steps" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-10 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-[#1A1A1A] border border-[#1A1A1A]/18 hover:bg-[#EBEBEB] transition-colors">
+              <button className="w-full sm:w-auto px-10 py-4 rounded-xl font-bold uppercase tracking-widest text-sm text-[#FF5F15] border border-[#FF5F15]/18 hover:bg-[#EBEBEB] transition-colors">
                 Learn More
               </button>
             </Link>
@@ -67,17 +67,17 @@ export default function HowItWorksPage() {
           {/* Text */}
           <div className="space-y-7">
             <StepBadge label="Step 01" />
-            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#1A1A1A]">
+            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#FF5F15]">
               Browse Verified Listings
             </h2>
-            <p className="text-[#1A1A1A]/55 text-lg leading-relaxed">
+            <p className="text-[#FF5F15]/55 text-lg leading-relaxed">
               Every property listed on Sanatani Community undergoes a rigorous
               internal verification. High-resolution imagery, accurate square
               footage, and verified legal status come standard.
             </p>
-            <div className="flex items-center gap-3 text-[#1A1A1A] font-semibold">
+            <div className="flex items-center gap-3 text-[#FF5F15] font-semibold">
               <div className="bg-[#F5F5F5] p-2 rounded-full shrink-0">
-                <CheckCircle className="w-5 h-5 text-[#1A1A1A]" />
+                <CheckCircle className="w-5 h-5 text-[#FF5F15]" />
               </div>
               <span>100% Curated Inventory</span>
             </div>
@@ -97,20 +97,20 @@ export default function HowItWorksPage() {
               className="hidden sm:block absolute -bottom-8 -left-8 lg:-bottom-10 lg:-left-10 bg-white p-5 rounded-xl max-w-[220px] lg:max-w-[240px]"
               style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
             >
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A]/45 mb-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#FF5F15]/45 mb-2">
                 Featured Listing
               </p>
-              <p className="text-base lg:text-lg font-extrabold tracking-tight text-[#1A1A1A]">
+              <p className="text-base lg:text-lg font-extrabold tracking-tight text-[#FF5F15]">
                 Hiranandani Estate, Zen
               </p>
-              <p className="text-[#1A1A1A]/45 text-sm mt-0.5">3 BHK • 1,450 Sq.Ft.</p>
+              <p className="text-[#FF5F15]/45 text-sm mt-0.5">3 BHK • 1,450 Sq.Ft.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── STEP 02 - Register Interest ───────────────────────────────────── */}
-      <section className="bg-[#111111] py-24 sm:py-32 px-6 sm:px-8">
+      <section className="bg-[#1C0A00] py-24 sm:py-32 px-6 sm:px-8">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 lg:gap-24 items-center">
 
           {/* Glass mockup - left on desktop, bottom on mobile */}
@@ -172,27 +172,27 @@ export default function HowItWorksPage() {
           {/* Step 03 */}
           <div className="space-y-7">
             <StepBadge label="Step 03" />
-            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#1A1A1A]">
+            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#FF5F15]">
               Connect Directly with the Owner
             </h2>
-            <p className="text-[#1A1A1A]/55 text-lg leading-relaxed">
+            <p className="text-[#FF5F15]/55 text-lg leading-relaxed">
               We provide you with the owner&apos;s direct contact details. Honest,
               direct conversations with absolutely no commission pressure.
               Negotiate at your own pace.
             </p>
             {/* Owner card */}
             <div
-              className="flex items-center gap-4 bg-white p-5 rounded-xl border border-[#1A1A1A]/6 max-w-xs"
+              className="flex items-center gap-4 bg-white p-5 rounded-xl border border-[#FF5F15]/6 max-w-xs"
               style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}
             >
               <div className="w-12 h-12 rounded-full bg-[#EBEBEB] flex items-center justify-center shrink-0">
-                <User className="w-6 h-6 text-[#1A1A1A]/60" />
+                <User className="w-6 h-6 text-[#FF5F15]/60" />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#1A1A1A]/40 mb-0.5">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#FF5F15]/40 mb-0.5">
                   Direct Access
                 </p>
-                <p className="text-base font-extrabold text-[#1A1A1A]">
+                <p className="text-base font-extrabold text-[#FF5F15]">
                   Verified Owner Profile
                 </p>
               </div>
@@ -202,17 +202,17 @@ export default function HowItWorksPage() {
           {/* Step 04 */}
           <div className="space-y-7">
             <StepBadge label="Step 04" />
-            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#1A1A1A]">
+            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#FF5F15]">
               Sign the Deal &amp; Move In
             </h2>
-            <p className="text-[#1A1A1A]/55 text-lg leading-relaxed">
+            <p className="text-[#FF5F15]/55 text-lg leading-relaxed">
               Once you and the owner reach an agreement, we can help facilitate
               the paperwork through our trusted concierge partners, or you can
               manage it independently. The choice is yours.
             </p>
             <Link
               href="/listings"
-              className="inline-flex items-center gap-3 group text-[#1A1A1A] font-bold uppercase tracking-[0.18em] text-sm pt-2"
+              className="inline-flex items-center gap-3 group text-[#FF5F15] font-bold uppercase tracking-[0.18em] text-sm pt-2"
             >
               View Success Stories
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1.5" />
@@ -222,7 +222,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* ── WHY ZERO BROKERAGE ─────────────────────────────────────────────────── */}
-      <section className="bg-[#111111] py-24 sm:py-32 px-6 sm:px-8">
+      <section className="bg-[#1C0A00] py-24 sm:py-32 px-6 sm:px-8">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-5xl sm:text-6xl font-extrabold tracking-tighter text-white mb-16 sm:mb-20">
             Why Zero Brokerage?
@@ -273,14 +273,14 @@ export default function HowItWorksPage() {
             className="bg-white rounded-2xl p-10 sm:p-16 md:p-24 text-center"
             style={{ boxShadow: "0 4px 40px rgba(0,0,0,0.06)" }}
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-[#1A1A1A] mb-5">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-[#FF5F15] mb-5">
               Ready to find your home?
             </h2>
-            <p className="text-[#1A1A1A]/50 text-base sm:text-lg mb-12">
+            <p className="text-[#FF5F15]/50 text-base sm:text-lg mb-12">
               Browse verified listings in Hiranandani Estate today.
             </p>
             <Link href="/listings">
-              <button className="bg-[#1A1A1A] text-white px-12 py-5 rounded-xl font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-all hover:scale-[1.03]">
+              <button className="bg-[#FF5F15] text-white px-12 py-5 rounded-xl font-bold uppercase tracking-widest text-sm hover:opacity-90 transition-all hover:scale-[1.03]">
                 Explore Listings
               </button>
             </Link>

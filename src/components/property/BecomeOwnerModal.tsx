@@ -38,14 +38,14 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
   return (
     <Modal open={open} onClose={onClose}>
       <div className="text-center">
-        <div className="inline-flex p-4 rounded-full bg-[#1A1A1A]/5 mb-5">
-          <Building2 className="h-8 w-8 text-[#1A1A1A]" />
+        <div className="inline-flex p-4 rounded-full bg-[#FF5F15]/5 mb-5">
+          <Building2 className="h-8 w-8 text-[#FF5F15]" />
         </div>
 
-        <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#0B0B0C] mb-2">
+        <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#FF5F15] mb-2">
           List Your Property
         </h2>
-        <p className="text-[13px] text-[#1A1A1A]/50 mb-7 leading-relaxed">
+        <p className="text-[13px] text-[#FF5F15]/50 mb-7 leading-relaxed">
           Activate your owner account to list properties.
           It&apos;s free and takes one click.
         </p>
@@ -58,7 +58,7 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
             "Get notified when someone registers interest",
           ].map((point) => (
             <li key={point} className="flex items-start gap-2.5 text-sm text-gray-700">
-              <CheckCircle2 className="h-4 w-4 text-[#1A1A1A] mt-0.5 shrink-0" />
+              <CheckCircle2 className="h-4 w-4 text-[#FF5F15] mt-0.5 shrink-0" />
               {point}
             </li>
           ))}
@@ -69,7 +69,7 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
         <Button
           onClick={handleActivate}
           disabled={loading}
-          className="w-full rounded-full bg-[#0B0B0C] hover:bg-[#0B0B0C]/90 text-white gap-2 py-5 text-sm font-medium tracking-wide"
+          className="w-full rounded-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white gap-2 py-5 text-sm font-medium tracking-wide"
         >
           {loading ? "Activating…" : "Activate Owner Account - Free"}
           {!loading && <ArrowRight className="h-4 w-4" />}

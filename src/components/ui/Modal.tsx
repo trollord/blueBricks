@@ -60,7 +60,7 @@ export default function Modal({
             {/* Close */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-[#1A1A1A]/40 hover:text-[#1A1A1A] transition-colors p-1"
+              className="absolute top-4 right-4 text-[#FF5F15]/40 hover:text-[#FF5F15] transition-colors p-1"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
@@ -70,17 +70,17 @@ export default function Modal({
             {(subtitle || title || description) && (
               <div className="mb-6">
                 {subtitle && (
-                  <p className="text-[10px] font-semibold tracking-[0.25em] text-[#1A1A1A]/45 uppercase mb-2">
+                  <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-2">
                     {subtitle}
                   </p>
                 )}
                 {title && (
-                  <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#0B0B0C]">
+                  <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#FF5F15]">
                     {title}
                   </h2>
                 )}
                 {description && (
-                  <p className="text-[13px] text-[#1A1A1A]/50 mt-1.5 leading-relaxed">
+                  <p className="text-[13px] text-[#FF5F15]/50 mt-1.5 leading-relaxed">
                     {description}
                   </p>
                 )}
@@ -99,7 +99,7 @@ export default function Modal({
                   className={`w-full rounded-full gap-2 py-5 text-sm font-medium tracking-wide transition-all duration-300 disabled:opacity-50 ${
                     danger
                       ? "bg-red-600 hover:bg-red-700 text-white"
-                      : "bg-[#0B0B0C] hover:bg-[#0B0B0C]/90 text-white"
+                      : "bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white"
                   }`}
                 >
                   {loading && <Loader2 className="h-4 w-4 animate-spin" />}

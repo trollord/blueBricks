@@ -47,20 +47,20 @@ export default async function MarketplacePage() {
         {/* ── Header ──────────────────────────────────────────────────────── */}
         <div className="flex items-start justify-between gap-4 mb-8 sm:mb-10">
           <div>
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-[#1A1A1A]/45 uppercase mb-3">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-3">
               Marketplace
             </p>
-            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#0B0B0C] mb-4">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] mb-4">
               Buy &amp; Sell in the Estate
             </h1>
-            <p className="text-[#1A1A1A]/55 text-sm sm:text-base leading-relaxed max-w-2xl">
+            <p className="text-[#FF5F15]/55 text-sm sm:text-base leading-relaxed max-w-2xl">
               Furniture, electronics, vehicles and more - listed by your
               neighbours in Hiranandani Estate. No commissions, no middlemen.
             </p>
           </div>
           <Link
             href="/dashboard/items/new"
-            className="shrink-0 inline-flex items-center gap-2 bg-[#1A1A1A] text-white
+            className="shrink-0 inline-flex items-center gap-2 bg-[#FF5F15] text-white
                        px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider
                        hover:opacity-90 transition-opacity mt-1"
           >
@@ -76,13 +76,13 @@ export default async function MarketplacePage() {
         {/* Mobile CTA */}
         <Link
           href="/dashboard/items/new"
-          className="sm:hidden inline-flex items-center justify-center gap-2 bg-[#1A1A1A] text-white px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity w-full mt-8"
+          className="sm:hidden inline-flex items-center justify-center gap-2 bg-[#FF5F15] text-white px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity w-full mt-8"
         >
           <PlusCircle className="w-4 h-4" /> Sell an item
         </Link>
 
         {/* Notice */}
-        <p className="flex items-start gap-2 text-[11px] sm:text-xs text-[#1A1A1A]/40 leading-relaxed mt-10 sm:mt-14">
+        <p className="flex items-start gap-2 text-[11px] sm:text-xs text-[#FF5F15]/40 leading-relaxed mt-10 sm:mt-14">
           <Info className="w-3.5 h-3.5 shrink-0 mt-px" />
           <span>
             Prices and condition descriptions are provided by sellers. Verify
@@ -92,7 +92,7 @@ export default async function MarketplacePage() {
         </p>
 
         {/* CTA */}
-        <div className="bg-[#111111] rounded-2xl p-6 sm:p-10 mt-8 sm:mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div className="bg-[#1C0A00] rounded-2xl p-6 sm:p-10 mt-8 sm:mt-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/35 mb-3">
               Have something to sell?
@@ -107,7 +107,7 @@ export default async function MarketplacePage() {
           </div>
           <Link
             href="/dashboard/items/new"
-            className="inline-flex items-center gap-2 bg-white text-[#1A1A1A] px-6 py-3 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity shrink-0 self-start sm:self-auto"
+            className="inline-flex items-center gap-2 bg-white text-[#FF5F15] px-6 py-3 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity shrink-0 self-start sm:self-auto"
           >
             Post an item
             <ArrowRight className="w-4 h-4" />

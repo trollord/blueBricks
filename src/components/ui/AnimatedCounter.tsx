@@ -52,7 +52,7 @@ export default function AnimatedCounter({
 
   return (
     <div ref={ref}>
-      <div className={`text-3xl sm:text-4xl font-black tracking-tighter mb-1 ${dark ? "text-white" : "text-[#0B0B0C]"}`}>
+      <div className={`text-3xl sm:text-4xl font-black tracking-tighter mb-1 ${dark ? "text-white" : "text-[#FF5F15]"}`}>
         {count}{suffix}
       </div>
       <div className={`text-[10px] sm:text-xs font-bold uppercase tracking-widest ${dark ? "text-white/45" : "text-[#5a6061]"}`}>

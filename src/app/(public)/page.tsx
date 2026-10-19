@@ -129,7 +129,7 @@ export default async function HomePage() {
             <div className="flex items-start">
               <Link
                 href="/listings"
-                className="bg-white text-[#0B0B0C] py-3.5 px-8 sm:py-4 sm:px-10 rounded-xl text-sm sm:text-base font-bold hover:opacity-90 active:scale-95 transition-all duration-200"
+                className="bg-white text-[#FF5F15] py-3.5 px-8 sm:py-4 sm:px-10 rounded-xl text-sm sm:text-base font-bold hover:opacity-90 active:scale-95 transition-all duration-200"
               >
                 Browse Listings
               </Link>
@@ -142,7 +142,7 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════════════════
           FEATURE HIGHLIGHTS  (bento grid) - dark bg
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#111111] py-16 sm:py-24 px-5 sm:px-8">
+      <section className="bg-[#1C0A00] py-16 sm:py-24 px-5 sm:px-8">
         <div className="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {[
             {
@@ -161,7 +161,7 @@ export default async function HomePage() {
               desc: "Deal directly with verified owners - you never pay a rupee in brokerage or commissions.",
             },
           ].map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="bg-[#1c1c1c] p-7 sm:p-10 rounded-xl">
+            <div key={title} className="bg-[#2D1200] p-7 sm:p-10 rounded-xl">
               <Icon
                 className="text-white/50 mb-4 sm:mb-6"
                 style={{ width: 28, height: 28 }}
@@ -188,7 +188,7 @@ export default async function HomePage() {
               <div className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-white/45">Free</div>
             </div>,
           ].map((child, i) => (
-            <div key={i} className="bg-[#1c1c1c] rounded-lg p-6 sm:p-8">
+            <div key={i} className="bg-[#2D1200] rounded-lg p-6 sm:p-8">
               {child}
             </div>
           ))}
@@ -203,7 +203,7 @@ export default async function HomePage() {
 
           {/* ── Left: feature list ── */}
           <div className="w-full lg:w-1/2 lg:sticky lg:top-32">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-[#0B0B0C] mb-6 sm:mb-8 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-[#FF5F15] mb-6 sm:mb-8 leading-tight">
               Experience the Hiranandani Advantage
             </h2>
             <div className="space-y-6 sm:space-y-8">
@@ -221,7 +221,7 @@ export default async function HomePage() {
                     <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-[#5a6061]" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-base sm:text-lg text-[#0B0B0C] mb-1">{title}</h4>
+                    <h4 className="font-bold text-base sm:text-lg text-[#FF5F15] mb-1">{title}</h4>
                     <p className="text-sm sm:text-base text-[#5a6061]">{desc}</p>
                   </div>
                 </div>
@@ -274,7 +274,7 @@ export default async function HomePage() {
           LATEST LISTINGS  - dark bg, white heading
       ══════════════════════════════════════════════════════════════════ */}
       {featured.length > 0 && (
-        <section className="py-16 sm:py-24 bg-[#111111] px-5 sm:px-8">
+        <section className="py-16 sm:py-24 bg-[#1C0A00] px-5 sm:px-8">
           <div className="max-w-[1440px] mx-auto">
 
             {/* Section header */}
@@ -316,14 +316,14 @@ export default async function HomePage() {
           OWNER CTA  (dark split card)
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-8 sm:py-24 px-4 sm:px-8 max-w-[1440px] mx-auto">
-        <div className="bg-[#0B0B0C] rounded-xl overflow-hidden flex flex-col md:flex-row items-center">
+        <div className="bg-[#FF5F15] rounded-xl overflow-hidden flex flex-col md:flex-row items-center">
 
           {/* Text side */}
           <div className="w-full md:w-1/2 p-6 sm:p-12 lg:p-20">
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tighter mb-3 sm:mb-6 leading-tight">
               Own a Property in Hiranandani?
             </h2>
-            <p className="text-[#adb3b4] text-sm sm:text-lg mb-6 sm:mb-10 leading-relaxed max-w-md">
+            <p className="text-white/70 text-sm sm:text-lg mb-6 sm:mb-10 leading-relaxed max-w-md">
               List it for free and reach thousands of verified seekers directly.
               We help you find the best tenants or buyers without commissions.
             </p>
@@ -347,12 +347,12 @@ export default async function HomePage() {
           FINAL CTA
       ══════════════════════════════════════════════════════════════════ */}
       <section className="py-20 sm:py-32 text-center px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-[#0B0B0C] mb-8 sm:mb-10">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tighter text-[#FF5F15] mb-8 sm:mb-10">
           Ready to find your home?
         </h2>
         <Link
           href="/listings"
-          className="inline-block bg-[#0c0f0f] text-[#f9f9f9] py-4 px-10 sm:py-5 sm:px-16 rounded-full text-base sm:text-lg font-bold shadow-2xl shadow-[#0c0f0f]/10 hover:scale-105 active:scale-95 transition-transform duration-200"
+          className="inline-block bg-[#FF5F15] text-[#f9f9f9] py-4 px-10 sm:py-5 sm:px-16 rounded-full text-base sm:text-lg font-bold shadow-2xl shadow-[#FF5F15]/10 hover:scale-105 active:scale-95 transition-transform duration-200"
         >
           Explore Listings
         </Link>

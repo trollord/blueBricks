@@ -198,7 +198,7 @@ export default function NewsViewer({ id, title, pageCount, extraOffset = 0 }: Pr
       {/* ── Bottom controls bar ───────────────────────────────────────── */}
       <div
         className="shrink-0 flex items-center justify-center gap-1 px-4
-                   border-t border-white/10 bg-[#111111]"
+                   border-t border-white/10 bg-[#1C0A00]"
         style={{ height: CONTROLS_H }}
       >
         {/* Mobile prev */}

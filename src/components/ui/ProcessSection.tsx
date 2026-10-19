@@ -62,10 +62,10 @@ function Step({
       className="relative z-10 flex flex-col items-center text-center"
     >
       <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white border-4 border-[#f9f9f9] flex items-center justify-center mb-5 sm:mb-8 shadow-sm">
-        <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-[#0B0B0C]" strokeWidth={1.5} />
+        <Icon className="h-6 w-6 sm:h-7 sm:w-7 text-[#FF5F15]" strokeWidth={1.5} />
       </div>
       <div>
-        <h3 className="text-lg sm:text-xl font-bold text-[#0B0B0C] mb-3 sm:mb-4">{title}</h3>
+        <h3 className="text-lg sm:text-xl font-bold text-[#FF5F15] mb-3 sm:mb-4">{title}</h3>
         <p className="text-sm sm:text-base text-[#5a6061] max-w-xs leading-relaxed">{desc}</p>
       </div>
     </motion.div>
@@ -118,7 +118,7 @@ function PinnedProcessSection() {
     <div ref={pinWrapperRef} className="relative" style={{ height: "400vh" }}>
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col items-center justify-center px-5 sm:px-8">
         <div className="max-w-[1440px] w-full mx-auto">
-          <h2 className="text-center text-3xl sm:text-4xl font-bold tracking-tighter text-[#0B0B0C] mb-12 sm:mb-20">
+          <h2 className="text-center text-3xl sm:text-4xl font-bold tracking-tighter text-[#FF5F15] mb-12 sm:mb-20">
             Simple Process
           </h2>
 
@@ -126,7 +126,7 @@ function PinnedProcessSection() {
             {/* Horizontal connector line - draws in from the right */}
             <div className="absolute top-10 left-[16.67%] w-[66.67%] h-px bg-[#dde4e5] z-0">
               <motion.div
-                className="w-full h-full bg-[#0B0B0C]"
+                className="w-full h-full bg-[#FF5F15]"
                 style={{ scaleX: lineScaleX, originX: 1, willChange: "transform" }}
               />
             </div>
@@ -175,7 +175,7 @@ function MobileProcessSection() {
 
   return (
     <div className="py-16 px-5 max-w-[1440px] mx-auto">
-      <h2 className="text-center text-3xl font-bold tracking-tighter text-[#0B0B0C] mb-12">
+      <h2 className="text-center text-3xl font-bold tracking-tighter text-[#FF5F15] mb-12">
         Simple Process
       </h2>
 
@@ -189,7 +189,7 @@ function MobileProcessSection() {
               animate={isInView ? "visible" : "hidden"}
               className="w-16 h-16 rounded-full bg-white border-4 border-[#f9f9f9] flex items-center justify-center mb-5 shadow-sm"
             >
-              <Icon className="h-6 w-6 text-[#0B0B0C]" strokeWidth={1.5} />
+              <Icon className="h-6 w-6 text-[#FF5F15]" strokeWidth={1.5} />
             </motion.div>
 
             <motion.div
@@ -198,7 +198,7 @@ function MobileProcessSection() {
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
             >
-              <h3 className="text-lg font-bold text-[#0B0B0C] mb-3">{title}</h3>
+              <h3 className="text-lg font-bold text-[#FF5F15] mb-3">{title}</h3>
               <p className="text-sm text-[#5a6061] max-w-xs leading-relaxed">{desc}</p>
             </motion.div>
           </div>

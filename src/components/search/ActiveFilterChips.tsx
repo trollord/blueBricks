@@ -73,7 +73,7 @@ export default function ActiveFilterChips() {
         <button
           key={chip.label}
           onClick={() => remove(chip.params)}
-          className="group flex items-center gap-1.5 bg-zinc-900 text-white text-xs font-medium pl-3 pr-2 py-1.5 rounded-full hover:bg-zinc-700 transition-colors"
+          className="group flex items-center gap-1.5 bg-[#FF5F15] text-white text-xs font-medium pl-3 pr-2 py-1.5 rounded-full hover:bg-[#E84A00] transition-colors"
           title="Remove filter"
         >
           {chip.label}

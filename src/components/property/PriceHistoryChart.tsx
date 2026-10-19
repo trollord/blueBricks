@@ -66,9 +66,9 @@ export default function PriceHistoryChart({ data, listingType }: Props) {
         <Line
           type="monotone"
           dataKey="price"
-          stroke="#0B0B0C"
+          stroke="#FF5F15"
           strokeWidth={2}
-          dot={{ fill: "#0B0B0C", r: 3 }}
+          dot={{ fill: "#FF5F15", r: 3 }}
           activeDot={{ r: 5 }}
         />
       </LineChart>

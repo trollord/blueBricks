@@ -201,7 +201,7 @@ export default function PropertyGallery({ images, title }: Props) {
                   width: 52,
                   height: 40,
                   opacity: i === mobileIdx ? 1 : 0.45,
-                  outline: i === mobileIdx ? "2px solid #1A1A1A" : "2px solid transparent",
+                  outline: i === mobileIdx ? "2px solid #FF5F15" : "2px solid transparent",
                   outlineOffset: 1,
                 }}
                 aria-label={`Go to photo ${i + 1}`}

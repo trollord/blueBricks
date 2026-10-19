@@ -27,7 +27,7 @@ function formatPrice(price: number, listingType: string): string {
 function makePricePill(price: number, listingType: string): HTMLElement {
   const el = document.createElement("div");
   el.style.cssText = [
-    "background:#1A1A1A",
+    "background:#FF5F15",
     "color:white",
     "font-size:11px",
     "font-weight:700",
@@ -42,7 +42,7 @@ function makePricePill(price: number, listingType: string): HTMLElement {
   ].join(";");
   el.textContent = formatPrice(price, listingType);
   el.addEventListener("mouseenter", () => { el.style.transform = "scale(1.08)"; el.style.background = "#3b3b3b"; });
-  el.addEventListener("mouseleave", () => { el.style.transform = "scale(1)";    el.style.background = "#1A1A1A"; });
+  el.addEventListener("mouseleave", () => { el.style.transform = "scale(1)";    el.style.background = "#FF5F15"; });
   return el;
 }
 
@@ -103,9 +103,9 @@ export default function MapView({ properties }: { properties: PropertyPin[] }) {
       marker.addListener("click", () => {
         infoWindow.setContent(`
           <div style="padding:8px 4px;max-width:200px;font-family:inherit">
-            <p style="font-weight:700;font-size:13px;margin:0 0 6px;color:#1A1A1A">${listing.title}</p>
+            <p style="font-weight:700;font-size:13px;margin:0 0 6px;color:#FF5F15">${listing.title}</p>
             <p style="font-size:12px;color:#555;margin:0 0 8px">${formatPrice(listing.price, listing.listingType)}${listing.listingType === "RENT" ? "/mo" : ""}</p>
-            <a href="/listings/${listing.id}" style="color:#1A1A1A;font-size:12px;font-weight:600;text-decoration:underline">View details →</a>
+            <a href="/listings/${listing.id}" style="color:#FF5F15;font-size:12px;font-weight:600;text-decoration:underline">View details →</a>
           </div>
         `);
         infoWindow.open(map, marker);
@@ -176,7 +176,7 @@ export default function MapView({ properties }: { properties: PropertyPin[] }) {
           render({ count, position }) {
             const el = document.createElement("div");
             el.style.cssText = [
-              "background:#1A1A1A",
+              "background:#FF5F15",
               "color:white",
               "border-radius:50%",
               "border:3px solid white",

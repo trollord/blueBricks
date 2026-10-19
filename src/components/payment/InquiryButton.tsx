@@ -36,7 +36,7 @@ export default function InquiryButton({
   if (!isLoggedIn) {
     return (
       <Link href={`/login?callbackUrl=/listings/${propertyId}%3FshowInterest%3D1`}>
-        <Button className="w-full rounded-full bg-[#0B0B0C] hover:bg-[#0B0B0C]/90 text-white gap-2 py-5 text-sm font-medium tracking-wide transition-all duration-300">
+        <Button className="w-full rounded-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white gap-2 py-5 text-sm font-medium tracking-wide transition-all duration-300">
           <LogIn className="h-4 w-4" />
           Register Interest - Free
         </Button>
@@ -48,9 +48,9 @@ export default function InquiryButton({
   if (registered) {
     return (
       <div className="flex items-start gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
-        <CheckCircle2 className="h-5 w-5 text-[#0B0B0C] shrink-0 mt-0.5" />
+        <CheckCircle2 className="h-5 w-5 text-[#FF5F15] shrink-0 mt-0.5" />
         <div>
-          <p className="text-sm font-semibold text-[#0B0B0C]">Interest Registered</p>
+          <p className="text-sm font-semibold text-[#FF5F15]">Interest Registered</p>
           <p className="text-xs text-gray-500 mt-0.5 leading-relaxed">
             The owner has been notified and may reach out to you directly.
           </p>
@@ -63,7 +63,7 @@ export default function InquiryButton({
   return (
     <>
       <Button
-        className="w-full rounded-full bg-[#0B0B0C] hover:bg-[#0B0B0C]/90 text-white gap-2 text-sm py-5 font-medium tracking-wide transition-all duration-300"
+        className="w-full rounded-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white gap-2 text-sm py-5 font-medium tracking-wide transition-all duration-300"
         onClick={() => setShowModal(true)}
       >
         <Heart className="h-4 w-4" />

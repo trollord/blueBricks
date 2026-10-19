@@ -74,7 +74,7 @@ export default function UploadForm() {
         <div
           onClick={() => fileRef.current?.click()}
           className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-colors ${
-            file ? "border-[#1A1A1A]/30 bg-gray-50" : "border-gray-200 hover:border-gray-300"
+            file ? "border-[#FF5F15]/30 bg-gray-50" : "border-gray-200 hover:border-gray-300"
           }`}
         >
           <input

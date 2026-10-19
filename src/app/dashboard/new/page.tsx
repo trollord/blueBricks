@@ -91,9 +91,9 @@ function StepIndicator({ current }: { current: number }) {
         <div key={i} className="flex items-center gap-2">
           <div
             className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-semibold transition-colors ${i < current
-              ? "bg-[#1A1A1A] text-white"
+              ? "bg-[#FF5F15] text-white"
               : i === current
-                ? "bg-[#1A1A1A] text-white ring-2 ring-gray-300"
+                ? "bg-[#FF5F15] text-white ring-2 ring-[#FF5F15]/30"
                 : "bg-gray-100 text-gray-400"
               }`}
           >
@@ -150,9 +150,9 @@ function Step1({
     : AMENITIES_LIST.slice(0, 6);
 
   const inputCls =
-    "w-full bg-[#f2f4f4] border-none rounded-lg px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all";
+    "w-full bg-[#f2f4f4] border-none rounded-lg px-4 py-3.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#FF5F15] transition-all";
   const selectCls =
-    "w-full bg-[#f2f4f4] border-none rounded-lg px-4 py-3.5 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all appearance-none cursor-pointer";
+    "w-full bg-[#f2f4f4] border-none rounded-lg px-4 py-3.5 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#FF5F15] transition-all appearance-none cursor-pointer";
   const sectionHeadCls =
     "text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-8";
 
@@ -467,7 +467,7 @@ function Step1({
                           type="button"
                           onClick={() => field.onChange(val)}
                           className={`py-3 px-1 text-[10px] font-bold uppercase tracking-tight rounded-lg transition-all ${field.value === val
-                            ? "bg-[#1A1A1A] text-white"
+                            ? "bg-[#FF5F15] text-white"
                             : "border border-gray-200 text-gray-500 hover:border-gray-400"
                             }`}
                         >
@@ -678,8 +678,8 @@ function Step2({
   return (
     <div className="space-y-6">
       {/* Tip banner */}
-      <div className="flex items-start gap-3 bg-[#1A1A1A]/10 border border-[#1A1A1A]/30 rounded-xl px-4 py-3">
-        <Camera className="h-4 w-4 text-[#1A1A1A] mt-0.5 shrink-0" />
+      <div className="flex items-start gap-3 bg-[#FF5F15]/10 border border-[#FF5F15]/30 rounded-xl px-4 py-3">
+        <Camera className="h-4 w-4 text-[#FF5F15] mt-0.5 shrink-0" />
         <p className="text-sm text-[#555555] leading-relaxed">
           <span className="font-semibold">Photos are optional</span> - but listings with photos get significantly more attention. Adding clear photos helps serious buyers and tenants find you faster.
         </p>
@@ -689,7 +689,7 @@ function Step2({
       <div
         {...getRootProps()}
         className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${isDragActive
-          ? "border-[#1A1A1A] bg-[#1A1A1A]/5"
+          ? "border-[#FF5F15] bg-[#FF5F15]/5"
           : "border-gray-200 hover:border-gray-300 bg-gray-50"
           }`}
       >
@@ -753,7 +753,7 @@ function Step2({
                       onClick={() => setPrimary(idx)}
                       title="Set as primary"
                       className={`p-1 rounded-full transition-colors ${img.isPrimary
-                        ? "bg-gray-900 text-white"
+                        ? "bg-[#FF5F15] text-white"
                         : "bg-white/80 text-gray-600 hover:bg-yellow-400 hover:text-white"
                         }`}
                     >
@@ -772,7 +772,7 @@ function Step2({
 
               {/* Primary label */}
               {img.isPrimary && !img.uploading && !img.error && (
-                <div className="absolute bottom-1.5 left-1.5 text-[10px] font-semibold bg-gray-900 text-white px-1.5 py-0.5 rounded-full">
+                <div className="absolute bottom-1.5 left-1.5 text-[10px] font-semibold bg-[#FF5F15] text-white px-1.5 py-0.5 rounded-full">
                   Primary
                 </div>
               )}
@@ -788,7 +788,7 @@ function Step2({
         <Button
           onClick={handleNext}
           disabled={hasUploading || hasError}
-          className="gap-2 bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white"
+          className="gap-2 bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white"
         >
           Next: Pricing <ChevronRight className="h-4 w-4" />
         </Button>
@@ -803,18 +803,18 @@ function Step2({
                 <ImageOff className="h-6 w-6 text-amber-500" />
               </div>
             </div>
-            <DialogTitle className="text-center text-[#1A1A1A]">
+            <DialogTitle className="text-center text-[#FF5F15]">
               No photos added
             </DialogTitle>
             <DialogDescription className="text-center leading-relaxed">
-              Listings with photos receive <span className="font-semibold text-[#1A1A1A]">significantly more interest</span> from serious buyers and tenants. Adding even one photo makes your listing stand out.
+              Listings with photos receive <span className="font-semibold text-[#FF5F15]">significantly more interest</span> from serious buyers and tenants. Adding even one photo makes your listing stand out.
               <br /><br />
               You can still list without photos and add them later from your dashboard.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex-col sm:flex-col gap-2 border-0 bg-transparent p-0 mt-2">
             <Button
-              className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white gap-2"
+              className="w-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white gap-2"
               onClick={() => setShowSkipDialog(false)}
             >
               <Camera className="h-4 w-4" /> Add Photos
@@ -1016,7 +1016,7 @@ function Step3({
         <Button variant="outline" onClick={onBack} className="gap-2">
           <ChevronLeft className="h-4 w-4" /> Back
         </Button>
-        <Button type="submit" className="gap-2 bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white">
+        <Button type="submit" className="gap-2 bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white">
           Next: Review <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
@@ -1131,7 +1131,7 @@ function Step4({
                 />
               )}
               {img.isPrimary && (
-                <span className="absolute bottom-0.5 left-0.5 text-[9px] bg-gray-900 text-white px-1 rounded">
+                <span className="absolute bottom-0.5 left-0.5 text-[9px] bg-[#FF5F15] text-white px-1 rounded">
                   Primary
                 </span>
               )}
@@ -1147,7 +1147,7 @@ function Step4({
         <Button
           onClick={onSubmit}
           disabled={submitting}
-          className="gap-2 bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white"
+          className="gap-2 bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white"
         >
           {submitting ? (
             <>
@@ -1331,7 +1331,7 @@ export default function NewListingPage() {
               {[0, 1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className={`h-1.5 rounded-full transition-all ${i === 0 ? "w-8 bg-[#1A1A1A]" : "w-8 bg-gray-200"
+                  className={`h-1.5 rounded-full transition-all ${i === 0 ? "w-8 bg-[#FF5F15]" : "w-8 bg-gray-200"
                     }`}
                 />
               ))}
@@ -1351,7 +1351,7 @@ export default function NewListingPage() {
             <button
               form="step1-form"
               type="submit"
-              className="bg-[#1A1A1A] text-white px-10 py-4 rounded-xl text-[12px] font-bold uppercase tracking-widest flex items-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-black/10"
+              className="bg-[#FF5F15] text-white px-10 py-4 rounded-xl text-[12px] font-bold uppercase tracking-widest flex items-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-black/10"
             >
               Next: Photos
               <ChevronRight className="h-4 w-4" />

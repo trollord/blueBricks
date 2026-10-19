@@ -25,7 +25,7 @@ export const useNavbar = () => useContext(NavbarContext);
 /* ─── Navbar (root) ──────────────────────────────────────────────────────── */
 // At top + closed   → fully transparent, no radius, no shadow
 // At top + menu open → #F5F5F5 fill, rounded card, so menu items are readable
-// Scrolled          → #111111 floating capsule
+// Scrolled          → #FF5F15 floating capsule
 
 export function Navbar({
   children,
@@ -78,9 +78,9 @@ export function Navbar({
             maxWidth: scrolled ? "min(900px, calc(100vw - 32px))" : mobileOpen ? "calc(100vw - 24px)" : "100%",
             borderRadius: scrolled ? "2rem" : mobileOpen ? "1.25rem" : "0",
             background: scrolled
-              ? "#111111"
+              ? "#FF5F15"
               : mobileOpen
-              ? "#F5F5F5"
+              ? "#FFF4EE"
               : "transparent",
             border: scrolled ? "1px solid rgba(255,255,255,0.10)" : "none",
             boxShadow: active
@@ -113,9 +113,9 @@ export function NavbarLogo() {
   const { scrolled, mobileOpen, darkHero } = useNavbar();
 
   // scrolled → white (dark pill bg), mobileOpen → dark, at top on dark hero → white, at top on light page → dark
-  const textColor = scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
+  const textColor = scrolled ? "#ffffff" : mobileOpen ? "#FF5F15" : darkHero ? "#ffffff" : "#FF5F15";
   const subtleColor = scrolled ? "#ffffff" : mobileOpen ? "#555555" : darkHero ? "#ffffff" : "#555555";
-  const dotColor = scrolled ? "#ffffff" : mobileOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
+  const dotColor = scrolled ? "#ffffff" : mobileOpen ? "#FF5F15" : darkHero ? "#ffffff" : "#FF5F15";
 
   return (
     <Link href="/" className="flex items-center gap-1.5 group shrink-0">
@@ -143,7 +143,7 @@ interface NavItem {
 
 export function NavItems({ items }: { items: NavItem[] }) {
   const { scrolled, mobileOpen, darkHero } = useNavbar();
-  const linkColor = scrolled ? "rgba(255,255,255,0.75)" : mobileOpen ? "#1A1A1A" : darkHero ? "rgba(255,255,255,0.85)" : "rgba(26,26,26,0.65)";
+  const linkColor = scrolled ? "rgba(255,255,255,0.75)" : mobileOpen ? "#FF5F15" : darkHero ? "rgba(255,255,255,0.85)" : "rgba(255,95,21,0.65)";
   return (
     <nav className="flex items-center gap-6 lg:gap-8">
       {items.map((item) => (
@@ -156,7 +156,7 @@ export function NavItems({ items }: { items: NavItem[] }) {
           {item.name}
           <span
             className="absolute -bottom-0.5 left-0 h-px w-0 group-hover:w-full transition-all duration-300"
-            style={{ background: scrolled ? "#1A1A1A" : mobileOpen ? "#1A1A1A" : "#1A1A1A" }}
+            style={{ background: scrolled ? "#ffffff" : mobileOpen ? "#FF5F15" : "#FF5F15" }}
           />
         </Link>
       ))}
@@ -203,14 +203,14 @@ export function NavbarButton({
   const variant_style: React.CSSProperties =
     variant === "primary"
       ? scrolled
-        ? { background: "#ffffff", color: "#0B0B0C" }
+        ? { background: "#ffffff", color: "#FF5F15" }
         : mobileOpen || atTopLight
-        ? { background: "#1A1A1A", color: "#ffffff" }
-        : { background: "#ffffff", color: "#0B0B0C" }
+        ? { background: "#FF5F15", color: "#ffffff" }
+        : { background: "#ffffff", color: "#FF5F15" }
       : scrolled
       ? { background: "transparent", color: "rgba(255,255,255,0.75)", border: "1px solid rgba(255,255,255,0.2)" }
       : mobileOpen || atTopLight
-      ? { background: "transparent", color: "#1A1A1A", border: "1px solid rgba(26,26,26,0.2)" }
+      ? { background: "transparent", color: "#FF5F15", border: "1px solid rgba(255,95,21,0.2)" }
       : { background: "transparent", color: "rgba(255,255,255,0.85)", border: "1px solid rgba(255,255,255,0.3)" };
 
   const combined = { ...base, ...variant_style };
@@ -254,12 +254,12 @@ export function MobileNavToggle({
   onClick: () => void;
 }) {
   const { scrolled, darkHero } = useNavbar();
-  const lineColor = scrolled ? "#ffffff" : isOpen ? "#1A1A1A" : darkHero ? "#ffffff" : "#1A1A1A";
+  const lineColor = scrolled ? "#ffffff" : isOpen ? "#FF5F15" : darkHero ? "#ffffff" : "#FF5F15";
 
   // When the menu just opens on a dark-hero page the container background is
   // still mid-transition from transparent → #F5F5F5 (500 ms). Give the button
   // an immediate solid background so the dark X is visible right away.
-  const buttonBg = isOpen && !scrolled ? "#F5F5F5" : "transparent";
+  const buttonBg = isOpen && !scrolled ? "#FFF4EE" : "transparent";
 
   return (
     <button
@@ -316,7 +316,7 @@ export function MobileNavMenu({
         className="flex flex-col gap-0.5 px-5 pb-4 pt-2"
         style={{
           borderTop: `1px solid ${
-            scrolled ? "rgba(255,255,255,0.08)" : "rgba(26,26,26,0.08)"
+            scrolled ? "rgba(255,255,255,0.08)" : "rgba(255,95,21,0.08)"
           }`,
         }}
       >

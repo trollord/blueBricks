@@ -111,18 +111,18 @@ export default function RegisterPage() {
     return (
       <div className="w-full max-w-md">
         <div className="mb-8">
-          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1A1A1A] mb-2">
+          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
             Verify your email
           </h1>
           <p className="text-gray-500">
-            We sent a 6-digit code to <b className="text-[#1A1A1A]">{pendingCreds.email}</b>.
+            We sent a 6-digit code to <b className="text-[#FF5F15]">{pendingCreds.email}</b>.
             Enter it below to activate your account.
           </p>
         </div>
 
         <form onSubmit={verifyAndSignIn} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="otp" className="text-[#1A1A1A] font-medium">6-digit code</Label>
+            <Label htmlFor="otp" className="text-[#FF5F15] font-medium">6-digit code</Label>
             <Input
               id="otp"
               type="text"
@@ -137,14 +137,14 @@ export default function RegisterPage() {
                 e.preventDefault();
                 setOtp(e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6));
               }}
-              className="bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 text-center text-2xl tracking-[0.5em] font-semibold py-6"
+              className="bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 text-center text-2xl tracking-[0.5em] font-semibold py-6"
             />
           </div>
 
           <Button
             type="submit"
             disabled={loading || otp.length !== 6}
-            className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white transition-all duration-300 py-5"
+            className="w-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white transition-all duration-300 py-5"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Verify & Continue"}
           </Button>
@@ -153,7 +153,7 @@ export default function RegisterPage() {
             type="button"
             onClick={resendCode}
             disabled={resending}
-            className="w-full text-sm text-gray-500 hover:text-[#1A1A1A] disabled:opacity-50"
+            className="w-full text-sm text-gray-500 hover:text-[#FF5F15] disabled:opacity-50"
           >
             {resending ? "Sending…" : "Didn't get it? Resend code"}
           </button>
@@ -165,7 +165,7 @@ export default function RegisterPage() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1A1A1A] mb-2">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
           Create your account
         </h1>
         <p className="text-gray-500">Join Sanatani Community - find your home directly from owners</p>
@@ -173,7 +173,7 @@ export default function RegisterPage() {
 
       <Button
         variant="outline"
-        className="w-full gap-2 border-gray-200 hover:border-[#1A1A1A] transition-colors duration-200"
+        className="w-full gap-2 border-gray-200 hover:border-[#FF5F15] transition-colors duration-200"
         onClick={handleGoogle}
         disabled={googleLoading}
       >
@@ -198,30 +198,30 @@ export default function RegisterPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="name" className="text-[#1A1A1A] font-medium">Full Name</Label>
+          <Label htmlFor="name" className="text-[#FF5F15] font-medium">Full Name</Label>
           <Input
             id="name"
             placeholder="Raj Sharma"
             {...register("name")}
-            className={`bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 ${errors.name ? "border-red-500" : ""}`}
+            className={`bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 ${errors.name ? "border-red-500" : ""}`}
           />
           {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-[#1A1A1A] font-medium">Email</Label>
+          <Label htmlFor="email" className="text-[#FF5F15] font-medium">Email</Label>
           <Input
             id="email"
             type="email"
             placeholder="you@example.com"
             {...register("email")}
-            className={`bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 ${errors.email ? "border-red-500" : ""}`}
+            className={`bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 ${errors.email ? "border-red-500" : ""}`}
           />
           {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="phone" className="text-[#1A1A1A] font-medium">
+          <Label htmlFor="phone" className="text-[#FF5F15] font-medium">
             Mobile Number <span className="text-gray-400 font-normal">(optional)</span>
           </Label>
           <Controller
@@ -241,14 +241,14 @@ export default function RegisterPage() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="password" className="text-[#1A1A1A] font-medium">Password</Label>
+          <Label htmlFor="password" className="text-[#FF5F15] font-medium">Password</Label>
           <div className="relative">
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Min 8 chars, 1 uppercase, 1 number"
               {...register("password")}
-              className={`bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 pr-10 ${errors.password ? "border-red-500" : ""}`}
+              className={`bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 pr-10 ${errors.password ? "border-red-500" : ""}`}
             />
             <button
               type="button"
@@ -263,7 +263,7 @@ export default function RegisterPage() {
 
         <Button
           type="submit"
-          className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white transition-all duration-300 py-5"
+          className="w-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white transition-all duration-300 py-5"
           disabled={loading}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Create Account"}
@@ -272,7 +272,7 @@ export default function RegisterPage() {
 
       <p className="text-center text-sm text-gray-500 mt-6">
         Already have an account?{" "}
-        <Link href="/login" className="text-[#1A1A1A] font-medium hover:underline">
+        <Link href="/login" className="text-[#FF5F15] font-medium hover:underline">
           Sign in
         </Link>
       </p>

@@ -62,16 +62,16 @@ export default async function BlogPostPage({
       <article className="max-w-3xl mx-auto">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-sm text-[#1A1A1A]/50 hover:text-[#0B0B0C] mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-[#FF5F15]/50 hover:text-[#FF5F15] mb-8 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           All articles
         </Link>
 
-        <p className="text-[11px] text-[#1A1A1A]/40 mb-3">
+        <p className="text-[11px] text-[#FF5F15]/40 mb-3">
           {formatDate(post.date)} · {post.readTime}
         </p>
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#0B0B0C] leading-tight mb-8 sm:mb-10">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] leading-tight mb-8 sm:mb-10">
           {post.title}
         </h1>
 
@@ -81,7 +81,7 @@ export default async function BlogPostPage({
               return (
                 <h2
                   key={i}
-                  className="font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold text-[#0B0B0C] pt-4"
+                  className="font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold text-[#FF5F15] pt-4"
                 >
                   {block.text}
                 </h2>
@@ -91,8 +91,8 @@ export default async function BlogPostPage({
               return (
                 <ul key={i} className="space-y-2.5 pl-1">
                   {(block.items ?? []).map((item, j) => (
-                    <li key={j} className="flex gap-3 text-[15px] leading-relaxed text-[#1A1A1A]/70">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#0B0B0C]/60 mt-2.5 shrink-0" />
+                    <li key={j} className="flex gap-3 text-[15px] leading-relaxed text-[#FF5F15]/70">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#FF5F15]/60 mt-2.5 shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -100,7 +100,7 @@ export default async function BlogPostPage({
               );
             }
             return (
-              <p key={i} className="text-[15px] sm:text-base leading-[1.9] text-[#1A1A1A]/70">
+              <p key={i} className="text-[15px] sm:text-base leading-[1.9] text-[#FF5F15]/70">
                 {block.text}
               </p>
             );
@@ -108,7 +108,7 @@ export default async function BlogPostPage({
         </div>
 
         {/* CTA */}
-        <div className="mt-12 sm:mt-16 bg-[#0B0B0C] rounded-2xl p-7 sm:p-10 text-center">
+        <div className="mt-12 sm:mt-16 bg-[#FF5F15] rounded-2xl p-7 sm:p-10 text-center">
           <h3 className="font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold text-white mb-2">
             Find your home in Hiranandani Estate
           </h3>
@@ -117,7 +117,7 @@ export default async function BlogPostPage({
           </p>
           <Link
             href="/listings"
-            className="inline-flex items-center gap-2 bg-white text-[#0B0B0C] text-sm font-semibold px-7 py-3 rounded-full hover:bg-white/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-[#FF5F15] text-sm font-semibold px-7 py-3 rounded-full hover:bg-white/90 transition-colors"
           >
             Browse Listings
             <ArrowRight className="h-4 w-4" />

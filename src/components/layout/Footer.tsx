@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/constants";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#111111] text-white">
+    <footer className="bg-[#1C0A00] text-white">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 sm:py-20">
 
         {/* Mobile: brand top, then 2-col links. Desktop: 4-col grid */}

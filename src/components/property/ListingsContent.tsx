@@ -225,7 +225,7 @@ export default function ListingsContent() {
                 title={`${label} view`}
                 className={`flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                   view === key
-                    ? "bg-zinc-900 text-white shadow"
+                    ? "bg-[#FF5F15] text-white shadow"
                     : "text-zinc-500 hover:text-zinc-900"
                 }`}
               >

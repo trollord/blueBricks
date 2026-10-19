@@ -53,7 +53,7 @@ export default async function InterestsPage() {
 
       {/* Seller path - seekers otherwise have no route to listing a property */}
       {session.user.role === "USER" && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0B0B0C] rounded-xl px-5 sm:px-6 py-4 sm:py-5 mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#FF5F15] rounded-xl px-5 sm:px-6 py-4 sm:py-5 mb-8">
           <div>
             <p className="text-white font-semibold text-sm sm:text-[15px]">
               Own a property in Hiranandani Estate?
@@ -64,7 +64,7 @@ export default async function InterestsPage() {
           </div>
           <Link
             href="/become-owner"
-            className="inline-flex items-center gap-2 bg-white text-[#0B0B0C] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-white/90 transition-colors shrink-0 w-fit"
+            className="inline-flex items-center gap-2 bg-white text-[#FF5F15] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-white/90 transition-colors shrink-0 w-fit"
           >
             List Your Property
             <ArrowRight className="h-4 w-4" />
@@ -83,7 +83,7 @@ export default async function InterestsPage() {
           </p>
           <Link
             href="/listings"
-            className="inline-flex items-center gap-2 bg-[#1A1A1A] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#1A1A1A]/90 transition-colors"
+            className="inline-flex items-center gap-2 bg-[#FF5F15] text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-[#FF5F15]/90 transition-colors"
           >
             Browse Listings
             <ArrowRight className="h-4 w-4" />
@@ -120,7 +120,7 @@ export default async function InterestsPage() {
                   )}
                   {/* Badges */}
                   <div className="absolute top-3 left-3 flex gap-1.5">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isRent ? "bg-[#1A1A1A] text-[#1A1A1A]" : "bg-[#1A1A1A] text-white"}`}>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isRent ? "bg-[#FF5F15] text-[#FF5F15]" : "bg-[#FF5F15] text-white"}`}>
                       {LISTING_TYPE_LABELS[property.listingType]}
                     </span>
                     {inactive && (
@@ -136,11 +136,11 @@ export default async function InterestsPage() {
                   <p className="text-xs text-gray-400 uppercase tracking-wide">
                     {PROPERTY_TYPE_LABELS[property.type]}
                   </p>
-                  <h3 className="font-semibold text-[#1A1A1A] text-sm line-clamp-1">
+                  <h3 className="font-semibold text-[#FF5F15] text-sm line-clamp-1">
                     {property.title}
                   </h3>
                   <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <MapPin className="h-3 w-3 shrink-0 text-[#1A1A1A]" />
+                    <MapPin className="h-3 w-3 shrink-0 text-[#FF5F15]" />
                     {property.building}, {property.locality}
                   </div>
 
@@ -158,7 +158,7 @@ export default async function InterestsPage() {
                   </div>
 
                   <div className="pt-2 border-t border-gray-50 flex items-baseline gap-1">
-                    <span className="font-bold text-[#1A1A1A]">
+                    <span className="font-bold text-[#FF5F15]">
                       {formatPrice(property.price)}
                     </span>
                     {isRent && (

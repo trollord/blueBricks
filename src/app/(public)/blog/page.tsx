@@ -22,13 +22,13 @@ export default function BlogIndexPage() {
   return (
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8">
       <div className="max-w-4xl mx-auto">
-        <p className="text-[10px] font-semibold tracking-[0.25em] text-[#1A1A1A]/45 uppercase mb-3">
+        <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-3">
           Insights
         </p>
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#0B0B0C] mb-4">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] mb-4">
           The Sanatani Community Blog
         </h1>
-        <p className="text-[#1A1A1A]/55 text-sm sm:text-base leading-relaxed max-w-2xl mb-10 sm:mb-14">
+        <p className="text-[#FF5F15]/55 text-sm sm:text-base leading-relaxed max-w-2xl mb-10 sm:mb-14">
           Practical guides on renting, buying and saving on brokerage in
           Hiranandani Estate, Thane - written by the team that verifies every
           listing on the platform.
@@ -41,16 +41,16 @@ export default function BlogIndexPage() {
               href={`/blog/${post.slug}`}
               className="group block bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 hover:shadow-[0_12px_40px_rgba(0,0,0,0.07)] hover:border-gray-300 transition-all"
             >
-              <p className="text-[11px] text-[#1A1A1A]/40 mb-2">
+              <p className="text-[11px] text-[#FF5F15]/40 mb-2">
                 {formatDate(post.date)} · {post.readTime}
               </p>
-              <h2 className="font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold text-[#0B0B0C] mb-2 group-hover:underline underline-offset-4">
+              <h2 className="font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold text-[#FF5F15] mb-2 group-hover:underline underline-offset-4">
                 {post.title}
               </h2>
-              <p className="text-sm text-[#1A1A1A]/55 leading-relaxed mb-4">
+              <p className="text-sm text-[#FF5F15]/55 leading-relaxed mb-4">
                 {post.excerpt}
               </p>
-              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[#0B0B0C]">
+              <span className="inline-flex items-center gap-1.5 text-sm font-medium text-[#FF5F15]">
                 Read article
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
               </span>

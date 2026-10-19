@@ -142,7 +142,7 @@ export default function GuidedTour({
         <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-2">
           {isFirst ? "Quick Tour" : `Step ${step} of ${steps.length - 1}`}
         </p>
-        <h3 className="font-[family-name:var(--font-playfair)] text-xl font-bold text-[#0B0B0C] mb-2">
+        <h3 className="font-[family-name:var(--font-playfair)] text-xl font-bold text-[#FF5F15] mb-2">
           {current.title}
         </h3>
         <p className="text-[13px] text-zinc-500 leading-relaxed">{current.body}</p>
@@ -153,7 +153,7 @@ export default function GuidedTour({
             <div
               key={i}
               className={`h-1.5 rounded-full transition-all ${
-                i === step ? "w-6 bg-zinc-900" : "w-1.5 bg-zinc-200"
+                i === step ? "w-6 bg-[#FF5F15]" : "w-1.5 bg-zinc-200"
               }`}
             />
           ))}
@@ -170,14 +170,14 @@ export default function GuidedTour({
             {!isFirst && (
               <button
                 onClick={() => setStep(step - 1)}
-                className="text-xs font-medium border border-zinc-200 text-zinc-600 hover:border-zinc-900 hover:text-zinc-900 px-4 py-2 rounded-full transition-colors"
+                className="text-xs font-medium border border-zinc-200 text-zinc-600 hover:border-[#FF5F15] hover:text-zinc-900 px-4 py-2 rounded-full transition-colors"
               >
                 Back
               </button>
             )}
             <button
               onClick={() => (isLast ? finish() : setStep(step + 1))}
-              className="text-xs font-bold bg-zinc-900 text-white px-5 py-2 rounded-full hover:bg-zinc-700 transition-colors"
+              className="text-xs font-bold bg-[#FF5F15] text-white px-5 py-2 rounded-full hover:bg-[#E84A00] transition-colors"
             >
               {isFirst ? "Start tour" : isLast ? "Done" : "Next"}
             </button>

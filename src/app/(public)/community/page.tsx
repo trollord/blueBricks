@@ -58,13 +58,13 @@ export default async function CommunityPage() {
         {/* ── Header ──────────────────────────────────────────────────────── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
           <div>
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-[#1A1A1A]/45 uppercase mb-3">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-3">
               Community
             </p>
-            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#0B0B0C] mb-4">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] mb-4">
               The Community Directory
             </h1>
-            <p className="text-[#1A1A1A]/55 text-sm sm:text-base leading-relaxed max-w-2xl">
+            <p className="text-[#FF5F15]/55 text-sm sm:text-base leading-relaxed max-w-2xl">
               Phone numbers for carpenters, plumbers, electricians, shopkeepers,
               tiffin services and more. Search by trade or name, then call or
               WhatsApp them directly.
@@ -80,7 +80,7 @@ export default async function CommunityPage() {
 
         {/* ── Sample-data notice (only when no real data) ─────────────────── */}
         {isUsingSampleData && (
-          <p className="flex items-start gap-2 text-[11px] sm:text-xs text-[#1A1A1A]/40 leading-relaxed mt-10 sm:mt-14">
+          <p className="flex items-start gap-2 text-[11px] sm:text-xs text-[#FF5F15]/40 leading-relaxed mt-10 sm:mt-14">
             <Info className="w-3.5 h-3.5 shrink-0 mt-px" />
             <span>
               This directory currently shows sample entries - names and phone
@@ -92,7 +92,7 @@ export default async function CommunityPage() {
         )}
 
         {/* ── CTA ─────────────────────────────────────────────────────────── */}
-        <div className="bg-[#111111] rounded-2xl p-6 sm:p-10 mt-8 sm:mt-10">
+        <div className="bg-[#1C0A00] rounded-2xl p-6 sm:p-10 mt-8 sm:mt-10">
           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/35 mb-3">
             Know someone reliable?
           </p>

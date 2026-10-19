@@ -74,7 +74,7 @@ function VerifyEmailForm() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#1A1A1A] mb-2">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
           Verify your email
         </h1>
         <p className="text-gray-500">
@@ -84,19 +84,19 @@ function VerifyEmailForm() {
 
       <form onSubmit={confirm} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-[#1A1A1A] font-medium">Email</Label>
+          <Label htmlFor="email" className="text-[#FF5F15] font-medium">Email</Label>
           <Input
             id="email"
             type="email"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20"
+            className="bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20"
           />
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="otp" className="text-[#1A1A1A] font-medium">6-digit code</Label>
+          <Label htmlFor="otp" className="text-[#FF5F15] font-medium">6-digit code</Label>
           <Input
             id="otp"
             type="text"
@@ -110,14 +110,14 @@ function VerifyEmailForm() {
               e.preventDefault();
               setOtp(e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6));
             }}
-            className="bg-white border-gray-200 focus:border-[#1A1A1A] focus:ring-[#1A1A1A]/20 text-center text-2xl tracking-[0.5em] font-semibold py-6"
+            className="bg-white border-gray-200 focus:border-[#FF5F15] focus:ring-[#FF5F15]/20 text-center text-2xl tracking-[0.5em] font-semibold py-6"
           />
         </div>
 
         <Button
           type="submit"
           disabled={loading || otp.length !== 6}
-          className="w-full bg-[#1A1A1A] hover:bg-[#1A1A1A]/90 text-white transition-all duration-300 py-5"
+          className="w-full bg-[#FF5F15] hover:bg-[#FF5F15]/90 text-white transition-all duration-300 py-5"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Verify Email"}
         </Button>
@@ -126,7 +126,7 @@ function VerifyEmailForm() {
           type="button"
           onClick={() => sendCode()}
           disabled={resending}
-          className="w-full text-sm text-gray-500 hover:text-[#1A1A1A] inline-flex items-center justify-center gap-1.5 disabled:opacity-50"
+          className="w-full text-sm text-gray-500 hover:text-[#FF5F15] inline-flex items-center justify-center gap-1.5 disabled:opacity-50"
         >
           {resending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <MailCheck className="h-3.5 w-3.5" />}
           Send / resend code
@@ -135,7 +135,7 @@ function VerifyEmailForm() {
 
       <p className="text-center text-sm text-gray-500 mt-6">
         Already verified?{" "}
-        <Link href="/login" className="text-[#1A1A1A] font-medium hover:underline">
+        <Link href="/login" className="text-[#FF5F15] font-medium hover:underline">
           Sign In
         </Link>
       </p>

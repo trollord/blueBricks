@@ -29,7 +29,7 @@ function HighlightedText({
     if (startOffset > cursor)
       parts.push(<span key={`pre-${i}`}>{text.slice(cursor, startOffset)}</span>);
     parts.push(
-      <span key={`m-${i}`} className="font-semibold text-[#0B0B0C]">
+      <span key={`m-${i}`} className="font-semibold text-[#FF5F15]">
         {text.slice(startOffset, endOffset)}
       </span>
     );
@@ -190,7 +190,7 @@ export default function LocationInput({
             >
               <MapPin className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
               <div className="min-w-0">
-                <p className="text-sm text-[#0B0B0C]/80 truncate">
+                <p className="text-sm text-[#FF5F15]/80 truncate">
                   <HighlightedText text={p.mainText} matches={p.matches} />
                 </p>
                 {p.secondaryText && (

@@ -66,9 +66,9 @@ function StepIndicator({ current }: { current: number }) {
           <div
             className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-semibold transition-colors ${
               i < current
-                ? "bg-[#1A1A1A] text-white"
+                ? "bg-[#FF5F15] text-white"
                 : i === current
-                ? "bg-[#1A1A1A] text-white ring-2 ring-gray-200"
+                ? "bg-[#FF5F15] text-white ring-2 ring-gray-200"
                 : "bg-gray-100 text-gray-400"
             }`}
           >
@@ -76,7 +76,7 @@ function StepIndicator({ current }: { current: number }) {
           </div>
           <span
             className={`text-xs font-medium hidden sm:inline ${
-              i === current ? "text-[#0B0B0C]" : "text-gray-400"
+              i === current ? "text-[#FF5F15]" : "text-gray-400"
             }`}
           >
             {label}
@@ -414,7 +414,7 @@ function Step2({
         {...getRootProps()}
         className={`border-2 border-dashed rounded-xl p-6 sm:p-10 text-center cursor-pointer transition-colors ${
           isDragActive
-            ? "border-[#1A1A1A] bg-gray-50"
+            ? "border-[#FF5F15] bg-gray-50"
             : "border-gray-200 hover:border-gray-300 bg-[#F5F5F5]"
         }`}
       >
@@ -434,7 +434,7 @@ function Step2({
             <div
               key={idx}
               className={`relative rounded-xl overflow-hidden border-2 transition-colors ${
-                img.isPrimary ? "border-[#1A1A1A]" : "border-gray-200"
+                img.isPrimary ? "border-[#FF5F15]" : "border-gray-200"
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -445,7 +445,7 @@ function Step2({
               />
               {img.uploading && (
                 <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
-                  <Loader2 className="h-5 w-5 animate-spin text-[#1A1A1A]" />
+                  <Loader2 className="h-5 w-5 animate-spin text-[#FF5F15]" />
                 </div>
               )}
               {img.error && (
@@ -460,8 +460,8 @@ function Step2({
                     onClick={() => setPrimary(idx)}
                     className={`p-1 rounded-full ${
                       img.isPrimary
-                        ? "bg-[#1A1A1A] text-white"
-                        : "bg-white/95 text-gray-500 hover:text-[#1A1A1A]"
+                        ? "bg-[#FF5F15] text-white"
+                        : "bg-white/95 text-gray-500 hover:text-[#FF5F15]"
                     }`}
                     aria-label="Mark primary"
                   >
@@ -478,7 +478,7 @@ function Step2({
                 </div>
               )}
               {img.isPrimary && (
-                <span className="absolute bottom-1.5 left-1.5 text-[9px] bg-[#1A1A1A] text-white px-1.5 py-0.5 rounded">
+                <span className="absolute bottom-1.5 left-1.5 text-[9px] bg-[#FF5F15] text-white px-1.5 py-0.5 rounded">
                   Primary
                 </span>
               )}
@@ -548,7 +548,7 @@ function Step3({
             <input
               type="checkbox"
               id="priceNegotiable"
-              className="rounded border-gray-300 text-[#1A1A1A]"
+              className="rounded border-gray-300 text-[#FF5F15]"
               checked={!!field.value}
               onChange={(e) => field.onChange(e.target.checked)}
             />
@@ -644,7 +644,7 @@ function Step4({
                 className="h-16 w-20 object-cover rounded-lg border border-gray-200"
               />
               {img.isPrimary && (
-                <span className="absolute bottom-0.5 left-0.5 text-[9px] bg-[#1A1A1A] text-white px-1 rounded">
+                <span className="absolute bottom-0.5 left-0.5 text-[9px] bg-[#FF5F15] text-white px-1 rounded">
                   Primary
                 </span>
               )}

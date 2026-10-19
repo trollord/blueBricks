@@ -30,11 +30,11 @@ function easeOutBack(x: number): number {
 }
 
 const CARD_COLORS = [
-  "#0B0B0C",
-  "#2A2A2B",
-  "#0B0B0C",
-  "#2A2A2B",
-  "#0B0B0C",
+  "#FF5F15",
+  "#1C0A00",
+  "#FF5F15",
+  "#1C0A00",
+  "#FF5F15",
 ];
 
 export default function StackedCards({ cards }: StackedCardsProps) {
@@ -139,7 +139,7 @@ export default function StackedCards({ cards }: StackedCardsProps) {
               <div
                 className="w-full h-full rounded-xl p-10 sm:p-12 flex flex-col justify-end overflow-hidden relative"
                 style={{
-                  background: CARD_COLORS[i] ?? (isEven ? "#0B0B0C" : "#2A2A2B"),
+                  background: CARD_COLORS[i] ?? (isEven ? "#FF5F15" : "#1C0A00"),
                   boxShadow: `${topShadow}${topShadow !== "none" ? ", " : ""}${bottomShadow}`,
                 }}
               >

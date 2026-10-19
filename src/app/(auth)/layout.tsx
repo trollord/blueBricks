@@ -8,7 +8,7 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen flex">
         {/* Left panel - dark navy */}
-        <div className="hidden lg:flex lg:w-1/2 bg-[#1A1A1A] flex-col justify-between p-12 relative overflow-hidden">
+        <div className="hidden lg:flex lg:w-1/2 bg-[#FF5F15] flex-col justify-between p-12 relative overflow-hidden">
           {/* Decorative circles */}
           <div className="absolute top-0 right-0 h-64 w-64 bg-white/5 rounded-full translate-x-1/3 -translate-y-1/3" />
           <div className="absolute bottom-0 left-0 h-48 w-48 bg-white/3 rounded-full -translate-x-1/3 translate-y-1/3" />
@@ -50,7 +50,7 @@ export default function AuthLayout({
           {/* Mobile logo */}
           <div className="lg:hidden p-5">
             <Link href="/" className="flex items-center gap-2">
-              <span className="font-bold text-xl text-[#1A1A1A]">
+              <span className="font-bold text-xl text-[#FF5F15]">
                 Sanatani Community
               </span>
             </Link>

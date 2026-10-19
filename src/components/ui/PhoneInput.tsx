@@ -32,7 +32,7 @@ export default function PhoneInput({
 
   const borderCls = error
     ? "border-red-400 focus-within:border-red-500"
-    : "border-gray-200 focus-within:border-[#0B0B0C]/40";
+    : "border-gray-200 focus-within:border-[#FF5F15]/40";
 
   return (
     <div className={`flex w-full border bg-white rounded-lg overflow-hidden transition-colors ${borderCls}`}>
@@ -43,7 +43,7 @@ export default function PhoneInput({
           emit(e.target.value, national);
         }}
         aria-label="Country code"
-        className="bg-[#f7f8f8] border-r border-gray-200 px-2 py-3 text-sm text-[#0B0B0C] focus:outline-none cursor-pointer shrink-0"
+        className="bg-[#f7f8f8] border-r border-gray-200 px-2 py-3 text-sm text-[#FF5F15] focus:outline-none cursor-pointer shrink-0"
       >
         {COUNTRY_CODES.map((c) => (
           <option key={c.code} value={c.code}>
@@ -59,7 +59,7 @@ export default function PhoneInput({
         autoFocus={autoFocus}
         placeholder={placeholder}
         onChange={(e) => emit(code, e.target.value.replace(/\D/g, "").slice(0, 15))}
-        className="flex-1 min-w-0 px-3.5 py-3 text-sm text-[#0B0B0C] placeholder:text-[#1A1A1A]/30 outline-none bg-transparent"
+        className="flex-1 min-w-0 px-3.5 py-3 text-sm text-[#FF5F15] placeholder:text-[#FF5F15]/30 outline-none bg-transparent"
       />
     </div>
   );

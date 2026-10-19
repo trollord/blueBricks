@@ -54,26 +54,26 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
             className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[11px] uppercase tracking-widest text-[#1A1A1A]/35">
+          <div className="w-full h-full flex items-center justify-center text-[11px] uppercase tracking-widest text-[#FF5F15]/35">
             No photo
           </div>
         )}
-        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur text-[9px] font-bold uppercase tracking-[0.14em] text-[#1A1A1A]/75 px-2.5 py-1 rounded-full">
+        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur text-[9px] font-bold uppercase tracking-[0.14em] text-[#FF5F15]/75 px-2.5 py-1 rounded-full">
           {vehicleLabel ?? categoryLabel}
         </span>
       </div>
 
       <div className="p-4 sm:p-5">
-        <h3 className="text-sm sm:text-base font-semibold text-[#0B0B0C] leading-tight line-clamp-2 min-h-[2.6em]">
+        <h3 className="text-sm sm:text-base font-semibold text-[#FF5F15] leading-tight line-clamp-2 min-h-[2.6em]">
           {item.title}
         </h3>
 
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#1A1A1A]/50 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#FF5F15]/50 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
             {conditionLabel}
           </span>
           {vehicleLabel && (
-            <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#1A1A1A]/50 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#FF5F15]/50 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
               {categoryLabel}
             </span>
           )}
@@ -81,18 +81,18 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
 
         <div className="flex items-end justify-between mt-4 gap-2">
           <div>
-            <p className="font-extrabold tracking-tight text-[#0B0B0C] text-lg sm:text-xl">
+            <p className="font-extrabold tracking-tight text-[#FF5F15] text-lg sm:text-xl">
               {formatPrice(item.price)}
             </p>
             {item.priceNegotiable && (
-              <p className="text-[10px] text-[#1A1A1A]/45 mt-0.5">Negotiable</p>
+              <p className="text-[10px] text-[#FF5F15]/45 mt-0.5">Negotiable</p>
             )}
           </div>
           <div className="text-right">
-            <p className="text-[11px] text-[#1A1A1A]/55 truncate max-w-[140px]">
+            <p className="text-[11px] text-[#FF5F15]/55 truncate max-w-[140px]">
               {item.pickupLocality}
             </p>
-            <p className="text-[10px] text-[#1A1A1A]/40 mt-0.5">
+            <p className="text-[10px] text-[#FF5F15]/40 mt-0.5">
               {daysAgo(item.createdAt)}
             </p>
           </div>
