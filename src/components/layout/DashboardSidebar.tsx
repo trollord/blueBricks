@@ -51,10 +51,10 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
             <span className="text-sm font-semibold text-white">{initial}</span>
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-[#FF5F15] truncate">
+            <p className="text-sm font-semibold text-gray-900 truncate">
               {name ?? email ?? "User"}
             </p>
-            <p className="text-[11px] tracking-[0.15em] uppercase text-[#FF5F15]/40 mt-0.5">
+            <p className="text-[11px] tracking-[0.15em] uppercase text-gray-400 mt-0.5">
               {ROLE_LABEL[role] ?? role}
             </p>
           </div>
@@ -63,7 +63,7 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-0.5">
-        <p className="text-[9px] font-semibold tracking-[0.25em] uppercase text-[#FF5F15]/30 px-3 mb-3">
+        <p className="text-[9px] font-semibold tracking-[0.25em] uppercase text-gray-400 px-3 mb-3">
           Navigation
         </p>
 
@@ -76,7 +76,7 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                 isActive
                   ? "bg-[#FF5F15] text-white"
-                  : "text-[#FF5F15]/50 hover:text-[#FF5F15] hover:bg-gray-50"
+                  : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
               }`}
             >
               <Icon className="h-4 w-4 shrink-0" />
@@ -95,7 +95,7 @@ export default function DashboardSidebar({ name, email, role, isOwnerPlus }: Pro
         <div className="pt-4 mt-2 border-t border-gray-100">
           <Link
             href="/"
-            className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-[#FF5F15] hover:bg-gray-50 transition-all duration-150"
+            className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-150"
           >
             <ArrowLeft className="h-4 w-4 shrink-0" />
             Back to site

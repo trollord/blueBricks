@@ -120,7 +120,7 @@ export default async function InterestsPage() {
                   )}
                   {/* Badges */}
                   <div className="absolute top-3 left-3 flex gap-1.5">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isRent ? "bg-[#FF5F15] text-[#FF5F15]" : "bg-[#FF5F15] text-white"}`}>
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${isRent ? "bg-orange-100 text-orange-700" : "bg-[#FF5F15] text-white"}`}>
                       {LISTING_TYPE_LABELS[property.listingType]}
                     </span>
                     {inactive && (
@@ -136,11 +136,11 @@ export default async function InterestsPage() {
                   <p className="text-xs text-gray-400 uppercase tracking-wide">
                     {PROPERTY_TYPE_LABELS[property.type]}
                   </p>
-                  <h3 className="font-semibold text-[#FF5F15] text-sm line-clamp-1">
+                  <h3 className="font-semibold text-gray-900 text-sm line-clamp-1">
                     {property.title}
                   </h3>
                   <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <MapPin className="h-3 w-3 shrink-0 text-[#FF5F15]" />
+                    <MapPin className="h-3 w-3 shrink-0 text-gray-400" />
                     {property.building}, {property.locality}
                   </div>
 

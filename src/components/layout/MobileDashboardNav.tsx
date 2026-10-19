@@ -32,7 +32,7 @@ export default function MobileDashboardNav({ isOwnerPlus }: { isOwnerPlus: boole
             className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 text-[10px] font-semibold tracking-wide transition-colors ${
               isActive
                 ? "text-[#FF5F15]"
-                : "text-[#FF5F15]/35 hover:text-[#FF5F15]"
+                : "text-gray-400 hover:text-[#FF5F15]"
             }`}
           >
             <Icon className={`h-5 w-5 ${isActive ? "stroke-[2.5]" : "stroke-[1.5]"}`} />

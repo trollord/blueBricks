@@ -54,11 +54,11 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
             className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[11px] uppercase tracking-widest text-[#FF5F15]/35">
+          <div className="w-full h-full flex items-center justify-center text-[11px] uppercase tracking-widest text-gray-400">
             No photo
           </div>
         )}
-        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur text-[9px] font-bold uppercase tracking-[0.14em] text-[#FF5F15]/75 px-2.5 py-1 rounded-full">
+        <span className="absolute top-3 left-3 bg-white/90 backdrop-blur text-[9px] font-bold uppercase tracking-[0.14em] text-gray-600 px-2.5 py-1 rounded-full">
           {vehicleLabel ?? categoryLabel}
         </span>
       </div>
@@ -69,11 +69,11 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
         </h3>
 
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#FF5F15]/50 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
+          <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-gray-500 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
             {conditionLabel}
           </span>
           {vehicleLabel && (
-            <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-[#FF5F15]/50 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-gray-500 bg-[#EBEBEB] px-2 py-0.5 rounded-full">
               {categoryLabel}
             </span>
           )}
@@ -85,14 +85,14 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
               {formatPrice(item.price)}
             </p>
             {item.priceNegotiable && (
-              <p className="text-[10px] text-[#FF5F15]/45 mt-0.5">Negotiable</p>
+              <p className="text-[10px] text-gray-400 mt-0.5">Negotiable</p>
             )}
           </div>
           <div className="text-right">
-            <p className="text-[11px] text-[#FF5F15]/55 truncate max-w-[140px]">
+            <p className="text-[11px] text-gray-500 truncate max-w-[140px]">
               {item.pickupLocality}
             </p>
-            <p className="text-[10px] text-[#FF5F15]/40 mt-0.5">
+            <p className="text-[10px] text-gray-400 mt-0.5">
               {daysAgo(item.createdAt)}
             </p>
           </div>

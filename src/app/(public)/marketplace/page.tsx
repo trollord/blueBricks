@@ -47,13 +47,13 @@ export default async function MarketplacePage() {
         {/* ── Header ──────────────────────────────────────────────────────── */}
         <div className="flex items-start justify-between gap-4 mb-8 sm:mb-10">
           <div>
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-3">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
               Marketplace
             </p>
             <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] mb-4">
               Buy &amp; Sell in the Estate
             </h1>
-            <p className="text-[#FF5F15]/55 text-sm sm:text-base leading-relaxed max-w-2xl">
+            <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-2xl">
               Furniture, electronics, vehicles and more - listed by your
               neighbours in Hiranandani Estate. No commissions, no middlemen.
             </p>
@@ -82,7 +82,7 @@ export default async function MarketplacePage() {
         </Link>
 
         {/* Notice */}
-        <p className="flex items-start gap-2 text-[11px] sm:text-xs text-[#FF5F15]/40 leading-relaxed mt-10 sm:mt-14">
+        <p className="flex items-start gap-2 text-[11px] sm:text-xs text-gray-400 leading-relaxed mt-10 sm:mt-14">
           <Info className="w-3.5 h-3.5 shrink-0 mt-px" />
           <span>
             Prices and condition descriptions are provided by sellers. Verify

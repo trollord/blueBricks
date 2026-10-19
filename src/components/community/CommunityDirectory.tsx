@@ -286,7 +286,7 @@ function ContactCard({ contact: c }: { contact: CommunityContact }) {
             {c.verified && (
               <span
                 title="Verified by Sanatani Community"
-                className="inline-flex items-center gap-1 shrink-0 mt-0.5 px-2 py-0.5 rounded-full bg-[#EBEBEB] text-[9px] font-bold uppercase tracking-[0.1em] text-[#FF5F15]/55"
+                className="inline-flex items-center gap-1 shrink-0 mt-0.5 px-2 py-0.5 rounded-full bg-[#EBEBEB] text-[9px] font-bold uppercase tracking-[0.1em] text-gray-500"
               >
                 <BadgeCheck className="w-3 h-3" />
                 Verified
@@ -294,7 +294,7 @@ function ContactCard({ contact: c }: { contact: CommunityContact }) {
             )}
           </div>
 
-          <p className="text-xs sm:text-sm text-[#FF5F15]/55 mt-1 leading-relaxed">
+          <p className="text-xs sm:text-sm text-gray-500 mt-1 leading-relaxed">
             {c.service}
           </p>
 
@@ -338,7 +338,7 @@ function ContactCard({ contact: c }: { contact: CommunityContact }) {
         {c.tags.map((t) => (
           <span
             key={t}
-            className="px-2.5 py-1 rounded-full bg-[#F5F5F5] text-[10px] sm:text-[11px] font-medium text-[#FF5F15]/55"
+            className="px-2.5 py-1 rounded-full bg-[#F5F5F5] text-[10px] sm:text-[11px] font-medium text-gray-500"
           >
             {t}
           </span>

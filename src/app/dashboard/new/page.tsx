@@ -803,11 +803,11 @@ function Step2({
                 <ImageOff className="h-6 w-6 text-amber-500" />
               </div>
             </div>
-            <DialogTitle className="text-center text-[#FF5F15]">
+            <DialogTitle className="text-center text-gray-900">
               No photos added
             </DialogTitle>
             <DialogDescription className="text-center leading-relaxed">
-              Listings with photos receive <span className="font-semibold text-[#FF5F15]">significantly more interest</span> from serious buyers and tenants. Adding even one photo makes your listing stand out.
+              Listings with photos receive <span className="font-semibold text-gray-900">significantly more interest</span> from serious buyers and tenants. Adding even one photo makes your listing stand out.
               <br /><br />
               You can still list without photos and add them later from your dashboard.
             </DialogDescription>

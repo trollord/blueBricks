@@ -190,7 +190,7 @@ export default function LocationInput({
             >
               <MapPin className="h-4 w-4 text-gray-400 mt-0.5 shrink-0" />
               <div className="min-w-0">
-                <p className="text-sm text-[#FF5F15]/80 truncate">
+                <p className="text-sm text-gray-700 truncate">
                   <HighlightedText text={p.mainText} matches={p.matches} />
                 </p>
                 {p.secondaryText && (

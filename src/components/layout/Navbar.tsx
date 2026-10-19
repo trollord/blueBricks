@@ -271,10 +271,10 @@ function MobileNavLink({
       onClick={onClick}
       className="block px-1 py-3 text-sm font-medium transition-colors duration-200 border-b"
       style={{
-        color: scrolled ? "rgba(255,255,255,0.8)" : "#FF5F15",
+        color: scrolled ? "rgba(255,255,255,0.8)" : "rgba(26,26,26,0.75)",
         borderColor: scrolled
           ? "rgba(255,255,255,0.08)"
-          : "rgba(255,95,21,0.07)",
+          : "rgba(26,26,26,0.07)",
       }}
     >
       {children}
@@ -299,8 +299,8 @@ function MobileActionButton({
   const { scrolled } = useNavbar();
   const color = danger
     ? scrolled ? "rgba(255,120,120,1)" : "rgb(239,68,68)"
-    : scrolled ? "rgba(255,255,255,0.85)" : "#FF5F15";
-  const borderColor = scrolled ? "rgba(255,255,255,0.08)" : "rgba(255,95,21,0.07)";
+    : scrolled ? "rgba(255,255,255,0.85)" : "rgba(26,26,26,0.75)";
+  const borderColor = scrolled ? "rgba(255,255,255,0.08)" : "rgba(26,26,26,0.07)";
   return (
     <button
       onClick={onClick}

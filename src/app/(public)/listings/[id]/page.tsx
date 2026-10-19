@@ -137,7 +137,7 @@ function getAmenityIcon(name: string) {
 function SectionLabel({ title, compact, withLine }: { title: string; compact?: boolean; withLine?: boolean }) {
   return (
     <div className={`flex items-center gap-4 mb-5 sm:mb-8 ${compact ? "mt-0" : "mt-10 sm:mt-16"}`}>
-      <p className="text-[11px] sm:text-[13px] font-bold tracking-[0.25em] text-[#FF5F15]/80 uppercase shrink-0">{title}</p>
+      <p className="text-[11px] sm:text-[13px] font-bold tracking-[0.25em] text-gray-700 uppercase shrink-0">{title}</p>
       {withLine && <div className="flex-1 h-px bg-[#FF5F15]/20" />}
     </div>
   );
@@ -150,15 +150,15 @@ function StatusScreen({ pending }: { pending: boolean }) {
       <div className="max-w-md text-center">
         <div className="w-14 h-14 rounded-full bg-[#f2f4f4] flex items-center justify-center mx-auto mb-6">
           {pending ? (
-            <CalendarClock className="h-6 w-6 text-[#FF5F15]/50" strokeWidth={1.5} />
+            <CalendarClock className="h-6 w-6 text-gray-500" strokeWidth={1.5} />
           ) : (
-            <Building2 className="h-6 w-6 text-[#FF5F15]/50" strokeWidth={1.5} />
+            <Building2 className="h-6 w-6 text-gray-500" strokeWidth={1.5} />
           )}
         </div>
-        <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#FF5F15] mb-3">
+        <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-gray-900 mb-3">
           {pending ? "This property is being verified" : "This property is no longer available"}
         </h1>
-        <p className="text-sm text-[#FF5F15]/55 leading-relaxed mb-8">
+        <p className="text-sm text-gray-500 leading-relaxed mb-8">
           {pending
             ? "Our team is reviewing this listing to make sure everything checks out. Please check back a little later."
             : "The owner has taken this listing off the market. Explore other verified homes in Hiranandani Estate."}
@@ -332,7 +332,7 @@ export default async function PropertyDetailPage({
                 (label) => (
                   <span
                     key={label}
-                    className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#FF5F15]/70 bg-[#f2f4f4] px-3 py-1 rounded-full"
+                    className="text-[10px] font-semibold tracking-[0.12em] uppercase text-gray-600 bg-[#f2f4f4] px-3 py-1 rounded-full"
                   >
                     {label}
                   </span>
@@ -345,17 +345,17 @@ export default async function PropertyDetailPage({
               )}
             </div>
 
-            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl lg:text-6xl font-bold text-[#FF5F15] mt-4 sm:mt-5 leading-tight tracking-tight break-words">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mt-4 sm:mt-5 leading-tight tracking-tight break-words">
               {mainTitle}
               {italicTitle && (
-                <span className="italic font-normal text-[#FF5F15]/80">
+                <span className="italic font-normal text-gray-700">
                   {italicTitle}
                 </span>
               )}
             </h1>
 
-            <div className="flex items-start gap-1.5 text-[#FF5F15]/60 text-[13px] sm:text-sm mt-3">
-              <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-[#FF5F15]/40" />
+            <div className="flex items-start gap-1.5 text-gray-500 text-[13px] sm:text-sm mt-3">
+              <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-gray-400" />
               <span>
                 {property.building}, {property.locality}
                 {property.locality.includes("Hiranandani") ? "" : ", Hiranandani Estate"}, Thane
@@ -365,7 +365,7 @@ export default async function PropertyDetailPage({
             {/* About - fills the column beside the price card */}
             <div className="mt-7 sm:mt-9 pt-7 sm:pt-9 border-t border-gray-100">
               <SectionLabel title="About This Property" compact />
-              <p className="text-[#FF5F15]/70 leading-[1.85] text-[14px] sm:text-[15px] whitespace-pre-line">
+              <p className="text-gray-600 leading-[1.85] text-[14px] sm:text-[15px] whitespace-pre-line">
                 {property.description}
               </p>
             </div>
@@ -382,8 +382,8 @@ export default async function PropertyDetailPage({
                         key={amenity}
                         className="inline-flex items-center gap-2 bg-[#f2f4f4] rounded-full pl-3 pr-4 py-2"
                       >
-                        <Icon className="h-3.5 w-3.5 text-[#FF5F15]/50" strokeWidth={1.5} />
-                        <span className="text-[12px] text-[#FF5F15]/75 font-medium leading-none">
+                        <Icon className="h-3.5 w-3.5 text-gray-500" strokeWidth={1.5} />
+                        <span className="text-[12px] text-gray-600 font-medium leading-none">
                           {amenity}
                         </span>
                       </span>
@@ -400,14 +400,14 @@ export default async function PropertyDetailPage({
 
               {/* Price */}
               <div className="px-5 sm:px-7 pt-6 pb-5">
-                <p className="text-[9px] tracking-[0.25em] text-[#FF5F15]/45 uppercase font-semibold mb-2">
+                <p className="text-[9px] tracking-[0.25em] text-gray-400 uppercase font-semibold mb-2">
                   {isRent ? "Price Per Month" : "Sale Price"}
                 </p>
                 <div className="flex items-baseline gap-1.5 flex-wrap">
                   <span className="text-3xl sm:text-4xl font-bold text-[#FF5F15] font-[family-name:var(--font-playfair)]">
                     {formatPrice(property.price)}
                   </span>
-                  {isRent && <span className="text-[#FF5F15]/40 text-sm">/mo</span>}
+                  {isRent && <span className="text-gray-400 text-sm">/mo</span>}
                   {property.rentNegotiable && (
                     <span className="ml-1 text-[10px] font-semibold tracking-wide uppercase bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
                       Negotiable
@@ -420,13 +420,13 @@ export default async function PropertyDetailPage({
               <div className="border-t border-gray-100 px-5 sm:px-7 py-4 space-y-2.5">
                 {isRent && property.deposit != null && (
                   <div className="flex items-center justify-between text-[13px]">
-                    <span className="text-[#FF5F15]/50">Security Deposit</span>
+                    <span className="text-gray-500">Security Deposit</span>
                     <span className="font-semibold text-[#FF5F15]">{formatPrice(property.deposit)}</span>
                   </div>
                 )}
                 {isRent && property.lockInMonths != null && property.lockInMonths > 0 && (
                   <div className="flex items-center justify-between text-[13px]">
-                    <span className="text-[#FF5F15]/50">Lock-in Period</span>
+                    <span className="text-gray-500">Lock-in Period</span>
                     <span className="font-semibold text-[#FF5F15]">
                       {property.lockInMonths} month{property.lockInMonths > 1 ? "s" : ""}
                       {property.lockInNegotiable ? " · negotiable" : ""}
@@ -434,7 +434,7 @@ export default async function PropertyDetailPage({
                   </div>
                 )}
                 <div className="flex items-center justify-between text-[13px]">
-                  <span className="text-[#FF5F15]/50">Available From</span>
+                  <span className="text-gray-500">Available From</span>
                   {availability ? (
                     <span className={`font-semibold inline-flex items-center gap-1.5 ${availability.immediate ? "text-emerald-700" : "text-[#FF5F15]"}`}>
                       {availability.immediate && (
@@ -443,7 +443,7 @@ export default async function PropertyDetailPage({
                       {availability.label}
                     </span>
                   ) : (
-                    <span className="text-[#FF5F15]/40">Not specified</span>
+                    <span className="text-gray-400">Not specified</span>
                   )}
                 </div>
               </div>
@@ -476,7 +476,7 @@ export default async function PropertyDetailPage({
                     }}
                   />
                 </div>
-                <p className="flex items-center justify-center gap-1.5 text-[10px] text-[#FF5F15]/45 mt-4 tracking-wide">
+                <p className="flex items-center justify-center gap-1.5 text-[10px] text-gray-400 mt-4 tracking-wide">
                   <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
                   100% Verified Property · No hidden surprises
                 </p>
@@ -552,10 +552,10 @@ export default async function PropertyDetailPage({
         )}
 
         {/* ── Footer meta ── */}
-        <div className="flex flex-wrap items-center gap-3 text-[11px] text-[#FF5F15]/40 mt-10 sm:mt-16 pt-6 pb-16 sm:pb-20 border-t border-gray-100">
+        <div className="flex flex-wrap items-center gap-3 text-[11px] text-gray-400 mt-10 sm:mt-16 pt-6 pb-16 sm:pb-20 border-t border-gray-100">
           <span>Listed {formatDate(property.createdAt)}</span>
           <span>&middot;</span>
-          <span className="inline-flex items-center gap-1 font-medium text-[#FF5F15]/55">
+          <span className="inline-flex items-center gap-1 font-medium text-gray-500">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             Verified Owner
           </span>

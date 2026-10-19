@@ -32,7 +32,7 @@ export default function HowItWorksPage() {
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section className="bg-[#F5F5F5] px-6 sm:px-8 py-28 md:py-40">
         <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[#EBEBEB] text-[10px] uppercase tracking-[0.12em] font-bold text-[#FF5F15]/55 mb-8">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[#EBEBEB] text-[10px] uppercase tracking-[0.12em] font-bold text-gray-500 mb-8">
             Process Redefined
           </span>
 
@@ -40,7 +40,7 @@ export default function HowItWorksPage() {
             How Sanatani Community Works
           </h1>
 
-          <p className="text-[#FF5F15]/55 text-base sm:text-lg md:text-xl max-w-2xl font-medium leading-relaxed mb-12">
+          <p className="text-gray-500 text-base sm:text-lg md:text-xl max-w-2xl font-medium leading-relaxed mb-12">
             A simple, transparent process - direct owner access, zero commissions.
             Completely free. Direct access. Zero commissions.
           </p>
@@ -70,7 +70,7 @@ export default function HowItWorksPage() {
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#FF5F15]">
               Browse Verified Listings
             </h2>
-            <p className="text-[#FF5F15]/55 text-lg leading-relaxed">
+            <p className="text-gray-500 text-lg leading-relaxed">
               Every property listed on Sanatani Community undergoes a rigorous
               internal verification. High-resolution imagery, accurate square
               footage, and verified legal status come standard.
@@ -97,13 +97,13 @@ export default function HowItWorksPage() {
               className="hidden sm:block absolute -bottom-8 -left-8 lg:-bottom-10 lg:-left-10 bg-white p-5 rounded-xl max-w-[220px] lg:max-w-[240px]"
               style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}
             >
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#FF5F15]/45 mb-2">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">
                 Featured Listing
               </p>
               <p className="text-base lg:text-lg font-extrabold tracking-tight text-[#FF5F15]">
                 Hiranandani Estate, Zen
               </p>
-              <p className="text-[#FF5F15]/45 text-sm mt-0.5">3 BHK • 1,450 Sq.Ft.</p>
+              <p className="text-gray-400 text-sm mt-0.5">3 BHK • 1,450 Sq.Ft.</p>
             </div>
           </div>
         </div>
@@ -175,7 +175,7 @@ export default function HowItWorksPage() {
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#FF5F15]">
               Connect Directly with the Owner
             </h2>
-            <p className="text-[#FF5F15]/55 text-lg leading-relaxed">
+            <p className="text-gray-500 text-lg leading-relaxed">
               We provide you with the owner&apos;s direct contact details. Honest,
               direct conversations with absolutely no commission pressure.
               Negotiate at your own pace.
@@ -186,10 +186,10 @@ export default function HowItWorksPage() {
               style={{ boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}
             >
               <div className="w-12 h-12 rounded-full bg-[#EBEBEB] flex items-center justify-center shrink-0">
-                <User className="w-6 h-6 text-[#FF5F15]/60" />
+                <User className="w-6 h-6 text-gray-500" />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#FF5F15]/40 mb-0.5">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-0.5">
                   Direct Access
                 </p>
                 <p className="text-base font-extrabold text-[#FF5F15]">
@@ -205,7 +205,7 @@ export default function HowItWorksPage() {
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tighter leading-[0.95] text-[#FF5F15]">
               Sign the Deal &amp; Move In
             </h2>
-            <p className="text-[#FF5F15]/55 text-lg leading-relaxed">
+            <p className="text-gray-500 text-lg leading-relaxed">
               Once you and the owner reach an agreement, we can help facilitate
               the paperwork through our trusted concierge partners, or you can
               manage it independently. The choice is yours.
@@ -276,7 +276,7 @@ export default function HowItWorksPage() {
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter text-[#FF5F15] mb-5">
               Ready to find your home?
             </h2>
-            <p className="text-[#FF5F15]/50 text-base sm:text-lg mb-12">
+            <p className="text-gray-500 text-base sm:text-lg mb-12">
               Browse verified listings in Hiranandani Estate today.
             </p>
             <Link href="/listings">

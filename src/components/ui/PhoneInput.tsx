@@ -59,7 +59,7 @@ export default function PhoneInput({
         autoFocus={autoFocus}
         placeholder={placeholder}
         onChange={(e) => emit(code, e.target.value.replace(/\D/g, "").slice(0, 15))}
-        className="flex-1 min-w-0 px-3.5 py-3 text-sm text-[#FF5F15] placeholder:text-[#FF5F15]/30 outline-none bg-transparent"
+        className="flex-1 min-w-0 px-3.5 py-3 text-sm text-gray-900 placeholder:text-gray-400 outline-none bg-transparent"
       />
     </div>
   );

@@ -49,7 +49,7 @@ export function WhatsAppShareModal({
 
   return (
     <Modal open={open} onClose={onClose} title={title} subtitle={subtitle} description={description}>
-      <div className="bg-[#f5f5f5] border border-gray-150 rounded-xl p-4 text-[13px] leading-relaxed text-[#FF5F15]/80 whitespace-pre-wrap break-words max-h-60 overflow-y-auto">
+      <div className="bg-[#f5f5f5] border border-gray-150 rounded-xl p-4 text-[13px] leading-relaxed text-gray-700 whitespace-pre-wrap break-words max-h-60 overflow-y-auto">
         {message}
       </div>
 
@@ -82,7 +82,7 @@ export function WhatsAppShareButton({ property }: { property: ShareableProperty 
     <>
       <button
         onClick={() => setOpen(true)}
-        className="w-full flex items-center justify-center gap-2 border border-gray-200 text-[#FF5F15]/70 hover:border-[#25D366] hover:text-[#25D366] text-sm font-medium py-2.5 rounded-full transition-colors"
+        className="w-full flex items-center justify-center gap-2 border border-gray-200 text-gray-600 hover:border-[#25D366] hover:text-[#25D366] text-sm font-medium py-2.5 rounded-full transition-colors"
       >
         <WhatsAppIcon className="h-4 w-4" />
         Share on WhatsApp

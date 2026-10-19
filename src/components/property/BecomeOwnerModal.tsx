@@ -45,7 +45,7 @@ export default function BecomeOwnerModal({ open, onClose }: Props) {
         <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#FF5F15] mb-2">
           List Your Property
         </h2>
-        <p className="text-[13px] text-[#FF5F15]/50 mb-7 leading-relaxed">
+        <p className="text-[13px] text-gray-500 mb-7 leading-relaxed">
           Activate your owner account to list properties.
           It&apos;s free and takes one click.
         </p>

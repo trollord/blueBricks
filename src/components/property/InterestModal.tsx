@@ -66,35 +66,35 @@ export default function InterestModal({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name - read-only */}
         <div>
-          <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-[#FF5F15]/45 mb-1.5">
+          <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-1.5">
             Full Name
           </label>
           <input
             type="text"
             value={userName}
             readOnly
-            className="w-full border border-gray-200 bg-[#fafafa] rounded-sm px-3.5 py-3 text-sm text-[#FF5F15]/60 cursor-default outline-none"
+            className="w-full border border-gray-200 bg-[#fafafa] rounded-sm px-3.5 py-3 text-sm text-gray-500 cursor-default outline-none"
           />
         </div>
 
         {/* Email - read-only */}
         <div>
-          <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-[#FF5F15]/45 mb-1.5">
+          <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-1.5">
             Email Address
           </label>
           <input
             type="email"
             value={userEmail}
             readOnly
-            className="w-full border border-gray-200 bg-[#fafafa] rounded-sm px-3.5 py-3 text-sm text-[#FF5F15]/60 cursor-default outline-none"
+            className="w-full border border-gray-200 bg-[#fafafa] rounded-sm px-3.5 py-3 text-sm text-gray-500 cursor-default outline-none"
           />
         </div>
 
         {/* Phone - required */}
         <div>
-          <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-[#FF5F15]/45 mb-1.5">
+          <label className="block text-[10px] font-semibold tracking-[0.2em] uppercase text-gray-400 mb-1.5">
             Contact Number{" "}
-            <span className="text-[#FF5F15]/40 normal-case tracking-normal font-normal text-[11px]">
+            <span className="text-gray-400 normal-case tracking-normal font-normal text-[11px]">
               (required)
             </span>
           </label>
@@ -125,7 +125,7 @@ export default function InterestModal({
         </div>
       </form>
 
-      <p className="text-[10px] text-center text-[#FF5F15]/35 mt-4 leading-relaxed tracking-wide">
+      <p className="text-[10px] text-center text-gray-400 mt-4 leading-relaxed tracking-wide">
         100% Verified Property
       </p>
     </Modal>

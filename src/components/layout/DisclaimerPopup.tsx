@@ -29,9 +29,9 @@ export default function DisclaimerPopup() {
       <div className="relative z-10 w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl px-6 pt-7 pb-8 sm:p-8 m-0 sm:m-4">
         <div className="flex items-center gap-2.5 mb-3">
           <div className="w-8 h-8 rounded-full bg-[#f2f4f4] flex items-center justify-center shrink-0">
-            <Info className="h-4 w-4 text-[#FF5F15]/60" />
+            <Info className="h-4 w-4 text-gray-500" />
           </div>
-          <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase">
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-gray-400 uppercase">
             Independent Platform Notice
           </p>
         </div>
@@ -40,7 +40,7 @@ export default function DisclaimerPopup() {
           Before you continue
         </h2>
 
-        <p className="text-[13px] text-[#FF5F15]/60 leading-relaxed">
+        <p className="text-[13px] text-gray-500 leading-relaxed">
           Sanatani Community (hiranandaniproperties.in) is an <b>independent property listing
           platform</b> for homes located in the Hiranandani Estate locality of
           Thane. We are <b>not affiliated with, endorsed by, or connected to
@@ -49,7 +49,7 @@ export default function DisclaimerPopup() {
           which the listed properties are situated.
         </p>
 
-        <p className="text-[12px] text-[#FF5F15]/40 mt-3">
+        <p className="text-[12px] text-gray-400 mt-3">
           See our{" "}
           <Link href="/terms" className="underline underline-offset-2 hover:text-[#FF5F15]">
             Terms &amp; Conditions

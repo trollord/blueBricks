@@ -60,7 +60,7 @@ export default function Modal({
             {/* Close */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-[#FF5F15]/40 hover:text-[#FF5F15] transition-colors p-1"
+              className="absolute top-4 right-4 text-gray-400 hover:text-[#FF5F15] transition-colors p-1"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
@@ -70,7 +70,7 @@ export default function Modal({
             {(subtitle || title || description) && (
               <div className="mb-6">
                 {subtitle && (
-                  <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-2">
+                  <p className="text-[10px] font-semibold tracking-[0.25em] text-gray-400 uppercase mb-2">
                     {subtitle}
                   </p>
                 )}
@@ -80,7 +80,7 @@ export default function Modal({
                   </h2>
                 )}
                 {description && (
-                  <p className="text-[13px] text-[#FF5F15]/50 mt-1.5 leading-relaxed">
+                  <p className="text-[13px] text-gray-500 mt-1.5 leading-relaxed">
                     {description}
                   </p>
                 )}

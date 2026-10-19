@@ -119,12 +119,12 @@ export default async function ItemDetailPage({
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Breadcrumb */}
-        <nav className="text-xs text-[#FF5F15]/55 mb-5">
-          <Link href="/marketplace" className="hover:text-[#FF5F15]">
+        <nav className="text-xs text-gray-400 mb-5">
+          <Link href="/marketplace" className="hover:text-gray-700 transition-colors">
             Marketplace
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-[#FF5F15]/75">{categoryLabel}</span>
+          <span className="text-gray-600">{categoryLabel}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
@@ -143,7 +143,7 @@ export default async function ItemDetailPage({
                   {vehicleLabel && <Chip>{vehicleLabel}</Chip>}
                   <Chip>{conditionLabel}</Chip>
                 </div>
-                <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#FF5F15] leading-tight">
+                <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">
                   {item.title}
                 </h1>
               </div>
@@ -154,7 +154,7 @@ export default async function ItemDetailPage({
                   {formatPrice(item.price)}
                 </p>
                 {item.priceNegotiable && (
-                  <p className="text-xs text-[#FF5F15]/55 mt-1">Negotiable</p>
+                  <p className="text-xs text-gray-500 mt-1">Negotiable</p>
                 )}
               </div>
 
@@ -183,13 +183,13 @@ export default async function ItemDetailPage({
 
               {/* Seller */}
               <div className="pt-4 border-t border-gray-100">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FF5F15]/40 mb-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-2">
                   Posted by
                 </p>
-                <p className="text-sm font-semibold text-[#FF5F15]">
+                <p className="text-sm font-semibold text-gray-900">
                   {sellerName}
                 </p>
-                <p className="text-[11px] text-[#FF5F15]/50 mt-0.5">
+                <p className="text-[11px] text-gray-500 mt-0.5">
                   Member since {sellerSince}
                 </p>
               </div>
@@ -213,7 +213,7 @@ export default async function ItemDetailPage({
               </div>
 
               {/* Posted date */}
-              <p className="text-[11px] text-[#FF5F15]/40 text-center">
+              <p className="text-[11px] text-gray-400 text-center">
                 Posted on {formatDate(item.createdAt)}
               </p>
             </div>
@@ -222,22 +222,22 @@ export default async function ItemDetailPage({
 
         {/* Description */}
         <section className="mt-10 sm:mt-14 max-w-3xl">
-          <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-[#FF5F15] mb-4">
+          <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-gray-900 mb-4">
             About this item
           </h2>
-          <p className="text-sm sm:text-base text-[#FF5F15]/70 leading-relaxed whitespace-pre-line">
+          <p className="text-sm sm:text-base text-gray-600 leading-relaxed whitespace-pre-line">
             {item.description}
           </p>
         </section>
 
         {/* Trust note */}
         <section className="bg-[#F5F5F5] rounded-2xl p-5 sm:p-6 mt-8 flex items-start gap-3 max-w-3xl">
-          <ShieldCheck className="w-5 h-5 text-[#FF5F15]/55 shrink-0 mt-0.5" />
+          <ShieldCheck className="w-5 h-5 text-gray-400 shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-semibold text-[#FF5F15]">
+            <p className="text-sm font-semibold text-gray-900">
               Transact safely
             </p>
-            <p className="text-xs text-[#FF5F15]/55 leading-relaxed mt-1">
+            <p className="text-xs text-gray-500 leading-relaxed mt-1">
               Inspect the item in person before paying. Prefer cash or UPI on
               handover. Sanatani Community does not hold funds or guarantee item
               condition.
@@ -254,7 +254,7 @@ export default async function ItemDetailPage({
               </h2>
               <Link
                 href="/marketplace"
-                className="text-xs font-semibold uppercase tracking-[0.14em] text-[#FF5F15]/55 hover:text-[#FF5F15] transition-colors"
+                className="text-xs font-semibold uppercase tracking-[0.14em] text-gray-500 hover:text-[#FF5F15] transition-colors"
               >
                 View all →
               </Link>
@@ -273,7 +273,7 @@ export default async function ItemDetailPage({
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FF5F15]/60 bg-[#EBEBEB] px-3 py-1 rounded-full">
+    <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-500 bg-[#EBEBEB] px-3 py-1 rounded-full">
       {children}
     </span>
   );
@@ -290,12 +290,12 @@ function MetaRow({
 }) {
   return (
     <div className="flex items-start gap-3 text-sm">
-      <div className="text-[#FF5F15]/45 mt-0.5">{icon}</div>
+      <div className="text-gray-400 mt-0.5">{icon}</div>
       <div className="min-w-0">
-        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#FF5F15]/40">
+        <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-gray-400">
           {label}
         </p>
-        <p className="text-sm font-medium text-[#FF5F15] mt-0.5">{value}</p>
+        <p className="text-sm font-medium text-gray-900 mt-0.5">{value}</p>
       </div>
     </div>
   );

@@ -111,7 +111,7 @@ export default function RegisterPage() {
     return (
       <div className="w-full max-w-md">
         <div className="mb-8">
-          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
+          <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-gray-900 mb-2">
             Verify your email
           </h1>
           <p className="text-gray-500">
@@ -122,7 +122,7 @@ export default function RegisterPage() {
 
         <form onSubmit={verifyAndSignIn} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="otp" className="text-[#FF5F15] font-medium">6-digit code</Label>
+            <Label htmlFor="otp" className="text-gray-700 font-medium">6-digit code</Label>
             <Input
               id="otp"
               type="text"
@@ -165,7 +165,7 @@ export default function RegisterPage() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-gray-900 mb-2">
           Create your account
         </h1>
         <p className="text-gray-500">Join Sanatani Community - find your home directly from owners</p>
@@ -198,7 +198,7 @@ export default function RegisterPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="name" className="text-[#FF5F15] font-medium">Full Name</Label>
+          <Label htmlFor="name" className="text-gray-700 font-medium">Full Name</Label>
           <Input
             id="name"
             placeholder="Raj Sharma"
@@ -209,7 +209,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-[#FF5F15] font-medium">Email</Label>
+          <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
           <Input
             id="email"
             type="email"
@@ -221,7 +221,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="phone" className="text-[#FF5F15] font-medium">
+          <Label htmlFor="phone" className="text-gray-700 font-medium">
             Mobile Number <span className="text-gray-400 font-normal">(optional)</span>
           </Label>
           <Controller
@@ -241,7 +241,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="password" className="text-[#FF5F15] font-medium">Password</Label>
+          <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
           <div className="relative">
             <Input
               id="password"

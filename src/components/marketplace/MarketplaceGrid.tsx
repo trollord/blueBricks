@@ -80,7 +80,7 @@ export default function MarketplaceGrid({ items }: { items: MarketplaceItemCard[
     <div>
       {/* Search */}
       <div className="relative mb-5">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FF5F15]/40" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -144,7 +144,7 @@ export default function MarketplaceGrid({ items }: { items: MarketplaceItemCard[
       {/* Secondary filters row */}
       <div className="flex flex-wrap items-end gap-2 sm:gap-3 mt-4">
         <div className="flex flex-col gap-1 w-[calc(50%-0.25rem)] sm:w-auto">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FF5F15]/45 px-1">Condition</span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-400 px-1">Condition</span>
           <Select value={condition} onValueChange={(v) => setCondition(v ?? "ALL")}>
             <SelectTrigger className="!w-full sm:!w-[180px] !h-10 rounded-xl bg-white px-3.5">
               <SelectValue placeholder="Condition" />
@@ -161,7 +161,7 @@ export default function MarketplaceGrid({ items }: { items: MarketplaceItemCard[
         </div>
 
         <div className="flex flex-col gap-1 w-[calc(50%-0.25rem)] sm:w-auto">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#FF5F15]/45 px-1">Price</span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-400 px-1">Price</span>
           <Select value={priceIdx} onValueChange={(v) => setPriceIdx(v ?? "ALL")}>
             <SelectTrigger className="!w-full sm:!w-[180px] !h-10 rounded-xl bg-white px-3.5">
               <SelectValue placeholder="Price" />
@@ -180,13 +180,13 @@ export default function MarketplaceGrid({ items }: { items: MarketplaceItemCard[
         {activeFilters > 0 && (
           <button
             onClick={clearAll}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#FF5F15]/55 hover:text-[#FF5F15] transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-[#FF5F15] transition-colors"
           >
             <X className="w-3.5 h-3.5" /> Clear
           </button>
         )}
 
-        <p className="ml-auto text-xs text-[#FF5F15]/55 w-full sm:w-auto text-right">
+        <p className="ml-auto text-xs text-gray-500 w-full sm:w-auto text-right">
           {filtered.length} {filtered.length === 1 ? "item" : "items"}
         </p>
       </div>
@@ -195,7 +195,7 @@ export default function MarketplaceGrid({ items }: { items: MarketplaceItemCard[
       {filtered.length === 0 ? (
         <div className="mt-8 sm:mt-10 bg-white border border-gray-200 rounded-2xl p-6 sm:p-10 text-center">
           <p className="text-sm font-semibold text-[#FF5F15]">No items match your filters</p>
-          <p className="text-xs text-[#FF5F15]/55 mt-1">
+          <p className="text-xs text-gray-500 mt-1">
             Try widening your search or clearing filters.
           </p>
         </div>
@@ -225,7 +225,7 @@ function CategoryChip({
       className={`shrink-0 whitespace-nowrap text-xs font-semibold uppercase tracking-[0.1em] px-4 py-2 rounded-full transition-colors ${
         active
           ? "bg-[#FF5F15] text-white"
-          : "bg-white border border-gray-200 text-[#FF5F15]/65 hover:border-gray-300"
+          : "bg-white border border-gray-200 text-gray-500 hover:border-gray-300"
       }`}
     >
       {label}
@@ -248,7 +248,7 @@ function SubChip({
       className={`shrink-0 whitespace-nowrap text-[11px] font-medium px-3 py-1.5 rounded-full transition-colors ${
         active
           ? "bg-[#EBEBEB] text-[#FF5F15]"
-          : "bg-white border border-gray-200 text-[#FF5F15]/55 hover:border-gray-300"
+          : "bg-white border border-gray-200 text-gray-500 hover:border-gray-300"
       }`}
     >
       {label}

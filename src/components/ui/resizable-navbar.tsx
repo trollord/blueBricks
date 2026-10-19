@@ -143,7 +143,7 @@ interface NavItem {
 
 export function NavItems({ items }: { items: NavItem[] }) {
   const { scrolled, mobileOpen, darkHero } = useNavbar();
-  const linkColor = scrolled ? "rgba(255,255,255,0.75)" : mobileOpen ? "#FF5F15" : darkHero ? "rgba(255,255,255,0.85)" : "rgba(255,95,21,0.65)";
+  const linkColor = scrolled ? "rgba(255,255,255,0.85)" : mobileOpen ? "rgba(26,26,26,0.75)" : darkHero ? "rgba(255,255,255,0.85)" : "rgba(26,26,26,0.65)";
   return (
     <nav className="flex items-center gap-6 lg:gap-8">
       {items.map((item) => (

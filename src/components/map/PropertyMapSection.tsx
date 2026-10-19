@@ -50,7 +50,7 @@ export default function PropertyMapSection({ lat, lng, propertyId, isLoggedIn }:
             className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full border transition-colors duration-150 ${
               activeAmenity === type
                 ? "bg-[#FF5F15] text-white border-[#FF5F15]"
-                : "bg-white text-[#FF5F15]/60 border-gray-200 hover:border-[#FF5F15]/30 hover:text-[#FF5F15]"
+                : "bg-white text-gray-500 border-gray-200 hover:border-[#FF5F15]/30 hover:text-[#FF5F15]"
             }`}
           >
             <Icon className="h-3.5 w-3.5" />

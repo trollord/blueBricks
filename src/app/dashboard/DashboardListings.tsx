@@ -166,11 +166,11 @@ export default function DashboardListings({
 
   if (properties.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-[#FF5F15]/20 text-center">
-        <div className="inline-flex p-5 rounded-full bg-[#FF5F15]/5 mb-6">
-          <Building2 className="h-10 w-10 text-[#FF5F15]" />
+      <div className="flex flex-col items-center justify-center py-24 px-6 bg-white rounded-2xl border border-dashed border-gray-200 text-center">
+        <div className="inline-flex p-5 rounded-full bg-gray-100 mb-6">
+          <Building2 className="h-10 w-10 text-gray-400" />
         </div>
-        <h2 className="text-xl font-bold text-[#FF5F15] mb-2">No properties listed yet</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-2">No properties listed yet</h2>
         <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
           You haven&apos;t listed any properties yet. Start listing now and connect with serious buyers and tenants in Hiranandani Estate - completely free.
         </p>
@@ -191,9 +191,9 @@ export default function DashboardListings({
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
           {(
             [
-              { key: "ACTIVE", label: "Active", color: "text-[#FF5F15] bg-[#f9f9f9] border-[#e0e0e0]" },
+              { key: "ACTIVE", label: "Active", color: "text-gray-700 bg-[#f9f9f9] border-[#e0e0e0]" },
               { key: "PENDING", label: "Pending", color: "text-[#2d3435] bg-white border-[#d4d4d4]" },
-              { key: "REJECTED", label: "Rejected", color: "text-[#FF5F15] bg-[#f0f0f0] border-[#c8c8c8]" },
+              { key: "REJECTED", label: "Rejected", color: "text-gray-700 bg-[#f0f0f0] border-[#c8c8c8]" },
               { key: "INACTIVE", label: "Inactive", color: "text-[#5a6061] bg-[#fafafa] border-[#e5e5e5]" },
             ] as const
           ).map(({ key, label, color }) => (

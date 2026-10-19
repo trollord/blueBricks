@@ -51,12 +51,12 @@ export default async function EditionPage({
       <div className="bg-white border-b border-gray-200 px-4 sm:px-5 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 min-w-0">
         <Link
           href="/newspaper"
-          className="text-xs text-[#FF5F15]/50 hover:text-[#FF5F15] transition-colors shrink-0 font-medium"
+          className="text-xs text-gray-500 hover:text-[#FF5F15] transition-colors shrink-0 font-medium"
         >
           ← All editions
         </Link>
-        <span className="text-[#FF5F15]/20 shrink-0">|</span>
-        <span className="text-xs text-[#FF5F15]/50 truncate">{dateStr}</span>
+        <span className="text-gray-300 shrink-0">|</span>
+        <span className="text-xs text-gray-500 truncate">{dateStr}</span>
       </div>
 
       <NewsViewer

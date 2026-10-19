@@ -58,7 +58,7 @@ function LoginForm() {
   return (
     <div className="w-full max-w-md">
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-[#FF5F15] mb-2">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl font-bold text-gray-900 mb-2">
           Welcome back
         </h1>
         <p className="text-gray-500">Sign in to your Sanatani Community account</p>
@@ -93,7 +93,7 @@ function LoginForm() {
       {/* Email form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
-          <Label htmlFor="email" className="text-[#FF5F15] font-medium">Email</Label>
+          <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
           <Input
             id="email"
             type="email"
@@ -108,7 +108,7 @@ function LoginForm() {
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <Label htmlFor="password" className="text-[#FF5F15] font-medium">Password</Label>
+            <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
             <Link
               href="/forgot-password"
               className="text-xs text-gray-500 hover:text-[#FF5F15] hover:underline"

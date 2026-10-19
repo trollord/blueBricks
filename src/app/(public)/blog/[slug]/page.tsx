@@ -62,16 +62,16 @@ export default async function BlogPostPage({
       <article className="max-w-3xl mx-auto">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-sm text-[#FF5F15]/50 hover:text-[#FF5F15] mb-8 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#FF5F15] mb-8 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           All articles
         </Link>
 
-        <p className="text-[11px] text-[#FF5F15]/40 mb-3">
+        <p className="text-[11px] text-gray-400 mb-3">
           {formatDate(post.date)} · {post.readTime}
         </p>
-        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] leading-tight mb-8 sm:mb-10">
+        <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-gray-900 leading-tight mb-8 sm:mb-10">
           {post.title}
         </h1>
 
@@ -81,7 +81,7 @@ export default async function BlogPostPage({
               return (
                 <h2
                   key={i}
-                  className="font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold text-[#FF5F15] pt-4"
+                  className="font-[family-name:var(--font-playfair)] text-xl sm:text-2xl font-bold text-gray-900 pt-4"
                 >
                   {block.text}
                 </h2>
@@ -91,7 +91,7 @@ export default async function BlogPostPage({
               return (
                 <ul key={i} className="space-y-2.5 pl-1">
                   {(block.items ?? []).map((item, j) => (
-                    <li key={j} className="flex gap-3 text-[15px] leading-relaxed text-[#FF5F15]/70">
+                    <li key={j} className="flex gap-3 text-[15px] leading-relaxed text-gray-600">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#FF5F15]/60 mt-2.5 shrink-0" />
                       <span>{item}</span>
                     </li>
@@ -100,7 +100,7 @@ export default async function BlogPostPage({
               );
             }
             return (
-              <p key={i} className="text-[15px] sm:text-base leading-[1.9] text-[#FF5F15]/70">
+              <p key={i} className="text-[15px] sm:text-base leading-[1.9] text-gray-600">
                 {block.text}
               </p>
             );

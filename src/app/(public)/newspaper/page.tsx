@@ -31,9 +31,9 @@ export default async function NewspaperIndexPage() {
 
       {editions.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-28 px-4 text-center">
-          <FileText className="h-10 w-10 text-[#FF5F15]/20 mb-4" />
-          <p className="font-medium text-[#FF5F15]/50">No editions published yet.</p>
-          <p className="text-sm text-[#FF5F15]/35 mt-1">Check back soon.</p>
+          <FileText className="h-10 w-10 text-gray-300 mb-4" />
+          <p className="font-medium text-gray-500">No editions published yet.</p>
+          <p className="text-sm text-gray-400 mt-1">Check back soon.</p>
         </div>
       ) : (
         <>
@@ -49,7 +49,7 @@ export default async function NewspaperIndexPage() {
           {past.length > 0 && (
             <div className="bg-white px-4 sm:px-8 py-10 sm:py-12">
               <div className="max-w-4xl mx-auto">
-                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-[#FF5F15]/40 mb-5">
+                <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-gray-400 mb-5">
                   Past Issues
                 </h2>
                 <div className="space-y-2">
@@ -66,16 +66,16 @@ export default async function NewspaperIndexPage() {
                         className="flex items-center gap-3 flex-1 min-w-0 group"
                       >
                         <div className="bg-[#F0F0F0] rounded-lg p-2 shrink-0 group-hover:bg-[#E8E8E8] transition-colors">
-                          <FileText className="h-4 w-4 text-[#FF5F15]/55" />
+                          <FileText className="h-4 w-4 text-gray-500" />
                         </div>
                         <div className="min-w-0">
-                          <p className="font-medium text-[#FF5F15] text-sm truncate group-hover:text-[#FF5F15] transition-colors">
+                          <p className="font-medium text-gray-900 text-sm truncate group-hover:text-[#FF5F15] transition-colors">
                             {e.title}
                           </p>
-                          <div className="flex items-center gap-1.5 mt-0.5 text-xs text-[#FF5F15]/40">
+                          <div className="flex items-center gap-1.5 mt-0.5 text-xs text-gray-400">
                             <Calendar className="h-3 w-3 shrink-0" />
                             <span>{fmtDate(e.date)}</span>
-                            <span className="text-[#FF5F15]/20">·</span>
+                            <span className="text-gray-300">·</span>
                             <span>{e.pageCount}p</span>
                           </div>
                         </div>
@@ -86,7 +86,7 @@ export default async function NewspaperIndexPage() {
                         href={`/api/newspaper/${e.id}?download=1`}
                         download={`${e.title}.pdf`}
                         onClick={(ev) => ev.stopPropagation()}
-                        className="shrink-0 p-2 rounded-lg text-[#FF5F15]/35 hover:text-[#FF5F15]
+                        className="shrink-0 p-2 rounded-lg text-gray-400 hover:text-[#FF5F15]
                                    hover:bg-[#EBEBEB] transition-all"
                         title="Download PDF"
                       >

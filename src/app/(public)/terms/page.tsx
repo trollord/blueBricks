@@ -13,7 +13,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <section className="mb-10">
       <h2 className="text-lg sm:text-xl font-bold text-[#FF5F15] mb-3">{title}</h2>
-      <div className="text-sm sm:text-[15px] text-[#FF5F15]/60 leading-relaxed space-y-3">
+      <div className="text-sm sm:text-[15px] text-gray-500 leading-relaxed space-y-3">
         {children}
       </div>
     </section>
@@ -24,13 +24,13 @@ export default function TermsPage() {
   return (
     <div className="pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8">
       <div className="max-w-3xl mx-auto">
-        <p className="text-[10px] font-semibold tracking-[0.25em] text-[#FF5F15]/45 uppercase mb-3">
+        <p className="text-[10px] font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
           Legal
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] mb-3">
           Terms &amp; Conditions
         </h1>
-        <p className="text-sm text-[#FF5F15]/40 mb-10 sm:mb-14">Last updated: {LAST_UPDATED}</p>
+        <p className="text-sm text-gray-400 mb-10 sm:mb-14">Last updated: {LAST_UPDATED}</p>
 
         <Section title="1. Acceptance of These Terms">
           <p>
