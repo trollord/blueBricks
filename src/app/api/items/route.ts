@@ -25,8 +25,6 @@ export async function POST(req: NextRequest) {
     const { images, yearPurchased, vehicleType, brand, pickupArea, ...rest } =
       parsed.data;
 
-    const isAdmin = session.user.role === "ADMIN";
-
     const item = await prisma.item.create({
       data: {
         ...rest,
@@ -36,8 +34,8 @@ export async function POST(req: NextRequest) {
           rest.category === "VEHICLES" && vehicleType ? vehicleType : null,
         yearPurchased: yearPurchased ?? null,
         sellerId: session.user.id,
-        status: isAdmin ? "ACTIVE" : "PENDING",
-        ...(isAdmin && { activatedAt: new Date() }),
+        status: "ACTIVE",
+        activatedAt: new Date(),
         images: {
           create: images.map((img) => ({
             url: img.url,
@@ -49,9 +47,7 @@ export async function POST(req: NextRequest) {
       select: { id: true, status: true },
     });
 
-    if (item.status === "ACTIVE") {
-      revalidatePath("/marketplace");
-    }
+    revalidatePath("/marketplace");
 
     return NextResponse.json({ item }, { status: 201 });
   } catch (err) {

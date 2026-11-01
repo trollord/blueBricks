@@ -5,6 +5,7 @@ import Link from "next/link";
 import { formatDate } from "@/lib/utils/formatters";
 import { COMMUNITY_CATEGORIES } from "@/lib/community";
 import CommunityAdminActions from "./CommunityAdminActions";
+import CommunityCSVTools from "./CommunityCSVTools";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +43,8 @@ export default async function AdminCommunityPage({ searchParams }: PageProps) {
       <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
         Community Directory
       </h1>
+
+      <CommunityCSVTools />
 
       <div className="flex gap-1 mb-5 sm:mb-6 bg-gray-100 rounded-lg p-1 w-full sm:w-fit overflow-x-auto">
         {tabs.map((tab) => (

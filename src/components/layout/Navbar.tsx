@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { PlusSquare, LayoutDashboard, Shield, LogOut } from "lucide-react";
+import { PlusSquare, LayoutDashboard, Shield, LogOut, X, ArrowRight } from "lucide-react";
 import BecomeOwnerModal from "@/components/property/BecomeOwnerModal";
 import FloatingActionMenu from "@/components/ui/floating-action-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,13 +22,13 @@ import {
 } from "@/components/ui/resizable-navbar";
 
 const navItems = [
-  { name: "Explore Homes", link: "/listings" },
-  { name: "Marketplace", link: "/marketplace" },
-  { name: "Community", link: "/community" },
+  { name: "Real Estate", link: "/listings" },
+  { name: "Resell & Donate", link: "/marketplace" },
+  { name: "Service Providers", link: "/community" },
   // { name: "How It Works", link: "/how-it-works" },
   // { name: "Blog", link: "/blog" },
   { name: "Latest News", link: "/newspaper" },
-  { name: "Contact", link: "/contact" },
+  { name: "Connect", link: "/contact" },
 ];
 
 /* ─── Avatar menu (FloatingActionMenu) ────────────────────────────────────── */
@@ -174,7 +174,7 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
           </div>
         </NavBody>
 
-        {/* ── Mobile ── */}
+        {/* ── Mobile header strip (hamburger button only) ── */}
         <MobileNav>
           <MobileNavHeader>
             <NavbarLogo />
@@ -183,73 +183,118 @@ export default function SiteNavbar({ forceScrolled = false }: { forceScrolled?: 
               onClick={() => setMobileOpen((v) => !v)}
             />
           </MobileNavHeader>
-
-          <MobileNavMenu
-            isOpen={mobileOpen}
-            onClose={() => setMobileOpen(false)}
-          >
-            {navItems.map((item) => (
-              <MobileNavLink
-                key={item.link}
-                href={item.link}
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.name}
-              </MobileNavLink>
-            ))}
-
-            {session ? (
-              <>
-                <MobileNavLink href="/dashboard" onClick={() => setMobileOpen(false)}>
-                  My Dashboard
-                </MobileNavLink>
-                {session.user?.role === "ADMIN" && (
-                  <MobileNavLink href="/admin" onClick={() => setMobileOpen(false)}>
-                    Admin Panel
-                  </MobileNavLink>
-                )}
-                {false && (
-                  <MobileActionButton
-                    onClick={() => { setMobileOpen(false); handleListProperty(); }}
-                    icon={<PlusSquare className="h-4 w-4" />}
-                    bordered
-                  >
-                    List a Property
-                  </MobileActionButton>
-                )}
-                <MobileActionButton
-                  onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}
-                  icon={<LogOut className="h-4 w-4" />}
-                  danger
-                >
-                  Sign Out
-                </MobileActionButton>
-              </>
-            ) : (
-              <div className="flex flex-col gap-3 pt-3 mt-1">
-                <NavbarButton
-                  variant="secondary"
-                  href="/login"
-                  className="w-full"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Sign In
-                </NavbarButton>
-                {false && (
-                  <NavbarButton
-                    variant="primary"
-                    href="/register"
-                    className="w-full"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    List Property
-                  </NavbarButton>
-                )}
-              </div>
-            )}
-          </MobileNavMenu>
         </MobileNav>
       </Navbar>
+
+      {/* ── Side drawer overlay ── */}
+      <div
+        className={`fixed inset-0 z-[60] md:hidden transition-opacity duration-300 ${
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(2px)" }}
+        onClick={() => setMobileOpen(false)}
+      />
+
+      {/* ── Side drawer panel ── */}
+      <div
+        className={`fixed top-0 right-0 h-full w-[280px] sm:w-[300px] z-[70] md:hidden flex flex-col transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+          mobileOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        style={{ background: "#FAF8F5" }}
+      >
+        {/* Drawer header */}
+        <div className="flex items-center justify-between px-6 h-[64px] border-b border-[#EDE5D8] shrink-0">
+          <span className="font-bold text-base text-[#1C1C1C]">
+            Sanatani <span className="text-[#6B6B6B] font-medium">Community</span>
+          </span>
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="p-1.5 rounded-lg hover:bg-[#F0E9DF] transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5 text-[#1C1C1C]" />
+          </button>
+        </div>
+
+        {/* Nav links */}
+        <nav className="flex-1 overflow-y-auto px-6 py-3">
+          {navItems.map((item) => (
+            <Link
+              key={item.link}
+              href={item.link}
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-between py-4 border-b border-[#EDE5D8] text-sm font-medium text-[#1C1C1C]/75 hover:text-[#C8541A] transition-colors group"
+            >
+              {item.name}
+              <ArrowRight className="h-3.5 w-3.5 text-[#C8541A]/30 group-hover:text-[#C8541A] transition-colors" />
+            </Link>
+          ))}
+
+          {session && (
+            <>
+              {/* Section divider */}
+              <div className="flex items-center gap-3 mt-5 mb-1">
+                <div className="h-px flex-1 bg-[#EDE5D8]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9E6B3F]">My Account</span>
+                <div className="h-px flex-1 bg-[#EDE5D8]" />
+              </div>
+
+              <Link
+                href="/dashboard"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between py-4 border-b border-[#EDE5D8] text-sm font-medium text-[#1C1C1C]/75 hover:text-[#C8541A] transition-colors group"
+              >
+                My Dashboard
+                <ArrowRight className="h-3.5 w-3.5 text-[#C8541A]/30 group-hover:text-[#C8541A] transition-colors" />
+              </Link>
+              {session.user?.role === "ADMIN" && (
+                <Link
+                  href="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-between py-4 border-b border-[#EDE5D8] text-sm font-medium text-[#1C1C1C]/75 hover:text-[#C8541A] transition-colors group"
+                >
+                  Admin Panel
+                  <ArrowRight className="h-3.5 w-3.5 text-[#C8541A]/30 group-hover:text-[#C8541A] transition-colors" />
+                </Link>
+              )}
+            </>
+          )}
+        </nav>
+
+        {/* Bottom auth */}
+        <div className="px-6 py-6 border-t border-[#EDE5D8] shrink-0">
+          {session ? (
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 py-2">
+                <div className="w-8 h-8 rounded-full bg-[#F0E9DF] flex items-center justify-center shrink-0">
+                  <span className="text-xs font-bold text-[#C8541A]">
+                    {session.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
+                  </span>
+                </div>
+                <span className="text-sm font-medium text-[#1C1C1C] truncate">
+                  {session.user?.name}
+                </span>
+              </div>
+              <button
+                onClick={() => { setMobileOpen(false); signOut({ callbackUrl: "/" }); }}
+                className="flex items-center gap-2 w-full text-sm font-medium text-red-500 hover:text-red-600 transition-colors py-2"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center justify-center gap-2 w-full bg-[#C8541A] text-white py-3 rounded-xl font-semibold text-sm hover:opacity-90 transition-opacity"
+            >
+              Sign In
+            </Link>
+          )}
+        </div>
+      </div>
+
     </>
   );
 }

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function MarketplacePage() {
   const rows = await prisma.item.findMany({
-    where: { status: "ACTIVE" },
+    where: { status: { in: ["ACTIVE", "SOLD"] } },
     orderBy: [{ createdAt: "desc" }],
     select: {
       id: true,
@@ -24,6 +24,7 @@ export default async function MarketplacePage() {
       category: true,
       vehicleType: true,
       condition: true,
+      status: true,
       price: true,
       priceNegotiable: true,
       pickupLocality: true,
@@ -50,7 +51,7 @@ export default async function MarketplacePage() {
             <p className="text-[10px] font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
               Marketplace
             </p>
-            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#FF5F15] mb-4">
+            <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-5xl font-bold text-[#0B0B0C] mb-4">
               Buy &amp; Sell in the Estate
             </h1>
             <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-2xl">

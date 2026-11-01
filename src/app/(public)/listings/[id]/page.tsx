@@ -404,7 +404,7 @@ export default async function PropertyDetailPage({
                   {isRent ? "Price Per Month" : "Sale Price"}
                 </p>
                 <div className="flex items-baseline gap-1.5 flex-wrap">
-                  <span className="text-3xl sm:text-4xl font-bold text-[#FF5F15] font-[family-name:var(--font-playfair)]">
+                  <span className="text-3xl sm:text-4xl font-bold text-[#0B0B0C] font-[family-name:var(--font-playfair)]">
                     {formatPrice(property.price)}
                   </span>
                   {isRent && <span className="text-gray-400 text-sm">/mo</span>}
@@ -421,13 +421,13 @@ export default async function PropertyDetailPage({
                 {isRent && property.deposit != null && (
                   <div className="flex items-center justify-between text-[13px]">
                     <span className="text-gray-500">Security Deposit</span>
-                    <span className="font-semibold text-[#FF5F15]">{formatPrice(property.deposit)}</span>
+                    <span className="font-semibold text-[#0B0B0C]">{formatPrice(property.deposit)}</span>
                   </div>
                 )}
                 {isRent && property.lockInMonths != null && property.lockInMonths > 0 && (
                   <div className="flex items-center justify-between text-[13px]">
                     <span className="text-gray-500">Lock-in Period</span>
-                    <span className="font-semibold text-[#FF5F15]">
+                    <span className="font-semibold text-[#0B0B0C]">
                       {property.lockInMonths} month{property.lockInMonths > 1 ? "s" : ""}
                       {property.lockInNegotiable ? " · negotiable" : ""}
                     </span>
@@ -436,7 +436,7 @@ export default async function PropertyDetailPage({
                 <div className="flex items-center justify-between text-[13px]">
                   <span className="text-gray-500">Available From</span>
                   {availability ? (
-                    <span className={`font-semibold inline-flex items-center gap-1.5 ${availability.immediate ? "text-emerald-700" : "text-[#FF5F15]"}`}>
+                    <span className={`font-semibold inline-flex items-center gap-1.5 ${availability.immediate ? "text-emerald-700" : "text-[#0B0B0C]"}`}>
                       {availability.immediate && (
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       )}
@@ -486,7 +486,7 @@ export default async function PropertyDetailPage({
         </div>
 
         {/* ── Key Stats - dark band ── */}
-        <div className="bg-[#1C0A00] rounded-2xl p-3 mt-8 sm:mt-10">
+        <div className="mt-8 sm:mt-10">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
             {[
               {
@@ -521,16 +521,16 @@ export default async function PropertyDetailPage({
             ].map(({ icon: Icon, label, value, accent }) => (
               <div
                 key={label}
-                className="bg-[#2D1200] rounded-xl flex flex-col items-center text-center py-6 sm:py-7 px-3"
+                className="bg-[#F2F4F4] rounded-xl flex flex-col items-center text-center py-6 sm:py-7 px-3"
               >
                 <Icon
-                  className={`h-5 w-5 mb-3 ${accent ? "text-emerald-400" : "text-white/35"}`}
+                  className={`h-5 w-5 mb-3 ${accent ? "text-emerald-600" : "text-gray-400"}`}
                   strokeWidth={1.5}
                 />
-                <p className={`font-bold text-lg sm:text-xl leading-tight tracking-tight ${accent ? "text-emerald-400" : "text-white"}`}>
+                <p className={`font-bold text-lg sm:text-xl leading-tight tracking-tight ${accent ? "text-emerald-600" : "text-[#0B0B0C]"}`}>
                   {value}
                 </p>
-                <p className="text-[9px] tracking-[0.22em] text-white/40 mt-2 uppercase">
+                <p className="text-[9px] tracking-[0.22em] text-gray-400 mt-2 uppercase">
                   {label}
                 </p>
               </div>

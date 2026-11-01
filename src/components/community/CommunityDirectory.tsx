@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   X,
@@ -224,11 +225,23 @@ export default function CommunityDirectory({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
-          {results.map((c) => (
-            <ContactCard key={c.id} contact={c} />
-          ))}
-        </div>
+        <motion.div layout className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+          <AnimatePresence mode="popLayout">
+            {results.map((c) => (
+              <motion.div
+                key={c.id}
+                layout
+                initial={{ opacity: 0, y: 28, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{ type: "spring", stiffness: 240, damping: 22 }}
+              >
+                <ContactCard contact={c} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       )}
     </div>
   );
@@ -280,7 +293,7 @@ function ContactCard({ contact: c }: { contact: CommunityContact }) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start gap-2">
-            <h3 className="font-bold tracking-tight text-[#FF5F15] text-base sm:text-lg leading-snug">
+            <h3 className="font-bold tracking-tight text-[#0B0B0C] text-base sm:text-lg leading-snug">
               {c.name}
             </h3>
             {c.verified && (

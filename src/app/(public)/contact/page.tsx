@@ -40,24 +40,8 @@ export default function ContactPage() {
   return (
     <div className="overflow-x-hidden">
 
-      {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="bg-[#F5F5F5] px-6 sm:px-8 pt-28 sm:pt-36 pb-16 sm:pb-24">
-        <div className="max-w-5xl mx-auto text-center">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[#EBEBEB] text-[10px] uppercase tracking-[0.12em] font-bold text-gray-500 mb-6">
-            Contact
-          </span>
-          <h1 className="font-[family-name:var(--font-playfair)] text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[#FF5F15] mb-5">
-            Get in touch
-          </h1>
-          <p className="text-gray-500 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            Questions about a listing, help with your property or an idea for
-            the community - send us a note and we&apos;ll get back within 24 hours.
-          </p>
-        </div>
-      </section>
-
       {/* ── FORM + QUICK REACH ────────────────────────────────────────────── */}
-      <section className="px-5 sm:px-8 py-14 sm:py-20">
+      <section className="px-5 sm:px-8 pt-28 sm:pt-36 pb-14 sm:pb-20">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-10">
 
           {/* Form */}
@@ -65,7 +49,7 @@ export default function ContactPage() {
             <p className="text-[10px] font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
               Send a message
             </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#FF5F15] mb-6">
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#0B0B0C] mb-6">
               We&apos;d love to hear from you
             </h2>
             <ContactForm />
@@ -76,7 +60,7 @@ export default function ContactPage() {
             <p className="text-[10px] font-semibold tracking-[0.25em] text-gray-400 uppercase mb-3">
               Quick reach
             </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#FF5F15] mb-6">
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl font-bold text-[#0B0B0C] mb-6">
               Prefer talking directly?
             </h2>
 
@@ -108,7 +92,7 @@ export default function ContactPage() {
             <div className="bg-white border border-gray-200 rounded-2xl p-5 flex items-start gap-3">
               <Clock className="w-5 h-5 text-gray-500 shrink-0 mt-0.5" />
               <div>
-                <p className="text-xs font-semibold text-[#FF5F15]">
+                <p className="text-xs font-semibold text-[#0B0B0C]">
                   Office hours
                 </p>
                 <p className="text-xs text-gray-500 leading-relaxed mt-0.5">
@@ -129,7 +113,7 @@ export default function ContactPage() {
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#EBEBEB] text-[10px] uppercase tracking-[0.12em] font-bold text-gray-500 mb-5">
               Common questions
             </span>
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl font-bold text-[#FF5F15]">
+            <h2 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl font-bold text-[#0B0B0C]">
               Before you write to us
             </h2>
           </div>
@@ -140,7 +124,7 @@ export default function ContactPage() {
                 key={f.q}
                 className="bg-white border border-gray-200 rounded-2xl p-5 sm:p-6"
               >
-                <h3 className="text-sm sm:text-base font-semibold text-[#FF5F15] mb-2">
+                <h3 className="text-sm sm:text-base font-semibold text-[#0B0B0C] mb-2">
                   {f.q}
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
@@ -170,7 +154,7 @@ export default function ContactPage() {
             </div>
             <Link
               href="/how-it-works"
-              className="inline-flex items-center gap-2 bg-white text-[#FF5F15] px-6 py-3 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity shrink-0 self-start sm:self-auto"
+              className="inline-flex items-center gap-2 bg-white text-[#0B0B0C] px-6 py-3 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity shrink-0 self-start sm:self-auto"
             >
               How it works
               <ArrowRight className="w-4 h-4" />
@@ -219,14 +203,14 @@ function QuickCard({
       className="group block bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-sm transition-shadow"
     >
       <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-xl bg-[#EBEBEB] flex items-center justify-center shrink-0 text-[#FF5F15]">
+        <div className="w-10 h-10 rounded-xl bg-[#EBEBEB] flex items-center justify-center shrink-0 text-[#0B0B0C]">
           {icon}
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-gray-400">
             {label}
           </p>
-          <p className="text-sm sm:text-base font-semibold text-[#FF5F15] mt-0.5 truncate">
+          <p className="text-sm sm:text-base font-semibold text-[#0B0B0C] mt-0.5 truncate">
             {value}
           </p>
           <p className="text-[11px] text-gray-500 mt-1">{hint}</p>

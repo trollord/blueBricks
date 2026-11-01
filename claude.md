@@ -58,3 +58,21 @@
  ## Core Rules (VERY IMPORTANT) - Match the design **accurately** to the screenshot - Do NOT redesign or change layout unless explicitly told - Do NOT introduce new colors, styles, or components - Maintain consistency with existing UI patterns - Keep everything clean, minimal, and premium .
  
  Every time a new screenshot and HTML/CSS code is provided, automatically apply all rules in this document without needing them to be repeated.
+
+## Installed Tools & Libraries
+
+### uipro (AI-powered UI CLI)
+- **Init command**: `uipro init --ai claude .`
+- Scaffolds UI components with Claude as the AI backend
+- Run this once per project to initialize uipro in the current directory
+
+### taste-skill (Claude Code skill)
+- **Install command**: `npx skills add Leonxlnx/taste-skill`
+- Adds a `/taste` skill to Claude Code
+- Source: github.com/Leonxlnx/taste-skill
+
+### @lucasmarkes/hairline
+- **Install command**: `npm i @lucasmarkes/hairline`
+- By Lucas Marques
+- SVG animations, illustrations, and related utilities
+- Use for animated SVG elements and illustration components in the UI

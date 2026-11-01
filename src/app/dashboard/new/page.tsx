@@ -1012,6 +1012,31 @@ function Step3({
         </>
       )}
 
+      {/* Phone visibility toggle */}
+      <div className="rounded-xl border border-gray-200 p-4 space-y-1">
+        <div className="flex items-center gap-3">
+          <Controller
+            control={control}
+            name="phonePublic"
+            render={({ field }) => (
+              <input
+                type="checkbox"
+                id="phonePublic"
+                className="rounded border-gray-300 text-gray-900"
+                checked={field.value !== false}
+                onChange={(e) => field.onChange(e.target.checked)}
+              />
+            )}
+          />
+          <Label htmlFor="phonePublic" className="cursor-pointer font-medium">
+            Show my phone number publicly
+          </Label>
+        </div>
+        <p className="text-xs text-gray-400 pl-7">
+          If unchecked, interested buyers send you a message instead — your number stays private.
+        </p>
+      </div>
+
       <div className="flex justify-between">
         <Button variant="outline" onClick={onBack} className="gap-2">
           <ChevronLeft className="h-4 w-4" /> Back

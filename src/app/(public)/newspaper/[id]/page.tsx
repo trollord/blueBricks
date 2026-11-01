@@ -47,22 +47,39 @@ export default async function EditionPage({
 
   return (
     <div className="min-h-screen bg-[#E8E8E8] pt-[60px]">
-      {/* Breadcrumb strip */}
-      <div className="bg-white border-b border-gray-200 px-4 sm:px-5 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-3 min-w-0">
+
+      {/* ── Viewer header bar ───────────────────────────────────────────── */}
+      <div
+        className="h-10 bg-[#1C0A00] border-b border-white/10
+                   flex items-center justify-between px-4 sm:px-5 gap-3 min-w-0"
+      >
+        {/* Wordmark */}
+        <Link href="/" className="flex items-center gap-1.5 shrink-0 group">
+          <span className="font-bold text-sm text-white leading-none tracking-tight">Sanatani</span>
+          <span className="text-sm text-white/40 leading-none hidden sm:inline"> Community</span>
+          <span className="h-1.5 w-1.5 rounded-full bg-[#C8541A] ml-0.5 mb-px group-hover:scale-125 transition-transform" />
+        </Link>
+
+        {/* Edition date — only on desktop */}
+        <span className="text-[11px] text-white/30 truncate min-w-0 hidden sm:block flex-1 text-center">
+          {dateStr}
+        </span>
+
+        {/* View all editions */}
         <Link
           href="/newspaper"
-          className="text-xs text-gray-500 hover:text-[#FF5F15] transition-colors shrink-0 font-medium"
+          className="shrink-0 flex items-center gap-1.5 text-[11px] font-semibold
+                     text-white/50 hover:text-white transition-colors"
         >
-          ← All editions
+          <span className="hidden sm:inline">View All Editions</span>
+          <span className="sm:hidden">All Editions</span>
+          <span className="text-[#C8541A]">↗</span>
         </Link>
-        <span className="text-gray-300 shrink-0">|</span>
-        <span className="text-xs text-gray-500 truncate">{dateStr}</span>
       </div>
 
       <NewsViewer
         id={edition.id}
         title={edition.title}
-
         pageCount={edition.pageCount}
         extraOffset={40}
       />

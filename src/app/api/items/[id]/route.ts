@@ -39,8 +39,6 @@ export async function PUT(
 
     const { images, yearPurchased, vehicleType, brand, pickupArea, ...rest } =
       parsed.data;
-    const isAdmin = session.user.role === "ADMIN";
-
     const item = await prisma.item.update({
       where: { id },
       data: {
@@ -50,8 +48,8 @@ export async function PUT(
         vehicleType:
           rest.category === "VEHICLES" && vehicleType ? vehicleType : null,
         yearPurchased: yearPurchased ?? null,
-        // Owner edits put item back in review; admin edits keep status.
-        status: isAdmin ? existing.status : "PENDING",
+        status: "ACTIVE",
+        activatedAt: new Date(),
         images: {
           deleteMany: {},
           create: images.map((img) => ({
@@ -71,6 +69,29 @@ export async function PUT(
     console.error("[PUT /api/items/:id]", err);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
+}
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await auth();
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const { id } = await params;
+  const existing = await prisma.item.findUnique({
+    where: { id },
+    select: { sellerId: true },
+  });
+  if (!existing) return NextResponse.json({ error: "Item not found" }, { status: 404 });
+  if (existing.sellerId !== session.user.id && session.user.role !== "ADMIN") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  await prisma.item.update({ where: { id }, data: { status: "SOLD" } });
+  revalidatePath("/marketplace");
+  revalidatePath(`/marketplace/${id}`);
+  return NextResponse.json({ ok: true });
 }
 
 export async function DELETE(

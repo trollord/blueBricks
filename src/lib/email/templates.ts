@@ -146,6 +146,8 @@ export function newInquiryEmail(opts: {
   seekerPhone: string;
   propertyTitle: string;
   baseUrl: string;
+  message?: string;
+  callbackTime?: string;
 }): { subject: string; html: string } {
   const owner = escapeHtml(opts.ownerName ?? "there");
   const seeker = escapeHtml(opts.seekerName ?? "A property seeker");
@@ -180,6 +182,8 @@ export function newInquiryEmail(opts: {
           <p style="font-family:${sans};font-size:13px;color:#555555;margin:0;">
             ${phone}
           </p>
+          ${opts.callbackTime ? `<p style="font-family:${sans};font-size:12px;color:#9a9a9a;margin:6px 0 0;">Best time to call: <b style="color:#555">${escapeHtml(opts.callbackTime)}</b></p>` : ""}
+          ${opts.message ? `<p style="font-family:${sans};font-size:13px;color:#555555;margin:10px 0 0;padding-top:10px;border-top:1px solid #eee;">&ldquo;${escapeHtml(opts.message)}&rdquo;</p>` : ""}
         </td>
       </tr>
     </table>
@@ -202,6 +206,53 @@ export function newInquiryEmail(opts: {
 
     <p style="font-family:${sans};font-size:12px;line-height:1.6;color:#9a9a9a;margin:26px 0 0;">
       Tip: leads move fast - reaching out within a few hours greatly improves your chances of closing.
+    </p>`;
+
+  return { subject, html: shell(content) };
+}
+
+export function itemInterestEmail(opts: {
+  sellerName: string | null;
+  buyerName: string | null;
+  buyerEmail: string;
+  itemTitle: string;
+  message: string;
+  callbackTime: string;
+  baseUrl: string;
+}): { subject: string; html: string } {
+  const seller = escapeHtml(opts.sellerName ?? "there");
+  const buyer = escapeHtml(opts.buyerName ?? "Someone");
+  const title = escapeHtml(opts.itemTitle);
+  const msg = escapeHtml(opts.message);
+  const time = escapeHtml(opts.callbackTime);
+  const email = escapeHtml(opts.buyerEmail);
+
+  const subject = `${opts.buyerName ?? "Someone"} is interested in your item "${opts.itemTitle}"`;
+
+  const content = `
+    <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#9a9a9a;margin:0 0 14px;">
+      New Interest · Marketplace
+    </p>
+    <h1 style="font-family:${serif};font-size:26px;line-height:1.25;font-weight:700;color:#FF5F15;margin:0 0 18px;">
+      Someone wants your&nbsp;item
+    </h1>
+    <p style="font-family:${sans};font-size:14px;line-height:1.7;color:#555555;margin:0 0 24px;">
+      Hi ${seller}, <b>${buyer}</b> is interested in your listing <b style="color:#FF5F15;">&ldquo;${title}&rdquo;</b>.
+    </p>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fafafa;border:1px solid #eeeeee;border-radius:10px;">
+      <tr>
+        <td style="padding:18px 22px;">
+          <p style="font-family:${sans};font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#9a9a9a;margin:0 0 6px;">Their message</p>
+          <p style="font-family:${sans};font-size:14px;color:#333;font-style:italic;margin:0 0 12px;">&ldquo;${msg}&rdquo;</p>
+          <p style="font-family:${sans};font-size:12px;color:#9a9a9a;margin:0;">Best time to call: <b style="color:#555">${time}</b></p>
+          <p style="font-family:${sans};font-size:12px;color:#9a9a9a;margin:6px 0 0;">Reply to: <b style="color:#555">${email}</b></p>
+        </td>
+      </tr>
+    </table>
+
+    <p style="font-family:${sans};font-size:12px;line-height:1.6;color:#9a9a9a;margin:26px 0 0;">
+      Reach out to them directly to arrange viewing and payment.
     </p>`;
 
   return { subject, html: shell(content) };

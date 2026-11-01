@@ -43,6 +43,7 @@ export const itemStep1Schema = z
 export const itemStep3Schema = z.object({
   price: z.coerce.number().positive("Price is required").max(100_000_000),
   priceNegotiable: z.boolean().default(false),
+  phonePublic: z.boolean().default(true),
 });
 
 export const itemBodySchema = z
@@ -61,6 +62,7 @@ export const itemBodySchema = z
     pickupArea: z.string().max(120).optional().or(z.literal("")),
     price: z.coerce.number().positive().max(100_000_000),
     priceNegotiable: z.boolean().default(false),
+    phonePublic: z.boolean().default(true),
     images: z
       .array(
         z.object({
@@ -69,7 +71,8 @@ export const itemBodySchema = z
           isPrimary: z.boolean(),
         })
       )
-      .max(10, "At most 10 photos")
+      .min(1, "At least 1 photo required")
+      .max(6, "At most 6 photos")
       .default([]),
   })
   .refine(

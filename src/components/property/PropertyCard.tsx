@@ -67,7 +67,7 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
               </div>
             )}
             <div className="absolute top-2 left-2 flex flex-wrap gap-1">
-              <span className="bg-[#FF5F15] text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest">
+              <span className="bg-[#0B0B0C] text-white px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest">
                 {LISTING_TYPE_LABELS[property.listingType] ?? property.listingType}
               </span>
               {availabilityLabel && (
@@ -154,7 +154,7 @@ export default function PropertyCard({ property, variant = "grid" }: Props) {
                 )}
 
                 <CardItem translateZ={80} className="absolute top-4 left-4 flex gap-2">
-                  <span className="bg-[#FF5F15] text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                  <span className="bg-[#0B0B0C] text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">
                     {LISTING_TYPE_LABELS[property.listingType] ?? property.listingType}
                   </span>
                   <span className="bg-white/80 backdrop-blur-md text-zinc-900 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">

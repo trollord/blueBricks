@@ -29,6 +29,7 @@ export const propertyStep3Schema = z.object({
   rentNegotiable: z.boolean().default(false),
   lockInMonths: z.coerce.number().int().min(0).max(60).optional(),
   lockInNegotiable: z.boolean().default(false),
+  phonePublic: z.boolean().default(true),
   // "IMMEDIATE", a "YYYY-MM-DD" date, or null/"" for not specified
   availableFrom: z
     .preprocess(

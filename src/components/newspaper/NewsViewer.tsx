@@ -110,8 +110,18 @@ export default function NewsViewer({ id, title, pageCount, extraOffset = 0 }: Pr
 
   const readerH = `calc(100dvh - ${NAVBAR_H + extraOffset}px)`;
 
+  const progress = Math.round(((viewIdx + 1) / Math.max(views, 1)) * 100);
+
   return (
     <div className="flex flex-col bg-[#1C1C1C]" style={{ height: readerH }}>
+
+      {/* ── Reading progress bar ──────────────────────────────────────── */}
+      <div className="h-[3px] shrink-0 bg-white/5">
+        <div
+          className="h-full bg-[#C8541A] transition-[width] duration-300 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
 
       {/* ── Page area ─────────────────────────────────────────────────── */}
       <div

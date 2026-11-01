@@ -21,6 +21,8 @@ export async function POST(
 
   const body = await req.json().catch(() => ({}));
   const phone: string = typeof body?.phone === "string" ? body.phone.trim() : "";
+  const message: string = typeof body?.message === "string" ? body.message.trim() : "";
+  const callbackTime: string = typeof body?.callbackTime === "string" ? body.callbackTime.trim() : "";
   const phoneError = validatePhone(phone);
   if (phoneError) {
     return NextResponse.json({ error: phoneError }, { status: 400 });
@@ -75,6 +77,8 @@ export async function POST(
         seekerPhone: phone,
         propertyTitle: property.title,
         baseUrl: process.env.NEXTAUTH_URL ?? "https://www.hiranandaniproperties.in",
+        message: message || undefined,
+        callbackTime: callbackTime || undefined,
       });
       await getResend().emails.send({
         from: EMAIL_FROM,

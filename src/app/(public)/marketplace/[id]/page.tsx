@@ -4,10 +4,12 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import { Phone, MapPin, CalendarClock, Tag, ShieldCheck } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import PropertyGallery from "@/components/property/PropertyGallery";
 import WhatsAppIcon from "@/components/ui/WhatsAppIcon";
 import { whatsAppContactUrl } from "@/lib/utils/whatsapp";
 import { formatPrice, formatDate } from "@/lib/utils/formatters";
+import ItemContactSection from "@/components/marketplace/ItemContactSection";
 import ItemCard, {
   type MarketplaceItemCard,
 } from "@/components/marketplace/ItemCard";
@@ -36,6 +38,7 @@ const getItem = cache(async (id: string) => {
       yearPurchased: true,
       price: true,
       priceNegotiable: true,
+      phonePublic: true,
       pickupLocality: true,
       pickupArea: true,
       createdAt: true,
@@ -70,7 +73,7 @@ export default async function ItemDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const item = await getItem(id);
+  const [item, session] = await Promise.all([getItem(id), auth()]);
   if (!item || item.status !== "ACTIVE") notFound();
 
   const categoryLabel = ITEM_CATEGORY_LABELS[item.category] ?? item.category;
@@ -194,23 +197,17 @@ export default async function ItemDetailPage({
                 </p>
               </div>
 
-              {/* Contact buttons */}
-              <div className="grid grid-cols-2 gap-2 sm:gap-3 pt-2">
-                <a
-                  href={`tel:${sellerPhone.replace(/\s/g, "")}`}
-                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-[#FF5F15] text-white px-3 py-3 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:opacity-90 transition-opacity"
-                >
-                  <Phone className="w-4 h-4" /> Call
-                </a>
-                <a
-                  href={whatsAppContactUrl(sellerPhone || "+91 9000000000", whatsAppMsg)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-white border border-gray-300 text-[#FF5F15] px-3 py-3 rounded-xl text-[11px] sm:text-xs font-bold uppercase tracking-wider whitespace-nowrap hover:border-gray-400 transition-colors"
-                >
-                  <WhatsAppIcon className="w-4 h-4" /> WhatsApp
-                </a>
-              </div>
+              {/* Contact section */}
+              <ItemContactSection
+                itemId={item.id}
+                itemTitle={item.title}
+                sellerName={sellerName}
+                sellerPhone={sellerPhone}
+                whatsAppMsg={whatsAppMsg}
+                phonePublic={item.phonePublic}
+                isLoggedIn={!!session}
+                isSeller={session?.user?.id === item.seller.id}
+              />
 
               {/* Posted date */}
               <p className="text-[11px] text-gray-400 text-center">

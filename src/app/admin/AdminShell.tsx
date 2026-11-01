@@ -26,6 +26,7 @@ const NAV_LINKS = [
   { href: "/admin/items", label: "Marketplace", icon: Package },
   { href: "/admin/community", label: "Community", icon: BookUser },
   { href: "/admin/newsletter", label: "Newspaper", icon: Newspaper },
+  { href: "/admin/news",       label: "Today's News", icon: Newspaper },
   { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/import", label: "Import Prices", icon: Upload },

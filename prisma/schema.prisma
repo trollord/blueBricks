@@ -89,6 +89,7 @@ model Property {
   lockInMonths     Int?
   lockInNegotiable Boolean             @default(false)
   availableFrom    String?
+  phonePublic      Boolean             @default(true)
   views            Int                 @default(0)
   activatedAt      DateTime?
   closedAt         DateTime?
@@ -186,6 +187,7 @@ model Item {
   yearPurchased   Int?
   price           Float
   priceNegotiable Boolean             @default(false)
+  phonePublic     Boolean             @default(true)
   pickupLocality  String
   pickupArea      String?             // free-text landmark / tower
   status          String              @default("PENDING") // PENDING | ACTIVE | SOLD | CLOSED
@@ -249,6 +251,21 @@ model CommunityContact {
   updatedAt     DateTime @updatedAt
 
   @@index([status, category])
+}
+
+// Individual news items posted by admin — shown in the "Today's News" feed.
+model NewsItem {
+  id          String   @id @default(cuid())
+  headline    String
+  body        String
+  category    String   @default("GENERAL") // EVENTS | COMMUNITY | ANNOUNCEMENTS | SPORTS | GENERAL
+  imageUrl    String?
+  status      String   @default("DRAFT")   // DRAFT | PUBLISHED
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, publishedAt])
 }
 
 // Weekly newspaper editions uploaded by admin as PDFs via Cloudinary.

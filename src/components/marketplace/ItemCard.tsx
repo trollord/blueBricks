@@ -13,6 +13,7 @@ export interface MarketplaceItemCard {
   category: string;
   vehicleType?: string | null;
   condition: string;
+  status?: string;
   price: number;
   priceNegotiable: boolean;
   pickupLocality: string;
@@ -38,12 +39,21 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
     ? VEHICLE_TYPE_LABELS[item.vehicleType]
     : null;
   const conditionLabel = ITEM_CONDITION_LABELS[item.condition] ?? item.condition;
+  const sold = item.status === "SOLD";
 
   return (
     <Link
       href={`/marketplace/${item.id}`}
-      className="group block bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
+      className="group relative block bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
     >
+      {/* Sold overlay */}
+      {sold && (
+        <div className="absolute inset-0 z-10 bg-white/60 backdrop-blur-[1.5px] flex items-center justify-center rounded-2xl">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 bg-white border border-gray-300 px-3.5 py-1.5 rounded-full shadow-sm">
+            Sold
+          </span>
+        </div>
+      )}
       <div className="relative aspect-[4/3] bg-[#F5F5F5]">
         {primary ? (
           <Image
@@ -64,7 +74,7 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
       </div>
 
       <div className="p-4 sm:p-5">
-        <h3 className="text-sm sm:text-base font-semibold text-[#FF5F15] leading-tight line-clamp-2 min-h-[2.6em]">
+        <h3 className="text-sm sm:text-base font-semibold text-[#0B0B0C] leading-tight line-clamp-2 min-h-[2.6em]">
           {item.title}
         </h3>
 
@@ -81,7 +91,7 @@ export default function ItemCard({ item }: { item: MarketplaceItemCard }) {
 
         <div className="flex items-end justify-between mt-4 gap-2">
           <div>
-            <p className="font-extrabold tracking-tight text-[#FF5F15] text-lg sm:text-xl">
+            <p className="font-extrabold tracking-tight text-[#0B0B0C] text-lg sm:text-xl">
               {formatPrice(item.price)}
             </p>
             {item.priceNegotiable && (

@@ -12,6 +12,7 @@ import {
   ITEM_CONDITION_LABELS,
 } from "@/lib/constants";
 import DeleteItemButton from "./DeleteItemButton";
+import MarkSoldButton from "./MarkSoldButton";
 
 const STATUS_STYLES: Record<string, string> = {
   PENDING: "bg-amber-50 text-amber-700 border-amber-200",
@@ -146,26 +147,18 @@ export default async function MyItemsPage() {
 
                     <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                       {item.status === "ACTIVE" && (
-                        <Link
-                          href={`/marketplace/${item.id}`}
-                          target="_blank"
-                        >
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="gap-1.5 px-2.5 sm:px-3"
-                          >
-                            <Eye className="h-3.5 w-3.5" />
-                            <span className="hidden sm:inline">View</span>
-                          </Button>
-                        </Link>
+                        <>
+                          <Link href={`/marketplace/${item.id}`} target="_blank">
+                            <Button size="sm" variant="outline" className="gap-1.5 px-2.5 sm:px-3">
+                              <Eye className="h-3.5 w-3.5" />
+                              <span className="hidden sm:inline">View</span>
+                            </Button>
+                          </Link>
+                          <MarkSoldButton itemId={item.id} />
+                        </>
                       )}
                       <Link href={`/dashboard/items/${item.id}/edit`}>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="gap-1.5 px-2.5 sm:px-3"
-                        >
+                        <Button size="sm" variant="outline" className="gap-1.5 px-2.5 sm:px-3">
                           <Pencil className="h-3.5 w-3.5" />
                           <span className="hidden sm:inline">Edit</span>
                         </Button>
